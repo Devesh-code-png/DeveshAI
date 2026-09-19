@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DeveshAI</title>
+
+<title>DeveshAI — Think. Create. Learn.</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -13,193 +15,407 @@
 }
 
 :root{
-    --bg:#0a0b0c;
-    --panel:#111315;
-    --panel2:#17191b;
-    --border:#282c2f;
-    --text:#f5f5f5;
-    --muted:#8d9499;
-    --accent:#72e6c5;
+    --bg:#f5f4ef;
+    --surface:#ffffff;
+    --black:#111111;
+    --muted:#686863;
+    --line:#deddd6;
+    --green:#315c48;
+    --green-light:#dce9e1;
+}
+
+html{
+    scroll-behavior:smooth;
 }
 
 body{
-    font-family:Inter,Arial,sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
     background:var(--bg);
-    color:var(--text);
-    height:100vh;
-    overflow:hidden;
-}
-
-/* APP */
-
-.app{
-    height:100vh;
-    display:flex;
-    flex-direction:column;
+    color:var(--black);
 }
 
 /* HEADER */
 
 header{
-    height:64px;
+    height:76px;
+    padding:0 5%;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 20px;
-    border-bottom:1px solid var(--border);
-    background:#0c0e0f;
-}
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
+    border-bottom:1px solid var(--line);
+    background:rgba(245,244,239,.95);
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
 .logo{
-    width:34px;
-    height:34px;
-    border-radius:10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:800;
+    font-size:19px;
+    letter-spacing:-.5px;
+}
+
+.skull{
+    width:38px;
+    height:38px;
     display:flex;
     align-items:center;
     justify-content:center;
-    background:#1c2523;
-    border:1px solid #34433f;
-    font-size:18px;
+    border-radius:11px;
+    background:#111;
+    color:#fff;
+    font-size:21px;
 }
 
-.brand-name{
-    font-size:18px;
-    font-weight:700;
-    letter-spacing:-.3px;
+.nav{
+    display:flex;
+    gap:32px;
+    align-items:center;
 }
 
-.brand-name span{
-    color:var(--accent);
+.nav a{
+    text-decoration:none;
+    color:#44443f;
+    font-size:14px;
 }
 
-.new-chat{
-    border:1px solid var(--border);
-    background:var(--panel);
+.nav a:hover{
+    color:#000;
+}
+
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.login{
+    text-decoration:none;
+    color:#222;
+    font-size:14px;
+}
+
+.primary-btn{
+    background:#111;
     color:white;
-    padding:9px 14px;
-    border-radius:10px;
+    border:0;
+    border-radius:8px;
+    padding:12px 17px;
     cursor:pointer;
+    font-weight:700;
     transition:.2s;
 }
 
-.new-chat:hover{
-    background:#1b1e20;
-    border-color:#3a403f;
+.primary-btn:hover{
+    transform:translateY(-2px);
+    background:#292929;
+}
+
+/* HERO */
+
+.hero{
+    max-width:1250px;
+    margin:auto;
+    padding:75px 5% 60px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:70px;
+    align-items:center;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--green-light);
+    color:var(--green);
+    border:1px solid #c9d9d0;
+    border-radius:30px;
+    padding:8px 13px;
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:25px;
+}
+
+.badge-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--green);
+}
+
+.hero h1{
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:clamp(60px,8vw,108px);
+    line-height:.88;
+    letter-spacing:-6px;
+    max-width:650px;
+    margin-bottom:28px;
+}
+
+.hero h1 span{
+    color:var(--green);
+}
+
+.hero-description{
+    max-width:560px;
+    font-size:20px;
+    line-height:1.45;
+    color:#45453f;
+    margin-bottom:27px;
+}
+
+.rating{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:30px;
+    font-size:13px;
+}
+
+.stars{
+    letter-spacing:2px;
+}
+
+.rating strong{
+    font-size:16px;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:22px;
+    align-items:center;
+}
+
+.download{
+    background:#111;
+    color:white;
+    border:0;
+    border-radius:8px;
+    padding:15px 22px;
+    font-weight:700;
+    cursor:pointer;
+    font-size:14px;
+}
+
+.pricing{
+    color:#111;
+    text-decoration:none;
+    font-weight:700;
+    font-size:14px;
+}
+
+/* VISUAL */
+
+.visual{
+    position:relative;
+    min-height:500px;
+}
+
+.main-card{
+    position:absolute;
+    inset:35px 20px 35px 30px;
+    background:#d97745;
+    border-radius:28px;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.main-card-inner{
+    width:80%;
+    height:80%;
+    border:1px solid rgba(255,255,255,.35);
+    border-radius:20px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    text-align:center;
+}
+
+.main-skull{
+    font-size:80px;
+    margin-bottom:20px;
+}
+
+.main-card h2{
+    font-family:Georgia,serif;
+    font-size:35px;
+}
+
+.play{
+    margin-top:22px;
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    border:1px solid white;
+    background:rgba(255,255,255,.15);
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+}
+
+/* FLOATING CARDS */
+
+.float-card{
+    position:absolute;
+    background:white;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px;
+    box-shadow:0 18px 40px rgba(0,0,0,.12);
+}
+
+.metric{
+    right:-5px;
+    top:20px;
+    width:185px;
+}
+
+.metric small{
+    color:#777;
+    display:block;
+    margin-bottom:8px;
+}
+
+.metric strong{
+    font-size:25px;
+}
+
+.survey{
+    left:-20px;
+    bottom:35px;
+    width:190px;
+}
+
+.survey-title{
+    font-size:12px;
+    color:#777;
+    margin-bottom:10px;
+}
+
+.survey-option{
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:8px;
+    margin-top:7px;
+    font-size:12px;
+    background:#fafafa;
+}
+
+.product{
+    right:-30px;
+    bottom:20px;
+    width:210px;
+}
+
+.product small{
+    color:#777;
+}
+
+.product-title{
+    font-weight:700;
+    margin:8px 0;
+}
+
+.price{
+    font-size:20px;
+    font-weight:800;
+}
+
+.stars-small{
+    color:#a96f18;
+    font-size:12px;
+}
+
+/* PARTNERS */
+
+.partners{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:27px 5%;
+}
+
+.partner-row{
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    gap:25px;
+    color:#73736e;
+    font-weight:700;
+    font-size:14px;
+    letter-spacing:.5px;
 }
 
 /* CHAT */
 
-#chat{
-    flex:1;
-    overflow-y:auto;
-    padding:25px 14px 150px;
-    scroll-behavior:smooth;
+#chat-section{
+    display:none;
+    min-height:100vh;
+    background:#f5f4ef;
 }
 
-#chat::-webkit-scrollbar{
-    width:7px;
-}
-
-#chat::-webkit-scrollbar-thumb{
-    background:#292d30;
-    border-radius:20px;
-}
-
-/* WELCOME */
-
-.welcome{
-    min-height:68vh;
+.chat-header{
+    height:70px;
+    border-bottom:1px solid var(--line);
     display:flex;
-    flex-direction:column;
-    justify-content:center;
     align-items:center;
-    text-align:center;
-    padding:20px;
+    justify-content:space-between;
+    padding:0 20px;
 }
 
-.welcome-logo{
-    width:72px;
-    height:72px;
-    border-radius:22px;
+.chat-brand{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-weight:800;
+}
+
+.chat-logo{
+    width:34px;
+    height:34px;
+    background:#111;
+    color:white;
+    border-radius:9px;
     display:flex;
     align-items:center;
     justify-content:center;
-    background:#151b19;
-    border:1px solid #34413d;
-    font-size:36px;
-    margin-bottom:22px;
-    box-shadow:0 0 35px rgba(114,230,197,.08);
 }
 
-.welcome h1{
-    font-size:38px;
-    letter-spacing:-1px;
-    margin-bottom:10px;
-}
-
-.welcome p{
-    color:var(--muted);
-    font-size:15px;
-    margin-bottom:30px;
-}
-
-/* SUGGESTIONS */
-
-.suggestions{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-    width:min(600px,100%);
-}
-
-.suggestion{
-    text-align:left;
-    padding:15px;
-    border-radius:13px;
-    border:1px solid var(--border);
-    background:#101214;
-    color:#dfe2e3;
+.back-home{
+    border:1px solid var(--line);
+    background:white;
+    padding:9px 13px;
+    border-radius:8px;
     cursor:pointer;
-    transition:.2s;
 }
 
-.suggestion:hover{
-    background:#171a1c;
-    border-color:#3a403f;
-    transform:translateY(-2px);
+#chat{
+    max-width:900px;
+    margin:auto;
+    height:calc(100vh - 70px);
+    overflow-y:auto;
+    padding:35px 15px 145px;
 }
-
-.suggestion strong{
-    display:block;
-    font-size:14px;
-    margin-bottom:4px;
-}
-
-.suggestion span{
-    color:var(--muted);
-    font-size:12px;
-}
-
-/* MESSAGES */
 
 .message{
-    max-width:900px;
-    margin:0 auto 22px;
     display:flex;
     gap:12px;
-    animation:messageIn .2s ease;
+    margin-bottom:25px;
+    animation:appear .2s ease;
 }
 
-@keyframes messageIn{
+@keyframes appear{
     from{
         opacity:0;
-        transform:translateY(5px);
+        transform:translateY(6px);
     }
     to{
         opacity:1;
@@ -208,117 +424,96 @@ header{
 }
 
 .avatar{
-    min-width:36px;
+    width:36px;
     height:36px;
-    border-radius:11px;
+    min-width:36px;
+    border-radius:10px;
     display:flex;
     align-items:center;
     justify-content:center;
-    background:#191c1e;
-    border:1px solid var(--border);
+    background:#111;
+    color:white;
+    font-size:17px;
 }
 
 .user .avatar{
-    background:#202426;
+    background:#315c48;
 }
 
 .bubble{
     max-width:calc(100% - 50px);
     line-height:1.65;
     white-space:pre-wrap;
-    word-wrap:break-word;
     font-size:15px;
 }
 
 .user .bubble{
-    background:#181b1d;
-    border:1px solid #292d30;
-    padding:11px 14px;
-    border-radius:15px;
+    background:white;
+    border:1px solid var(--line);
+    padding:12px 15px;
+    border-radius:13px;
 }
-
-/* INPUT */
 
 .input-area{
     position:fixed;
-    bottom:0;
     left:0;
     right:0;
-    padding:16px;
+    bottom:0;
+    padding:15px;
     background:linear-gradient(
         transparent,
-        #0a0b0c 30%
+        #f5f4ef 30%
     );
 }
 
 .input-box{
     max-width:900px;
     margin:auto;
-    background:#151719;
-    border:1px solid #303437;
-    border-radius:18px;
-    padding:9px;
     display:flex;
     align-items:flex-end;
     gap:8px;
-    box-shadow:0 10px 40px rgba(0,0,0,.35);
+    padding:8px;
+    background:white;
+    border:1px solid #d6d5cf;
+    border-radius:15px;
+    box-shadow:0 10px 35px rgba(0,0,0,.08);
 }
 
 textarea{
     flex:1;
     resize:none;
-    min-height:44px;
+    min-height:45px;
     max-height:150px;
     border:0;
     outline:0;
     background:transparent;
-    color:white;
-    font-size:15px;
-    padding:11px;
     font-family:inherit;
-}
-
-textarea::placeholder{
-    color:#777e83;
+    font-size:15px;
+    padding:12px;
 }
 
 .icon-btn{
     width:43px;
     height:43px;
     border:0;
-    border-radius:12px;
-    background:#24282a;
-    color:white;
+    border-radius:10px;
     cursor:pointer;
+    background:#eee;
     font-size:17px;
-    transition:.2s;
-}
-
-.icon-btn:hover{
-    background:#303538;
 }
 
 .send{
-    background:var(--accent);
-    color:#06110e;
-    font-weight:bold;
+    background:#111;
+    color:white;
 }
-
-.send:hover{
-    background:#8af0d5;
-}
-
-/* STATUS */
 
 .status{
     max-width:900px;
     margin:6px auto 0;
-    padding:0 8px;
-    color:#697176;
     font-size:11px;
+    color:#777;
+    padding:0 5px;
 }
-
-/* THINKING */
 
 .thinking{
     display:flex;
@@ -329,8 +524,8 @@ textarea::placeholder{
 .dot{
     width:6px;
     height:6px;
-    background:#777;
     border-radius:50%;
+    background:#777;
     animation:bounce 1s infinite;
 }
 
@@ -345,8 +540,9 @@ textarea::placeholder{
 @keyframes bounce{
     0%,60%,100%{
         transform:translateY(0);
-        opacity:.4;
+        opacity:.3;
     }
+
     30%{
         transform:translateY(-5px);
         opacity:1;
@@ -355,168 +551,404 @@ textarea::placeholder{
 
 /* MOBILE */
 
-@media(max-width:600px){
+@media(max-width:800px){
 
-    header{
-        height:58px;
-        padding:0 12px;
+    .nav{
+        display:none;
     }
 
-    .brand-name{
+    .hero{
+        grid-template-columns:1fr;
+        padding-top:50px;
+        gap:35px;
+    }
+
+    .hero h1{
+        font-size:65px;
+        letter-spacing:-4px;
+    }
+
+    .hero-description{
         font-size:17px;
     }
 
-    .new-chat{
-        padding:8px 10px;
+    .visual{
+        min-height:430px;
+    }
+
+    .main-card{
+        inset:25px 10px 25px 15px;
+    }
+
+    .metric{
+        right:0;
+    }
+
+    .survey{
+        left:0;
+    }
+
+    .product{
+        right:0;
+    }
+
+    .partner-row{
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    .header-actions .login{
+        display:none;
+    }
+}
+
+@media(max-width:500px){
+
+    header{
+        height:65px;
+        padding:0 15px;
+    }
+
+    .header-actions{
+        gap:7px;
+    }
+
+    .primary-btn{
+        padding:10px 12px;
         font-size:12px;
     }
 
-    .welcome h1{
-        font-size:30px;
+    .hero{
+        padding:45px 18px;
     }
 
-    .welcome-logo{
-        width:62px;
-        height:62px;
-        font-size:30px;
+    .hero h1{
+        font-size:57px;
     }
 
-    .suggestions{
-        grid-template-columns:1fr;
+    .main-card{
+        inset:25px 15px 25px 15px;
     }
 
-    #chat{
-        padding:18px 10px 145px;
+    .metric{
+        right:-5px;
+        width:150px;
+        padding:12px;
     }
 
-    .bubble{
-        font-size:14px;
+    .survey{
+        left:-5px;
+        width:150px;
+        padding:12px;
     }
 
-    .input-area{
-        padding:10px;
+    .product{
+        right:-5px;
+        width:165px;
+        padding:12px;
+    }
+
+    .main-skull{
+        font-size:60px;
+    }
+
+    .main-card h2{
+        font-size:26px;
+    }
+
+    .hero-buttons{
+        flex-wrap:wrap;
     }
 }
+
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<!-- LANDING PAGE -->
+
+<div id="home">
 
 <header>
 
-    <div class="brand">
-
-        <div class="logo">✦</div>
-
-        <div class="brand-name">
-            Devesh<span>AI</span>
-        </div>
-
+    <div class="logo">
+        <div class="skull">☠</div>
+        <span>DeveshAI</span>
     </div>
 
-    <button class="new-chat" onclick="newChat()">
-        ＋ New chat
-    </button>
+    <nav class="nav">
+        <a href="#product">Product</a>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#developers">Developers</a>
+    </nav>
+
+    <div class="header-actions">
+
+        <a class="login" href="#" onclick="openAI();return false;">
+            Log in
+        </a>
+
+        <button class="primary-btn" onclick="openAI()">
+            Try DeveshAI — Free
+        </button>
+
+    </div>
 
 </header>
 
 
-<main id="chat">
+<section class="hero">
 
-    <div class="welcome" id="welcome">
+    <div>
 
-        <div class="welcome-logo">
-            ✦
+        <div class="badge">
+            <span class="badge-dot"></span>
+            Built for students, creators & curious minds
         </div>
 
-        <h1>What can I help with?</h1>
+        <h1>
+            Think.<br>
+            Create.<br>
+            <span>Learn.</span>
+        </h1>
 
-        <p>
-            Ask anything. Learn anything. Create anything.
+        <p class="hero-description">
+            Your AI workspace for studying, creating, coding,
+            researching, and getting things done.
         </p>
 
-        <div class="suggestions">
+        <div class="rating">
 
-            <div
-                class="suggestion"
-                onclick="useSuggestion('Explain quantum physics simply')">
+            <span class="stars">★★★★★</span>
 
-                <strong>Explain something</strong>
-                <span>Make a difficult topic simple</span>
+            <strong>DeveshAI</strong>
+
+            <span>Built to be useful.</span>
+
+        </div>
+
+        <div class="hero-buttons">
+
+            <button class="download" onclick="openAI()">
+                Start using DeveshAI — Free
+            </button>
+
+            <a class="pricing" href="#features">
+                Explore features →
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="visual">
+
+        <div class="main-card">
+
+            <div class="main-card-inner">
+
+                <div class="main-skull">
+                    ☠
+                </div>
+
+                <h2>
+                    DeveshAI
+                </h2>
+
+                <button
+                    class="play"
+                    onclick="openAI()">
+                    ▶
+                </button>
 
             </div>
 
-            <div
-                class="suggestion"
-                onclick="useSuggestion('Give me some creative ideas')">
+        </div>
 
-                <strong>Get creative ideas</strong>
-                <span>Brainstorm something new</span>
 
+        <div class="float-card metric">
+
+            <small>AI workspace</small>
+
+            <strong>24/7</strong>
+
+            <div>
+                Ready when you are.
             </div>
 
-            <div
-                class="suggestion"
-                onclick="useSuggestion('Help me study for my exam')">
+        </div>
 
-                <strong>Study smarter</strong>
-                <span>Prepare for your next exam</span>
 
+        <div class="float-card survey">
+
+            <div class="survey-title">
+                Quick actions
             </div>
 
-            <div
-                class="suggestion"
-                onclick="useSuggestion('Write a professional email')">
+            <div class="survey-option">
+                ✓ Explain this
+            </div>
 
-                <strong>Write something</strong>
-                <span>Create clear and useful text</span>
+            <div class="survey-option">
+                ✓ Help me study
+            </div>
 
+            <div class="survey-option">
+                ✓ Create something
+            </div>
+
+        </div>
+
+
+        <div class="float-card product">
+
+            <small>DeveshAI Workspace</small>
+
+            <div class="product-title">
+                AI Assistant
+            </div>
+
+            <div class="price">
+                Free
+            </div>
+
+            <div class="stars-small">
+                ★★★★★
             </div>
 
         </div>
 
     </div>
 
-</main>
+</section>
 
 
-<div class="input-area">
+<section class="partners">
 
-    <div class="input-box">
+    <div class="partner-row">
 
-        <button
-            class="icon-btn"
-            onclick="startVoice()"
-            title="Voice input">
-            🎤
-        </button>
-
-        <textarea
-            id="input"
-            placeholder="Message DeveshAI..."
-            rows="1"></textarea>
-
-        <button
-            class="icon-btn send"
-            onclick="sendMessage()"
-            title="Send">
-            ↑
-        </button>
+        <span>STUDY</span>
+        <span>CREATE</span>
+        <span>CODE</span>
+        <span>RESEARCH</span>
+        <span>BUILD</span>
 
     </div>
 
-    <div class="status" id="status">
-        DeveshAI
+</section>
+
+
+<section id="features"
+style="max-width:1100px;margin:auto;padding:90px 5%;">
+
+    <div style="max-width:650px;">
+
+        <div class="badge">
+            <span class="badge-dot"></span>
+            Everything in one place
+        </div>
+
+        <h2 style="
+        font-family:Georgia,serif;
+        font-size:52px;
+        line-height:1;
+        margin-bottom:20px;
+        ">
+            One AI.
+            <br>
+            Many possibilities.
+        </h2>
+
+        <p style="
+        color:#666;
+        font-size:18px;
+        line-height:1.6;
+        ">
+            Ask questions, study for exams, write,
+            brainstorm, code, research, and turn ideas
+            into something real.
+        </p>
+
     </div>
+
+</section>
 
 </div>
+
+
+<!-- AI CHAT PAGE -->
+
+<div id="chat-section">
+
+    <div class="chat-header">
+
+        <div class="chat-brand">
+
+            <div class="chat-logo">
+                ☠
+            </div>
+
+            <span>DeveshAI</span>
+
+        </div>
+
+        <button
+            class="back-home"
+            onclick="closeAI()">
+            ← Home
+        </button>
+
+    </div>
+
+
+    <main id="chat">
+
+    </main>
+
+
+    <div class="input-area">
+
+        <div class="input-box">
+
+            <button
+                class="icon-btn"
+                onclick="startVoice()"
+                title="Voice input">
+                🎙
+            </button>
+
+            <textarea
+                id="input"
+                placeholder="Message DeveshAI..."
+                rows="1"></textarea>
+
+            <button
+                class="icon-btn send"
+                onclick="sendMessage()">
+                ↑
+            </button>
+
+        </div>
+
+        <div class="status" id="status">
+            DeveshAI
+        </div>
+
+    </div>
 
 </div>
 
 
 <script>
+
+const home =
+    document.getElementById("home");
+
+const chatSection =
+    document.getElementById("chat-section");
 
 const chat =
     document.getElementById("chat");
@@ -530,11 +962,38 @@ const statusText =
 let conversation = [];
 
 
-/* ENTER TO SEND */
+/* OPEN AI */
+
+function openAI(){
+
+    home.style.display="none";
+
+    chatSection.style.display="block";
+
+    input.focus();
+
+}
+
+
+/* CLOSE AI */
+
+function closeAI(){
+
+    chatSection.style.display="none";
+
+    home.style.display="block";
+
+}
+
+
+/* ENTER SEND */
 
 input.addEventListener("keydown",function(e){
 
-    if(e.key==="Enter" && !e.shiftKey){
+    if(
+        e.key==="Enter" &&
+        !e.shiftKey
+    ){
 
         e.preventDefault();
 
@@ -557,16 +1016,9 @@ input.addEventListener("input",function(){
 });
 
 
-/* ADD MESSAGE */
+/* MESSAGE */
 
 function addMessage(role,text){
-
-    const welcome =
-        document.getElementById("welcome");
-
-    if(welcome){
-        welcome.remove();
-    }
 
     const wrapper =
         document.createElement("div");
@@ -580,7 +1032,7 @@ function addMessage(role,text){
     avatar.className="avatar";
 
     avatar.textContent =
-        role==="user" ? "●" : "✦";
+        role==="user" ? "●" : "☠";
 
     const bubble =
         document.createElement("div");
@@ -621,7 +1073,6 @@ async function sendMessage(){
     conversation.push({
 
         role:"user",
-
         content:text
 
     });
@@ -631,15 +1082,19 @@ async function sendMessage(){
 
 
     const aiBubble =
-        addMessage("ai","");
+        addMessage("assistant","");
 
 
-    aiBubble.innerHTML = `
+    aiBubble.innerHTML=`
+
         <div class="thinking">
+
             <div class="dot"></div>
             <div class="dot"></div>
             <div class="dot"></div>
+
         </div>
+
     `;
 
 
@@ -651,7 +1106,8 @@ async function sendMessage(){
                 method:"POST",
 
                 headers:{
-                    "Content-Type":"application/json"
+                    "Content-Type":
+                    "application/json"
                 },
 
                 body:JSON.stringify({
@@ -679,7 +1135,7 @@ async function sendMessage(){
 
         aiBubble.textContent =
             data.reply ||
-            "No response.";
+            "No response received.";
 
 
         conversation.push({
@@ -697,108 +1153,18 @@ async function sendMessage(){
         statusText.textContent =
             "DeveshAI";
 
-
-    }catch(error){
+    }
+    catch(error){
 
         console.error(error);
 
-
         aiBubble.textContent =
             "⚠️ Something went wrong. Please try again.";
-
 
         statusText.textContent =
             "Connection error";
 
     }
-
-}
-
-
-/* NEW CHAT */
-
-function newChat(){
-
-    conversation=[];
-
-
-    chat.innerHTML=`
-
-        <div class="welcome" id="welcome">
-
-            <div class="welcome-logo">
-                ✦
-            </div>
-
-            <h1>What can I help with?</h1>
-
-            <p>
-                Ask anything. Learn anything. Create anything.
-            </p>
-
-            <div class="suggestions">
-
-                <div
-                    class="suggestion"
-                    onclick="useSuggestion('Explain quantum physics simply')">
-
-                    <strong>Explain something</strong>
-                    <span>Make a difficult topic simple</span>
-
-                </div>
-
-                <div
-                    class="suggestion"
-                    onclick="useSuggestion('Give me some creative ideas')">
-
-                    <strong>Get creative ideas</strong>
-                    <span>Brainstorm something new</span>
-
-                </div>
-
-                <div
-                    class="suggestion"
-                    onclick="useSuggestion('Help me study for my exam')">
-
-                    <strong>Study smarter</strong>
-                    <span>Prepare for your next exam</span>
-
-                </div>
-
-                <div
-                    class="suggestion"
-                    onclick="useSuggestion('Write a professional email')">
-
-                    <strong>Write something</strong>
-                    <span>Create clear and useful text</span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    `;
-
-
-    statusText.textContent="DeveshAI";
-
-    input.focus();
-
-}
-
-
-/* SUGGESTION */
-
-function useSuggestion(text){
-
-    input.value=text;
-
-    input.dispatchEvent(
-        new Event("input")
-    );
-
-    input.focus();
 
 }
 
@@ -815,7 +1181,7 @@ function startVoice(){
     if(!SpeechRecognition){
 
         alert(
-            "Voice input is not supported here."
+            "Voice input is not supported in this browser."
         );
 
         return;
@@ -833,7 +1199,7 @@ function startVoice(){
 
 
     statusText.textContent =
-        "Listening... 🎙️";
+        "Listening...";
 
 
     recognition.start();
@@ -845,11 +1211,9 @@ function startVoice(){
             input.value =
                 event.results[0][0].transcript;
 
-
             input.dispatchEvent(
                 new Event("input")
             );
-
 
             statusText.textContent =
                 "DeveshAI";
@@ -868,12 +1232,15 @@ function startVoice(){
 }
 
 
-/* TEXT TO SPEECH */
+/* VOICE OUTPUT */
 
 function speak(text){
 
-    if(!("speechSynthesis" in window))
+    if(
+        !("speechSynthesis" in window)
+    ){
         return;
+    }
 
 
     speechSynthesis.cancel();

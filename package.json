@@ -1,7 +1,7 @@
 {
   "name": "deveshai",
   "version": "1.0.0",
-  "description": "DeveshAI",
+  "description": "DeveshAI - AI workspace",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
