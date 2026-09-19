@@ -1,0 +1,13 @@
+{
+  "name": "deveshai",
+  "version": "1.0.0",
+  "description": "DeveshAI",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "latest",
+    "openai": "latest"
+  }
+}
