@@ -2,1076 +2,836 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#050505">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>DeveshAI</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-:root{
-  --bg:#050505;
-  --panel:#090909;
-  --panel2:#0e0e0e;
-  --line:#202020;
-  --line2:#303030;
-  --text:#f5f5f5;
-  --muted:#888;
-  --soft:#bdbdbd;
-  --white:#fff;
+:root {
+  --bg: #050505;
+  --panel: #0b0b0b;
+  --panel2: #111111;
+  --border: #242424;
+  --text: #f5f5f5;
+  --muted: #8c8c8c;
+  --soft: #151515;
+  --white: #ffffff;
 }
 
-html,body{
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
 
-button,
-textarea,
-input{
-  font:inherit;
+body {
+  position: relative;
 }
 
-button{
-  cursor:pointer;
+/* =========================================================
+   ANIMATED BACKGROUND
+========================================================= */
+
+#bgCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: .55;
 }
 
-#background{
-  position:fixed;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
+.noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .035;
+  background-image:
+    repeating-radial-gradient(
+      circle at 0 0,
+      #fff 0,
+      #fff 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  mix-blend-mode: overlay;
 }
 
-.app{
-  position:relative;
-  z-index:1;
-  width:100%;
-  height:100%;
-  display:flex;
+/* =========================================================
+   APP
+========================================================= */
+
+.app {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  width: 100%;
+  height: 100vh;
 }
 
 /* =========================================================
    SIDEBAR
 ========================================================= */
 
-.sidebar{
-  width:270px;
-  height:100%;
-  flex-shrink:0;
-  background:rgba(7,7,7,.92);
-  border-right:1px solid var(--line);
-  backdrop-filter:blur(20px);
-  display:flex;
-  flex-direction:column;
-  padding:18px 14px;
-  transition:.3s ease;
+.sidebar {
+  border-right: 1px solid var(--border);
+  background: rgba(5,5,5,.82);
+  backdrop-filter: blur(25px);
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  animation: sidebarIn .6s ease;
 }
 
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:8px 8px 22px;
+@keyframes sidebarIn {
+  from {
+    opacity: 0;
+    transform: translateX(-25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.brand-mark{
-  width:38px;
-  height:38px;
-  border:1px solid #444;
-  border-radius:12px;
-  display:grid;
-  place-items:center;
-  font-weight:800;
-  background:#0b0b0b;
-  box-shadow:0 0 30px rgba(255,255,255,.05);
+.logo {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 25px;
 }
 
-.brand-text{
-  font-size:18px;
-  font-weight:750;
-  letter-spacing:-.5px;
+.logo span {
+  color: #777;
 }
 
-.brand-sub{
-  font-size:10px;
-  color:#666;
-  margin-top:2px;
+.section-title {
+  color: #666;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 18px 8px 8px;
 }
 
-.new-chat{
-  width:100%;
-  padding:13px 14px;
-  border:1px solid var(--line2);
-  border-radius:12px;
-  background:#101010;
-  color:#fff;
-  text-align:left;
-  transition:.2s;
+.mode {
+  width: 100%;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #aaa;
+  padding: 11px 12px;
+  border-radius: 11px;
+  text-align: left;
+  cursor: pointer;
+  transition: .25s;
+  margin-bottom: 4px;
 }
 
-.new-chat:hover{
-  background:#181818;
-  border-color:#555;
-  transform:translateY(-1px);
+.mode:hover {
+  color: white;
+  background: #101010;
+  border-color: #222;
+  transform: translateX(3px);
 }
 
-.nav{
-  margin-top:18px;
-  display:flex;
-  flex-direction:column;
-  gap:5px;
+.mode.active {
+  color: white;
+  background: #151515;
+  border-color: #303030;
 }
 
-.nav-btn{
-  width:100%;
-  display:flex;
-  align-items:center;
-  gap:11px;
-  padding:11px 12px;
-  border:1px solid transparent;
-  border-radius:10px;
-  background:transparent;
-  color:#aaa;
-  text-align:left;
-  transition:.2s;
+.sidebar-bottom {
+  margin-top: auto;
 }
 
-.nav-btn:hover{
-  background:#101010;
-  color:#fff;
+.status {
+  border: 1px solid #202020;
+  background: #0c0c0c;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  color: #777;
 }
 
-.nav-btn.active{
-  background:#151515;
-  border-color:#292929;
-  color:#fff;
+.status-dot {
+  width: 7px;
+  height: 7px;
+  display: inline-block;
+  border-radius: 50%;
+  background: #fff;
+  margin-right: 7px;
+  animation: pulse 1.5s infinite;
 }
 
-.nav-icon{
-  width:20px;
-  text-align:center;
-  color:#777;
-}
-
-.nav-btn.active .nav-icon{
-  color:#fff;
-}
-
-.sidebar-bottom{
-  margin-top:auto;
-}
-
-.status-card{
-  border:1px solid var(--line);
-  background:#0b0b0b;
-  border-radius:13px;
-  padding:12px;
-  color:#777;
-  font-size:11px;
-}
-
-.status-dot{
-  display:inline-block;
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:#fff;
-  margin-right:7px;
-  box-shadow:0 0 12px #fff;
+@keyframes pulse {
+  0%,100% {
+    opacity: .35;
+    transform: scale(.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* =========================================================
    MAIN
 ========================================================= */
 
-.main{
-  min-width:0;
-  flex:1;
-  height:100%;
-  display:flex;
-  flex-direction:column;
+.main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
-.topbar{
-  height:64px;
-  flex-shrink:0;
-  border-bottom:1px solid rgba(255,255,255,.07);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 22px;
-  background:rgba(5,5,5,.55);
-  backdrop-filter:blur(16px);
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar {
+  height: 62px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: rgba(5,5,5,.7);
+  backdrop-filter: blur(20px);
 }
 
-.top-left{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.top-title {
+  font-weight: 700;
+  font-size: 15px;
 }
 
-.mobile-menu{
-  display:none;
-  border:1px solid var(--line);
-  background:#0d0d0d;
-  color:#fff;
-  width:38px;
-  height:38px;
-  border-radius:10px;
+.top-subtitle {
+  color: #666;
+  font-size: 11px;
+  margin-top: 2px;
 }
 
-.mode-label{
-  font-size:14px;
-  color:#ddd;
-  font-weight:650;
+.top-actions {
+  display: flex;
+  gap: 8px;
 }
 
-.top-right{
-  display:flex;
-  align-items:center;
-  gap:8px;
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #222;
+  background: #0d0d0d;
+  color: #aaa;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: .25s;
 }
 
-.top-action{
-  width:36px;
-  height:36px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:#0b0b0b;
-  color:#999;
-}
-
-.top-action:hover{
-  color:#fff;
-  border-color:#444;
+.icon-btn:hover {
+  color: white;
+  border-color: #444;
+  transform: translateY(-2px);
 }
 
 /* =========================================================
    CONTENT
 ========================================================= */
 
-.content{
-  flex:1;
-  min-height:0;
-  display:flex;
-  flex-direction:column;
-  position:relative;
+.content {
+  flex: 1;
+  min-height: 0;
+  position: relative;
 }
 
-.welcome{
-  flex:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:30px;
+.chat {
+  height: 100%;
+  overflow-y: auto;
+  padding: 30px;
+  scroll-behavior: smooth;
 }
 
-.welcome-inner{
-  width:min(820px,100%);
-  text-align:center;
+.chat::-webkit-scrollbar {
+  width: 5px;
 }
 
-.hero-symbol{
-  position:relative;
-  width:100px;
-  height:100px;
-  margin:0 auto 28px;
-  display:grid;
-  place-items:center;
+.chat::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 10px;
 }
 
-.hero-symbol::before,
-.hero-symbol::after{
-  content:"";
-  position:absolute;
-  border:1px solid rgba(255,255,255,.25);
-  border-radius:50%;
-  animation:pulseRing 3s ease-in-out infinite;
+/* =========================================================
+   WELCOME
+========================================================= */
+
+.welcome {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  animation: welcomeIn .8s ease;
 }
 
-.hero-symbol::before{
-  inset:8px;
+@keyframes welcomeIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.hero-symbol::after{
-  inset:-5px;
-  opacity:.4;
-  animation-delay:1s;
+.welcome h1 {
+  font-size: clamp(38px, 6vw, 75px);
+  letter-spacing: -4px;
+  font-weight: 900;
 }
 
-.hero-core{
-  width:38px;
-  height:38px;
-  border:1px solid #777;
-  border-radius:12px;
-  transform:rotate(45deg);
-  animation:coreFloat 4s ease-in-out infinite;
+.welcome h1 span {
+  color: #666;
 }
 
-.welcome h1{
-  font-size:clamp(32px,5vw,58px);
-  letter-spacing:-2.5px;
-  line-height:1;
-  margin-bottom:15px;
+.welcome p {
+  color: #777;
+  max-width: 600px;
+  margin-top: 12px;
+  line-height: 1.6;
 }
 
-.welcome p{
-  color:#888;
-  font-size:15px;
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 750px;
+  width: 100%;
+  margin-top: 30px;
 }
 
-.quick-grid{
-  margin-top:35px;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
+.quick {
+  border: 1px solid #222;
+  background: rgba(13,13,13,.75);
+  padding: 18px;
+  border-radius: 14px;
+  color: #aaa;
+  cursor: pointer;
+  text-align: left;
+  transition: .3s;
 }
 
-.quick{
-  padding:16px;
-  border:1px solid var(--line);
-  background:rgba(10,10,10,.7);
-  color:#aaa;
-  border-radius:13px;
-  text-align:left;
-  transition:.25s;
+.quick:hover {
+  color: white;
+  border-color: #444;
+  transform: translateY(-5px);
+  background: #111;
 }
 
-.quick:hover{
-  color:#fff;
-  border-color:#4a4a4a;
-  transform:translateY(-3px);
-  background:#111;
-}
-
-.quick-title{
-  color:#eee;
-  font-size:13px;
-  font-weight:650;
-  margin-bottom:5px;
-}
-
-.quick-desc{
-  color:#666;
-  font-size:11px;
+.quick strong {
+  display: block;
+  color: white;
+  margin-bottom: 6px;
 }
 
 /* =========================================================
    MESSAGES
 ========================================================= */
 
-.messages{
-  display:none;
-  flex:1;
-  min-height:0;
-  overflow-y:auto;
-  padding:30px max(22px,calc((100% - 900px)/2));
-  scroll-behavior:smooth;
+.message {
+  max-width: 900px;
+  margin: 0 auto 24px;
+  animation: messageIn .35s ease;
 }
 
-.messages::-webkit-scrollbar{
-  width:8px;
+@keyframes messageIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.messages::-webkit-scrollbar-track{
-  background:#080808;
+.message.user {
+  display: flex;
+  justify-content: flex-end;
 }
 
-.messages::-webkit-scrollbar-thumb{
-  background:#333;
-  border-radius:20px;
+.bubble {
+  max-width: 80%;
+  padding: 14px 16px;
+  border-radius: 15px;
+  white-space: pre-wrap;
+  line-height: 1.65;
+  font-size: 14px;
 }
 
-.message{
-  margin-bottom:25px;
-  animation:messageIn .3s ease;
+.user .bubble {
+  background: #eeeeee;
+  color: #050505;
 }
 
-.message-row{
-  display:flex;
-  gap:12px;
+.assistant .bubble {
+  background: #0e0e0e;
+  border: 1px solid #222;
+  color: #ddd;
 }
 
-.message.user .message-row{
-  justify-content:flex-end;
+.message-tools {
+  display: flex;
+  gap: 6px;
+  margin-top: 7px;
 }
 
-.avatar{
-  width:30px;
-  height:30px;
-  flex-shrink:0;
-  border:1px solid #333;
-  border-radius:9px;
-  display:grid;
-  place-items:center;
-  font-size:10px;
-  background:#0d0d0d;
+.message-tools button {
+  border: 0;
+  background: transparent;
+  color: #555;
+  cursor: pointer;
+  font-size: 11px;
 }
 
-.message.user .avatar{
-  order:2;
-}
-
-.bubble{
-  max-width:min(760px,85%);
-  border:1px solid #202020;
-  background:#0b0b0b;
-  border-radius:15px;
-  padding:13px 15px;
-  color:#ddd;
-  line-height:1.65;
-  font-size:14px;
-  white-space:pre-wrap;
-  overflow-wrap:anywhere;
-}
-
-.message.user .bubble{
-  background:#151515;
-  border-color:#292929;
-}
-
-.message-tools{
-  margin-top:7px;
-  display:flex;
-  gap:5px;
-}
-
-.msg-action{
-  border:1px solid #202020;
-  background:#0b0b0b;
-  color:#777;
-  border-radius:7px;
-  padding:4px 8px;
-  font-size:10px;
-}
-
-.msg-action:hover{
-  color:#fff;
+.message-tools button:hover {
+  color: #aaa;
 }
 
 /* =========================================================
-   ATTACHMENTS
+   GENERATION CARDS
 ========================================================= */
 
-.attachment-strip{
-  display:none;
-  width:min(900px,calc(100% - 32px));
-  margin:0 auto 10px;
-  gap:8px;
-  flex-wrap:wrap;
+.generation-card {
+  max-width: 900px;
+  margin: 20px auto;
+  border: 1px solid #292929;
+  background: rgba(10,10,10,.9);
+  border-radius: 18px;
+  padding: 16px;
+  animation: cardIn .5s ease;
 }
 
-.attachment-chip{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  border:1px solid #292929;
-  background:#0d0d0d;
-  padding:8px 10px;
-  border-radius:9px;
-  font-size:11px;
-  color:#bbb;
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: scale(.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-.attachment-remove{
-  border:0;
-  background:transparent;
-  color:#666;
+.generation-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
 }
 
-.attachment-remove:hover{
-  color:#fff;
+.generation-title {
+  font-weight: 700;
+}
+
+.generation-status {
+  font-size: 11px;
+  color: #777;
+}
+
+.generated-image {
+  display: block;
+  width: 100%;
+  max-height: 650px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #050505;
+}
+
+.generated-video {
+  display: block;
+  width: 100%;
+  max-height: 650px;
+  border-radius: 12px;
+  background: #000;
+}
+
+.download-btn {
+  display: inline-block;
+  margin-top: 12px;
+  border: 1px solid #333;
+  background: #111;
+  color: white;
+  padding: 9px 13px;
+  border-radius: 9px;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.download-btn:hover {
+  background: #191919;
+}
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress-wrap {
+  margin-top: 15px;
+}
+
+.progress-track {
+  height: 5px;
+  background: #191919;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: white;
+  transition: width .5s ease;
+}
+
+.progress-text {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #666;
 }
 
 /* =========================================================
    COMPOSER
 ========================================================= */
 
-.composer-area{
-  padding:0 18px 18px;
+.composer-area {
+  padding: 15px 20px 20px;
+  border-top: 1px solid #1b1b1b;
+  background: rgba(5,5,5,.85);
+  backdrop-filter: blur(25px);
 }
 
-.composer{
-  width:min(900px,100%);
-  margin:auto;
-  border:1px solid #292929;
-  background:rgba(9,9,9,.92);
-  border-radius:18px;
-  box-shadow:0 20px 70px rgba(0,0,0,.45);
-  backdrop-filter:blur(20px);
-  overflow:hidden;
-  transition:.25s;
+.composer {
+  max-width: 1000px;
+  margin: auto;
+  border: 1px solid #292929;
+  background: #0c0c0c;
+  border-radius: 17px;
+  padding: 9px;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  transition: .25s;
 }
 
-.composer:focus-within{
-  border-color:#484848;
-  box-shadow:
-    0 20px 70px rgba(0,0,0,.5),
-    0 0 0 1px rgba(255,255,255,.04);
+.composer:focus-within {
+  border-color: #555;
+  box-shadow: 0 0 30px rgba(255,255,255,.04);
 }
 
-.prompt{
-  width:100%;
-  min-height:58px;
-  max-height:190px;
-  resize:none;
-  border:0;
-  outline:0;
-  background:transparent;
-  color:#fff;
-  padding:17px 17px 8px;
-  line-height:1.5;
-  font-size:14px;
+textarea {
+  flex: 1;
+  min-height: 42px;
+  max-height: 180px;
+  resize: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: white;
+  padding: 11px;
+  font: inherit;
 }
 
-.prompt::placeholder{
-  color:#555;
+textarea::placeholder {
+  color: #555;
 }
 
-.composer-bottom{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:8px 10px 10px;
+.tool-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #242424;
+  background: #101010;
+  color: #aaa;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: .25s;
 }
 
-.tools{
-  display:flex;
-  gap:5px;
-  flex-wrap:wrap;
+.tool-btn:hover {
+  color: white;
+  border-color: #444;
+  transform: translateY(-2px);
 }
 
-.tool{
-  height:34px;
-  padding:0 10px;
-  border:1px solid #202020;
-  border-radius:9px;
-  background:#0c0c0c;
-  color:#777;
-  font-size:11px;
-  transition:.2s;
+.send-btn {
+  width: 42px;
+  height: 42px;
+  border: 0;
+  background: white;
+  color: black;
+  border-radius: 11px;
+  cursor: pointer;
+  font-weight: 900;
+  transition: .25s;
 }
 
-.tool:hover{
-  color:#fff;
-  border-color:#444;
+.send-btn:hover {
+  transform: scale(1.06);
 }
 
-.tool.active{
-  color:#fff;
-  border-color:#fff;
-  box-shadow:0 0 18px rgba(255,255,255,.08);
+.send-btn:disabled {
+  opacity: .3;
+  cursor: not-allowed;
+  transform: none;
 }
 
-.send{
-  width:38px;
-  height:38px;
-  border:1px solid #555;
-  border-radius:11px;
-  background:#fff;
-  color:#000;
-  font-size:15px;
-  transition:.2s;
-}
-
-.send:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 25px rgba(255,255,255,.15);
-}
-
-.send:disabled{
-  opacity:.35;
-  transform:none;
-}
-
-.stop-btn{
-  display:none;
-  width:38px;
-  height:38px;
-  border:1px solid #555;
-  border-radius:11px;
-  background:#111;
-  color:#fff;
+.composer-info {
+  max-width: 1000px;
+  margin: 8px auto 0;
+  color: #444;
+  font-size: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 /* =========================================================
-   COMMAND CENTER
+   MODE PANEL
 ========================================================= */
 
-.command-overlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:20;
-  background:rgba(0,0,0,.72);
-  backdrop-filter:blur(15px);
-  align-items:flex-start;
-  justify-content:center;
-  padding-top:12vh;
+.mode-panel {
+  display: none;
+  position: absolute;
+  bottom: 95px;
+  left: 20px;
+  width: 280px;
+  border: 1px solid #292929;
+  background: #0a0a0a;
+  border-radius: 15px;
+  padding: 10px;
+  z-index: 10;
+  box-shadow: 0 20px 60px rgba(0,0,0,.7);
 }
 
-.command-box{
-  width:min(650px,calc(100% - 30px));
-  border:1px solid #333;
-  border-radius:18px;
-  background:#0b0b0b;
-  box-shadow:0 30px 100px rgba(0,0,0,.7);
-  overflow:hidden;
+.mode-panel.show {
+  display: block;
+  animation: panelIn .2s ease;
 }
 
-.command-input{
-  width:100%;
-  height:58px;
-  border:0;
-  border-bottom:1px solid #202020;
-  outline:0;
-  background:#101010;
-  color:#fff;
-  padding:0 18px;
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.command-list{
-  max-height:380px;
-  overflow:auto;
-  padding:8px;
+.mode-option {
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #999;
 }
 
-.command-item{
-  width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border:0;
-  background:transparent;
-  color:#aaa;
-  padding:13px;
-  border-radius:10px;
-  text-align:left;
-}
-
-.command-item:hover{
-  background:#161616;
-  color:#fff;
-}
-
-.command-key{
-  color:#555;
-  font-size:10px;
+.mode-option:hover,
+.mode-option.active {
+  background: #151515;
+  color: white;
 }
 
 /* =========================================================
-   STATUS
+   MOBILE
 ========================================================= */
 
-.status{
-  position:fixed;
-  left:50%;
-  bottom:25px;
-  transform:translate(-50%,20px);
-  z-index:50;
-  padding:9px 14px;
-  border:1px solid #333;
-  border-radius:10px;
-  background:#0b0b0b;
-  color:#aaa;
-  font-size:11px;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-}
+@media (max-width: 800px) {
 
-.status.show{
-  opacity:1;
-  transform:translate(-50%,0);
-}
-
-/* =========================================================
-   VOICE PANEL
-========================================================= */
-
-.voice-panel{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:15;
-  background:rgba(0,0,0,.8);
-  backdrop-filter:blur(18px);
-  align-items:center;
-  justify-content:center;
-}
-
-.voice-panel.show{
-  display:flex;
-}
-
-.voice-card{
-  width:min(440px,calc(100% - 30px));
-  border:1px solid #333;
-  background:#0a0a0a;
-  border-radius:22px;
-  padding:32px;
-  text-align:center;
-  box-shadow:0 30px 100px rgba(0,0,0,.75);
-}
-
-.voice-visual{
-  position:relative;
-  width:130px;
-  height:130px;
-  margin:0 auto 25px;
-  display:grid;
-  place-items:center;
-}
-
-.voice-ring{
-  position:absolute;
-  inset:0;
-  border:1px solid #444;
-  border-radius:50%;
-  animation:voicePulse 1.7s ease-in-out infinite;
-}
-
-.voice-ring:nth-child(2){
-  inset:14px;
-  animation-delay:.35s;
-}
-
-.voice-ring:nth-child(3){
-  inset:28px;
-  animation-delay:.7s;
-}
-
-.voice-core{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  background:#fff;
-  box-shadow:0 0 35px rgba(255,255,255,.25);
-  animation:coreBeat 1.2s ease-in-out infinite;
-}
-
-.voice-title{
-  font-size:21px;
-  font-weight:700;
-}
-
-.voice-state{
-  color:#777;
-  margin-top:7px;
-  font-size:12px;
-}
-
-.voice-close{
-  margin-top:25px;
-  padding:10px 18px;
-  border:1px solid #333;
-  border-radius:10px;
-  background:#111;
-  color:#aaa;
-}
-
-.voice-close:hover{
-  color:#fff;
-}
-
-/* =========================================================
-   ANIMATIONS
-========================================================= */
-
-@keyframes pulseRing{
-  0%,100%{transform:scale(.9);opacity:.25}
-  50%{transform:scale(1.08);opacity:.7}
-}
-
-@keyframes coreFloat{
-  0%,100%{transform:rotate(45deg) translateY(0)}
-  50%{transform:rotate(45deg) translateY(-7px)}
-}
-
-@keyframes coreBeat{
-  0%,100%{transform:scale(.92)}
-  50%{transform:scale(1.08)}
-}
-
-@keyframes voicePulse{
-  0%,100%{transform:scale(.9);opacity:.2}
-  50%{transform:scale(1.1);opacity:.8}
-}
-
-@keyframes messageIn{
-  from{
-    opacity:0;
-    transform:translateY(8px);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width:800px){
-
-  .sidebar{
-    position:fixed;
-    left:-280px;
-    top:0;
-    z-index:30;
-    box-shadow:20px 0 70px rgba(0,0,0,.6);
+  .app {
+    grid-template-columns: 1fr;
   }
 
-  .sidebar.open{
-    left:0;
+  .sidebar {
+    display: none;
   }
 
-  .mobile-menu{
-    display:block;
+  .chat {
+    padding: 18px;
   }
 
-  .quick-grid{
-    grid-template-columns:repeat(2,1fr);
+  .quick-grid {
+    grid-template-columns: 1fr;
   }
 
-  .welcome{
-    padding:20px;
+  .bubble {
+    max-width: 92%;
   }
 
-}
-
-@media(max-width:520px){
-
-  .topbar{
-    padding:0 12px;
+  .composer-area {
+    padding: 10px;
   }
 
-  .quick-grid{
-    grid-template-columns:1fr;
+  .topbar {
+    padding: 0 12px;
   }
 
-  .welcome h1{
-    font-size:38px;
+  .welcome h1 {
+    letter-spacing: -2px;
   }
-
-  .messages{
-    padding:20px 12px;
-  }
-
-  .composer-area{
-    padding:0 10px 10px;
-  }
-
-  .tool span{
-    display:none;
-  }
-
-  .voice-card{
-    padding:25px;
-  }
-
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="background"></canvas>
+<canvas id="bgCanvas"></canvas>
+<div class="noise"></div>
 
 <div class="app">
 
-  <!-- =====================================================
-       SIDEBAR
-  ====================================================== -->
+  <!-- SIDEBAR -->
 
-  <aside class="sidebar" id="sidebar">
+  <aside class="sidebar">
 
-    <div class="brand">
-      <div class="brand-mark">D</div>
-
-      <div>
-        <div class="brand-text">DeveshAI</div>
-        <div class="brand-sub">INTELLIGENT WORKSPACE</div>
-      </div>
+    <div class="logo">
+      Devesh<span>AI</span>
     </div>
 
-    <button class="new-chat" onclick="newChat()">
-      ＋ New conversation
+    <div class="section-title">
+      Workspace
+    </div>
+
+    <button class="mode active" data-mode="Ask">
+      ✦ Ask
     </button>
 
-    <nav class="nav">
+    <button class="mode" data-mode="Study">
+      ◈ Study
+    </button>
 
-      <button class="nav-btn active" data-mode="Ask" onclick="setMode('Ask')">
-        <span class="nav-icon">◈</span>
-        <span>Ask</span>
-      </button>
+    <button class="mode" data-mode="Create">
+      ◆ Create
+    </button>
 
-      <button class="nav-btn" data-mode="Study" onclick="setMode('Study')">
-        <span class="nav-icon">⌁</span>
-        <span>Study</span>
-      </button>
+    <button class="mode" data-mode="Code">
+      ◇ Code
+    </button>
 
-      <button class="nav-btn" data-mode="Create" onclick="setMode('Create')">
-        <span class="nav-icon">✦</span>
-        <span>Create</span>
-      </button>
+    <button class="mode" data-mode="Analyze">
+      ◎ Analyze
+    </button>
 
-      <button class="nav-btn" data-mode="Code" onclick="setMode('Code')">
-        <span class="nav-icon">&lt;/&gt;</span>
-        <span>Code</span>
-      </button>
+    <div class="section-title">
+      Generate
+    </div>
 
-      <button class="nav-btn" data-mode="Analyze" onclick="setMode('Analyze')">
-        <span class="nav-icon">⌘</span>
-        <span>Analyze</span>
-      </button>
+    <button class="mode" onclick="openImageMode()">
+      ▣ Image
+    </button>
 
-    </nav>
+    <button class="mode" onclick="openVideoMode()">
+      ▰ Video
+    </button>
 
     <div class="sidebar-bottom">
 
-      <div class="status-card">
+      <div class="status">
         <span class="status-dot"></span>
-        DeveshAI online
+        DeveshAI Online
       </div>
 
     </div>
 
   </aside>
 
-
-  <!-- =====================================================
-       MAIN
-  ====================================================== -->
+  <!-- MAIN -->
 
   <main class="main">
 
     <header class="topbar">
 
-      <div class="top-left">
-
-        <button
-          class="mobile-menu"
-          onclick="toggleSidebar()">
-          ☰
-        </button>
-
-        <div class="mode-label" id="modeLabel">
-          Ask
+      <div>
+        <div class="top-title" id="topTitle">
+          DeveshAI
         </div>
 
+        <div class="top-subtitle" id="topSubtitle">
+          AI workspace
+        </div>
       </div>
 
-      <div class="top-right">
+      <div class="top-actions">
 
         <button
-          class="top-action"
-          title="Command Center"
-          onclick="openCommandCenter()">
-          ⌘
+          class="icon-btn"
+          onclick="newChat()"
+          title="New chat">
+          +
         </button>
 
         <button
-          class="top-action"
-          title="New chat"
-          onclick="newChat()">
-          ＋
+          class="icon-btn"
+          onclick="clearChat()"
+          title="Clear">
+          ×
         </button>
 
       </div>
 
     </header>
 
-
     <section class="content">
 
-      <!-- =================================================
-           WELCOME
-      ================================================== -->
+      <div class="chat" id="chat">
 
-      <div class="welcome" id="welcome">
+        <div class="welcome" id="welcome">
 
-        <div class="welcome-inner">
-
-          <div class="hero-symbol">
-            <div class="hero-core"></div>
-          </div>
-
-          <h1>What can I help you with?</h1>
+          <h1>
+            Devesh<span>AI</span>
+          </h1>
 
           <p>
-            Ask, study, create, code or analyze with DeveshAI.
+            One workspace for conversation, creation,
+            image generation and video generation.
           </p>
 
           <div class="quick-grid">
 
             <button
               class="quick"
-              onclick="quickPrompt('Explain a difficult topic to me in very simple language.')">
-
-              <div class="quick-title">
-                Explain
-              </div>
-
-              <div class="quick-desc">
-                Make something easy to understand.
-              </div>
-
+              onclick="quickPrompt('Explain quantum computing in very simple Hinglish.')">
+              <strong>Ask anything</strong>
+              Get a clear AI answer.
             </button>
-
 
             <button
               class="quick"
-              onclick="quickPrompt('Help me study for my next exam.')">
-
-              <div class="quick-title">
-                Study
-              </div>
-
-              <div class="quick-desc">
-                Learn with step-by-step help.
-              </div>
-
+              onclick="openImageMode()">
+              <strong>Generate image</strong>
+              Create an image from your idea.
             </button>
-
 
             <button
               class="quick"
-              onclick="quickPrompt('Give me an original creative idea for a project.')">
-
-              <div class="quick-title">
-                Create
-              </div>
-
-              <div class="quick-desc">
-                Turn ideas into something real.
-              </div>
-
-            </button>
-
-
-            <button
-              class="quick"
-              onclick="quickPrompt('Help me debug or improve my code.')">
-
-              <div class="quick-title">
-                Code
-              </div>
-
-              <div class="quick-desc">
-                Build and fix software.
-              </div>
-
+              onclick="openVideoMode()">
+              <strong>Generate video</strong>
+              Create a short AI video.
             </button>
 
           </div>
@@ -1080,359 +840,275 @@ button{
 
       </div>
 
+      <!-- MODE PANEL -->
 
-      <!-- =================================================
-           MESSAGES
-      ================================================== -->
+      <div class="mode-panel" id="modePanel">
 
-      <div
-        class="messages"
-        id="messages">
-      </div>
+        <div
+          class="mode-option active"
+          onclick="setMode('Ask')">
+          Ask
+        </div>
 
+        <div
+          class="mode-option"
+          onclick="setMode('Study')">
+          Study
+        </div>
 
-      <!-- =================================================
-           ATTACHMENTS
-      ================================================== -->
+        <div
+          class="mode-option"
+          onclick="setMode('Create')">
+          Create
+        </div>
 
-      <div
-        class="attachment-strip"
-        id="attachmentStrip">
-      </div>
+        <div
+          class="mode-option"
+          onclick="setMode('Code')">
+          Code
+        </div>
 
-
-      <!-- =================================================
-           COMPOSER
-      ================================================== -->
-
-      <div class="composer-area">
-
-        <div class="composer">
-
-          <textarea
-            id="prompt"
-            class="prompt"
-            rows="1"
-            placeholder="Ask DeveshAI anything..."
-            autocomplete="off"></textarea>
-
-
-          <div class="composer-bottom">
-
-            <div class="tools">
-
-              <button
-                class="tool"
-                onclick="openFilePicker()">
-                ＋ <span>Attach</span>
-              </button>
-
-              <button
-                class="tool"
-                id="voiceBtn"
-                onclick="toggleVoice()">
-                ◉ <span>Voice</span>
-              </button>
-
-              <button
-                class="tool"
-                onclick="openCommandCenter()">
-                ⌘ <span>Command</span>
-              </button>
-
-              <button
-                class="tool"
-                onclick="insertCodeTemplate()">
-                &lt;/&gt; <span>Code</span>
-              </button>
-
-            </div>
-
-
-            <div>
-
-              <button
-                class="stop-btn"
-                id="stopBtn"
-                onclick="stopGeneration()">
-                ■
-              </button>
-
-              <button
-                class="send"
-                id="sendBtn"
-                onclick="sendMessage()">
-                ↑
-              </button>
-
-            </div>
-
-          </div>
-
+        <div
+          class="mode-option"
+          onclick="setMode('Analyze')">
+          Analyze
         </div>
 
       </div>
 
     </section>
 
+    <!-- COMPOSER -->
+
+    <div class="composer-area">
+
+      <div class="composer">
+
+        <button
+          class="tool-btn"
+          onclick="toggleModePanel()"
+          title="Modes">
+          ◉
+        </button>
+
+        <button
+          class="tool-btn"
+          onclick="openImageMode()"
+          title="Image generation">
+          ▣
+        </button>
+
+        <button
+          class="tool-btn"
+          onclick="openVideoMode()"
+          title="Video generation">
+          ▰
+        </button>
+
+        <textarea
+          id="input"
+          placeholder="Message DeveshAI..."
+          rows="1"></textarea>
+
+        <button
+          class="send-btn"
+          id="sendBtn"
+          onclick="sendCurrent()">
+          ↑
+        </button>
+
+      </div>
+
+      <div class="composer-info">
+
+        <span id="modeLabel">
+          Ask mode
+        </span>
+
+        <span>
+          Enter to send · Shift+Enter for new line
+        </span>
+
+      </div>
+
+    </div>
+
   </main>
 
 </div>
 
-
-<!-- =======================================================
-     HIDDEN FILE INPUT
-======================================================== -->
-
-<input
-  type="file"
-  id="fileInput"
-  hidden
-  multiple
-  accept=".txt,.md,.csv,.json,.js,.html,.css,.py,.java,.cpp,.c,.xml,.log,.yaml,.yml,.pdf,image/*">
-
-
-<!-- =======================================================
-     COMMAND CENTER
-======================================================== -->
-
-<div
-  class="command-overlay"
-  id="commandOverlay"
-  onclick="closeCommandOutside(event)">
-
-  <div class="command-box">
-
-    <input
-      class="command-input"
-      id="commandInput"
-      placeholder="Search commands..."
-      autocomplete="off">
-
-    <div
-      class="command-list"
-      id="commandList">
-
-      <button
-        class="command-item"
-        onclick="commandAction('new')">
-        <span>New conversation</span>
-        <span class="command-key">N</span>
-      </button>
-
-      <button
-        class="command-item"
-        onclick="commandAction('voice')">
-        <span>Start voice mode</span>
-        <span class="command-key">V</span>
-      </button>
-
-      <button
-        class="command-item"
-        onclick="commandAction('clear')">
-        <span>Clear current conversation</span>
-        <span class="command-key">C</span>
-      </button>
-
-      <button
-        class="command-item"
-        onclick="commandAction('study')">
-        <span>Switch to Study</span>
-        <span class="command-key">1</span>
-      </button>
-
-      <button
-        class="command-item"
-        onclick="commandAction('code')">
-        <span>Switch to Code</span>
-        <span class="command-key">2</span>
-      </button>
-
-      <button
-        class="command-item"
-        onclick="commandAction('analyze')">
-        <span>Switch to Analyze</span>
-        <span class="command-key">3</span>
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =======================================================
-     VOICE PANEL
-======================================================== -->
-
-<div
-  class="voice-panel"
-  id="voicePanel">
-
-  <div class="voice-card">
-
-    <div class="voice-visual">
-
-      <div class="voice-ring"></div>
-      <div class="voice-ring"></div>
-      <div class="voice-ring"></div>
-
-      <div class="voice-core"></div>
-
-    </div>
-
-    <div
-      class="voice-title"
-      id="voiceTitle">
-      DeveshAI Voice
-    </div>
-
-    <div
-      class="voice-state"
-      id="voiceState">
-      Connecting...
-    </div>
-
-    <button
-      class="voice-close"
-      onclick="stopAdvancedVoice()">
-      End voice
-    </button>
-
-  </div>
-
-</div>
-
-
-<div
-  class="status"
-  id="status">
-</div>
-
-
 <script>
-
 /* =========================================================
    STATE
 ========================================================= */
 
 const state = {
-
-  mode:"Ask",
-
-  messages:[],
-
-  attachments:[],
-
-  abortController:null,
-
-  generating:false
-
+  mode: "Ask",
+  messages: [],
+  generating: false,
+  currentGeneration: null
 };
-
-
-const modeInstructions = {
-
-  Ask:
-`You are DeveshAI in Ask mode.
-Be helpful, accurate and natural.
-If the user uses Hinglish, reply in easy Hinglish.
-Explain things clearly and do not unnecessarily overcomplicate answers.`,
-
-  Study:
-`You are DeveshAI Study AI.
-Act as a personal tutor.
-Explain difficult topics step by step in simple language.
-For school questions, give exam-ready answers, keywords and examples when useful.
-Help the student understand rather than only giving an answer.`,
-
-  Create:
-`You are DeveshAI Creative AI.
-Help the user create original ideas, writing, concepts, designs, scripts and practical projects.
-Avoid generic ideas when a more interesting solution is possible.`,
-
-  Code:
-`You are DeveshAI Code AI.
-Help with programming, debugging and architecture.
-Prefer complete working solutions.
-Explain important code clearly.
-Never expose API keys or secrets.`,
-
-  Analyze:
-`You are DeveshAI Analysis AI.
-Analyze information carefully.
-Separate facts from assumptions.
-Do not invent missing information.
-Use structured reasoning when useful.`
-
-};
-
 
 /* =========================================================
    DOM
 ========================================================= */
 
-const prompt =
-  document.getElementById("prompt");
-
-const messagesEl =
-  document.getElementById("messages");
-
-const welcome =
-  document.getElementById("welcome");
-
-const sendBtn =
-  document.getElementById("sendBtn");
-
-const stopBtn =
-  document.getElementById("stopBtn");
-
-const attachmentStrip =
-  document.getElementById("attachmentStrip");
-
-const fileInput =
-  document.getElementById("fileInput");
-
+const chat = document.getElementById("chat");
+const welcome = document.getElementById("welcome");
+const input = document.getElementById("input");
+const sendBtn = document.getElementById("sendBtn");
+const modeLabel = document.getElementById("modeLabel");
+const topTitle = document.getElementById("topTitle");
+const topSubtitle = document.getElementById("topSubtitle");
 
 /* =========================================================
-   STATUS
+   MODE INSTRUCTIONS
 ========================================================= */
 
-let statusTimer;
+const modeInstructions = {
 
-function showStatus(text){
+  Ask:
+    "Answer clearly and naturally.",
 
-  const el =
-    document.getElementById("status");
+  Study:
+    "Teach step-by-step using simple language. Give examples when useful.",
 
-  el.textContent = text;
+  Create:
+    "Help creatively with writing, ideas, concepts and content.",
 
-  el.classList.add("show");
+  Code:
+    "Write correct, complete, runnable code. Explain important parts simply.",
 
-  clearTimeout(statusTimer);
+  Analyze:
+    "Analyze carefully. Separate facts, assumptions, risks and conclusions."
 
-  statusTimer =
-    setTimeout(function(){
+};
 
-      el.classList.remove("show");
+/* =========================================================
+   BACKGROUND ANIMATION
+========================================================= */
 
-    },3000);
+const canvas = document.getElementById("bgCanvas");
+const ctx = canvas.getContext("2d");
 
+let particles = [];
+
+function resizeCanvas() {
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  particles = [];
+
+  const count =
+    Math.min(
+      90,
+      Math.floor(window.innerWidth / 15)
+    );
+
+  for (let i = 0; i < count; i++) {
+
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - .5) * .25,
+      vy: (Math.random() - .5) * .25,
+      r: Math.random() * 1.5 + .2
+    });
+
+  }
 }
 
+function animateBackground() {
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  for (const p of particles) {
+
+    p.x += p.vx;
+    p.y += p.vy;
+
+    if (p.x < 0 || p.x > canvas.width) {
+      p.vx *= -1;
+    }
+
+    if (p.y < 0 || p.y > canvas.height) {
+      p.vy *= -1;
+    }
+
+    ctx.beginPath();
+
+    ctx.arc(
+      p.x,
+      p.y,
+      p.r,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.fillStyle = "#555";
+    ctx.fill();
+  }
+
+  for (let i = 0; i < particles.length; i++) {
+
+    for (let j = i + 1; j < particles.length; j++) {
+
+      const a = particles[i];
+      const b = particles[j];
+
+      const dx = a.x - b.x;
+      const dy = a.y - b.y;
+
+      const distance =
+        Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < 110) {
+
+        ctx.beginPath();
+
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+
+        ctx.strokeStyle =
+          `rgba(255,255,255,${(
+            1 - distance / 110
+          ) * .08})`;
+
+        ctx.stroke();
+      }
+    }
+  }
+
+  requestAnimationFrame(
+    animateBackground
+  );
+}
+
+window.addEventListener(
+  "resize",
+  resizeCanvas
+);
+
+resizeCanvas();
+animateBackground();
 
 /* =========================================================
    MODE
 ========================================================= */
 
-function setMode(mode){
+function setMode(mode) {
 
   state.mode = mode;
 
   document
-    .querySelectorAll(".nav-btn")
-    .forEach(function(btn){
+    .querySelectorAll(".mode")
+    .forEach(btn => {
 
       btn.classList.toggle(
         "active",
@@ -1441,700 +1117,143 @@ function setMode(mode){
 
     });
 
+  document
+    .querySelectorAll(".mode-option")
+    .forEach(option => {
+
+      option.classList.toggle(
+        "active",
+        option.textContent.trim() === mode
+      );
+
+    });
+
+  modeLabel.textContent =
+    mode + " mode";
+
+  topSubtitle.textContent =
+    modeInstructions[mode];
 
   document.getElementById(
-    "modeLabel"
-  ).textContent = mode;
-
-  closeSidebar();
-
-  showStatus(
-    mode + " mode selected"
-  );
-
+    "modePanel"
+  ).classList.remove("show");
 }
-
-
- /* =========================================================
-    NEW CHAT
- ========================================================= */
-
-function newChat(){
-
-  if(
-    state.messages.length &&
-    !confirm("Start a new conversation?")
-  ){
-    return;
-  }
-
-  state.messages = [];
-
-  state.attachments = [];
-
-  state.abortController = null;
-
-  state.generating = false;
-
-  messagesEl.innerHTML = "";
-
-  messagesEl.style.display = "none";
-
-  welcome.style.display = "flex";
-
-  renderAttachments();
-
-  updateGeneratingUI(false);
-
-  saveHistory();
-
-  prompt.value = "";
-
-  autoResize();
-
-  showStatus("New conversation started");
-
-}
-
 
 /* =========================================================
-   QUICK PROMPT
+   MODE PANEL
 ========================================================= */
 
-function quickPrompt(text){
+function toggleModePanel() {
 
-  prompt.value = text;
-
-  autoResize();
-
-  sendMessage();
+  document
+    .getElementById("modePanel")
+    .classList.toggle("show");
 
 }
-
 
 /* =========================================================
-   TEXTAREA
-========================================================= */
-
-prompt.addEventListener(
-  "input",
-  autoResize
-);
-
-function autoResize(){
-
-  prompt.style.height = "auto";
-
-  prompt.style.height =
-    Math.min(
-      prompt.scrollHeight,
-      190
-    ) + "px";
-
-}
-
-
-prompt.addEventListener(
-  "keydown",
-  function(event){
-
-    if(
-      event.key === "Enter" &&
-      !event.shiftKey
-    ){
-
-      event.preventDefault();
-
-      sendMessage();
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   FILES
-========================================================= */
-
-function openFilePicker(){
-
-  fileInput.click();
-
-}
-
-
-fileInput.addEventListener(
-  "change",
-  async function(){
-
-    const files =
-      Array.from(fileInput.files || []);
-
-    for(
-      const file of files
-    ){
-
-      await readAttachment(file);
-
-    }
-
-    fileInput.value = "";
-
-    renderAttachments();
-
-  }
-);
-
-
-async function readAttachment(file){
-
-  const textTypes = [
-    "text/plain",
-    "text/csv",
-    "application/json"
-  ];
-
-  const extension =
-    file.name
-      .split(".")
-      .pop()
-      .toLowerCase();
-
-  const allowedText =
-    [
-      "txt",
-      "md",
-      "csv",
-      "json",
-      "js",
-      "html",
-      "css",
-      "py",
-      "java",
-      "cpp",
-      "c",
-      "xml",
-      "log",
-      "yaml",
-      "yml"
-    ];
-
-
-  if(
-    allowedText.includes(extension) ||
-    textTypes.includes(file.type)
-  ){
-
-    try{
-
-      const text =
-        await file.text();
-
-      state.attachments.push({
-
-        name:file.name,
-
-        type:"text",
-
-        content:text.slice(
-          0,
-          120000
-        )
-
-      });
-
-      showStatus(
-        file.name + " attached"
-      );
-
-    }catch(error){
-
-      showStatus(
-        "Could not read " +
-        file.name
-      );
-
-    }
-
-    return;
-
-  }
-
-
-  if(file.type.startsWith("image/")){
-
-    state.attachments.push({
-
-      name:file.name,
-
-      type:"image",
-
-      file:file
-
-    });
-
-    showStatus(
-      file.name +
-      " attached as image"
-    );
-
-    return;
-
-  }
-
-
-  if(extension === "pdf"){
-
-    state.attachments.push({
-
-      name:file.name,
-
-      type:"unsupported",
-
-      content:
-        "PDF attached. PDF content requires server-side document processing."
-
-    });
-
-    showStatus(
-      "PDF attached — document processing must be enabled on the server."
-    );
-
-    return;
-
-  }
-
-
-  showStatus(
-    "This file type is not supported."
-  );
-
-}
-
-
-function renderAttachments(){
-
-  attachmentStrip.innerHTML = "";
-
-  if(!state.attachments.length){
-
-    attachmentStrip.style.display =
-      "none";
-
-    return;
-
-  }
-
-  attachmentStrip.style.display =
-    "flex";
-
-
-  state.attachments.forEach(
-    function(file,index){
-
-      const chip =
-        document.createElement("div");
-
-      chip.className =
-        "attachment-chip";
-
-      chip.innerHTML = `
-
-        <span>
-          ${escapeHtml(file.name)}
-        </span>
-
-        <button
-          class="attachment-remove"
-          onclick="removeAttachment(${index})">
-          ×
-        </button>
-
-      `;
-
-      attachmentStrip.appendChild(
-        chip
-      );
-
-    }
-  );
-
-}
-
-
-function removeAttachment(index){
-
-  state.attachments.splice(
-    index,
-    1
-  );
-
-  renderAttachments();
-
-}
-
-
-/* =========================================================
-   BUILD MESSAGE
-========================================================= */
-
-async function buildUserContent(text){
-
-  const contents = [];
-
-  contents.push({
-    type:"input_text",
-    text:text
-  });
-
-
-  for(
-    const attachment of state.attachments
-  ){
-
-    if(
-      attachment.type === "text"
-    ){
-
-      contents.push({
-
-        type:"input_text",
-
-        text:
-`[Attached file: ${attachment.name}]
-
-${attachment.content}`
-
-      });
-
-    }
-
-    else if(
-      attachment.type === "unsupported"
-    ){
-
-      contents.push({
-
-        type:"input_text",
-
-        text:
-`[Attached file: ${attachment.name}]
-${attachment.content}`
-
-      });
-
-    }
-
-    else if(
-      attachment.type === "image"
-    ){
-
-      try{
-
-        const dataURL =
-          await fileToDataURL(
-            attachment.file
-          );
-
-        contents.push({
-
-          type:"input_image",
-
-          image_url:dataURL
-
-        });
-
-      }catch(error){
-
-        console.error(
-          "Image conversion failed",
-          error
-        );
-
-      }
-
-    }
-
-  }
-
-
-  return contents;
-
-}
-
-
-function fileToDataURL(file){
-
-  return new Promise(
-    function(resolve,reject){
-
-      const reader =
-        new FileReader();
-
-      reader.onload =
-        function(){
-
-          resolve(
-            reader.result
-          );
-
-        };
-
-      reader.onerror =
-        reject;
-
-      reader.readAsDataURL(
-        file
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   SEND MESSAGE
-========================================================= */
-
-async function sendMessage(){
-
-  if(state.generating){
-
-    return;
-
-  }
-
-
-  const text =
-    prompt.value.trim();
-
-
-  if(!text && !state.attachments.length){
-
-    return;
-
-  }
-
-
-  const userContent =
-    await buildUserContent(
-      text ||
-      "Please analyze the attached files."
-    );
-
-
-  state.messages.push({
-
-    role:"user",
-
-    content:
-      text ||
-      "Please analyze the attached files."
-
-  });
-
-
-  renderMessage(
-    "user",
-    text ||
-    "Please analyze the attached files."
-  );
-
-
-  const attachmentsForDisplay =
-    state.attachments.map(
-      function(a){
-        return a.name;
-      }
-    );
-
-
-  if(attachmentsForDisplay.length){
-
-    renderMessage(
-      "user",
-      "Attachments: " +
-      attachmentsForDisplay.join(", ")
-    );
-
-  }
-
-
-  prompt.value = "";
-
-  state.attachments = [];
-
-  renderAttachments();
-
-  autoResize();
-
-  showChat();
-
-  updateGeneratingUI(true);
-
-
-  state.abortController =
-    new AbortController();
-
-
-  try{
-
-    const response =
-      await fetch(
-        "/api/chat",
-        {
-          method:"POST",
-
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
-
-          body:JSON.stringify({
-
-            messages:[
-
-              {
-                role:"system",
-
-                content:
-                  modeInstructions[
-                    state.mode
-                  ]
-
-              },
-
-              ...state.messages
-
-            ]
-
-          }),
-
-          signal:
-            state.abortController.signal
-
-        }
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if(!response.ok){
-
-      throw new Error(
-        data.error ||
-        "AI request failed."
-      );
-
-    }
-
-
-    const reply =
-      data.reply ||
-      "Sorry, I couldn't generate a response.";
-
-
-    state.messages.push({
-
-      role:"assistant",
-
-      content:reply
-
-    });
-
-
-    renderMessage(
-      "assistant",
-      reply
-    );
-
-
-    saveHistory();
-
-
-  }catch(error){
-
-    if(
-      error.name ===
-      "AbortError"
-    ){
-
-      showStatus(
-        "Generation stopped."
-      );
-
-    }else{
-
-      console.error(error);
-
-      renderMessage(
-        "assistant",
-        "⚠️ " +
-        (
-          error.message ||
-          "Something went wrong."
-        )
-      );
-
-    }
-
-  }finally{
-
-    state.abortController = null;
-
-    updateGeneratingUI(false);
-
-  }
-
-}
-
-
-/* =========================================================
-   RENDER MESSAGE
+   CHAT RENDER
 ========================================================= */
 
 function renderMessage(
   role,
   text
-){
+) {
 
-  welcome.style.display =
-    "none";
-
-  messagesEl.style.display =
-    "block";
-
+  if (welcome) {
+    welcome.style.display = "none";
+  }
 
   const wrapper =
     document.createElement("div");
 
   wrapper.className =
-    "message " +
-    role;
+    `message ${role}`;
 
-
-  const row =
+  const bubble =
     document.createElement("div");
 
-  row.className =
-    "message-row";
+  bubble.className = "bubble";
 
+  bubble.textContent = text;
 
-  const avatar =
+  wrapper.appendChild(bubble);
+
+  if (role === "assistant") {
+
+    const tools =
+      document.createElement("div");
+
+    tools.className =
+      "message-tools";
+
+    const copy =
+      document.createElement("button");
+
+    copy.textContent = "Copy";
+
+    copy.onclick = () => {
+
+      navigator.clipboard.writeText(text);
+
+      copy.textContent = "Copied";
+
+      setTimeout(() => {
+        copy.textContent = "Copy";
+      }, 1200);
+
+    };
+
+    tools.appendChild(copy);
+
+    wrapper.appendChild(tools);
+  }
+
+  chat.appendChild(wrapper);
+
+  chat.scrollTop =
+    chat.scrollHeight;
+}
+
+/* =========================================================
+   SEND CHAT
+========================================================= */
+
+async function sendCurrent() {
+
+  const text =
+    input.value.trim();
+
+  if (!text || state.generating) {
+    return;
+  }
+
+  input.value = "";
+  autoResize();
+
+  await sendChat(text);
+}
+
+async function sendChat(text) {
+
+  state.generating = true;
+  sendBtn.disabled = true;
+
+  renderMessage(
+    "user",
+    text
+  );
+
+  state.messages.push({
+    role: "user",
+    content: text
+  });
+
+  const thinking =
     document.createElement("div");
 
-  avatar.className =
-    "avatar";
-
-  avatar.textContent =
-    role === "user"
-      ? "YOU"
-      : "D";
-
+  thinking.className =
+    "message assistant";
 
   const bubble =
     document.createElement("div");
@@ -2143,1669 +1262,888 @@ function renderMessage(
     "bubble";
 
   bubble.textContent =
-    text;
+    "DeveshAI is thinking…";
 
+  thinking.appendChild(bubble);
 
-  row.appendChild(avatar);
+  chat.appendChild(thinking);
 
-  row.appendChild(bubble);
+  chat.scrollTop =
+    chat.scrollHeight;
 
-  wrapper.appendChild(row);
+  try {
 
-
-  if(role === "assistant"){
-
-    const tools =
-      document.createElement("div");
-
-    tools.className =
-      "message-tools";
-
-    tools.innerHTML = `
-
-      <button
-        class="msg-action"
-        onclick="copyText(this)">
-        Copy
-      </button>
-
-      <button
-        class="msg-action"
-        onclick="regenerateLast()">
-        Regenerate
-      </button>
-
-      <button
-        class="msg-action"
-        onclick="speakText(this)">
-        Speak
-      </button>
-
-    `;
-
-    tools.dataset.text =
-      text;
-
-    wrapper.appendChild(
-      tools
-    );
-
-  }
-
-
-  messagesEl.appendChild(
-    wrapper
-  );
-
-
-  messagesEl.scrollTop =
-    messagesEl.scrollHeight;
-
-}
-
-
-function copyText(button){
-
-  const tools =
-    button.parentElement;
-
-  const text =
-    tools.dataset.text;
-
-  navigator.clipboard
-    .writeText(text)
-    .then(function(){
-
-      showStatus(
-        "Copied"
-      );
-
-    });
-
-}
-
-
-function speakText(button){
-
-  const text =
-    button.parentElement.dataset.text;
-
-  if(
-    !("speechSynthesis" in window)
-  ){
-
-    showStatus(
-      "Text-to-speech isn't supported."
-    );
-
-    return;
-
-  }
-
-
-  speechSynthesis.cancel();
-
-  const utterance =
-    new SpeechSynthesisUtterance(
-      text
-    );
-
-  utterance.lang =
-    /[\u0900-\u097F]/.test(text)
-      ? "hi-IN"
-      : "en-IN";
-
-  utterance.rate =
-    .95;
-
-  speechSynthesis.speak(
-    utterance
-  );
-
-}
-
-
-/* =========================================================
-   REGENERATE
-========================================================= */
-
-async function regenerateLast(){
-
-  if(state.generating){
-
-    return;
-
-  }
-
-
-  if(
-    state.messages.length < 2
-  ){
-
-    return;
-
-  }
-
-
-  const last =
-    state.messages[
-      state.messages.length - 1
+    const messages = [
+      {
+        role: "system",
+        content:
+          `Current mode: ${state.mode}.
+           ${modeInstructions[state.mode]}`
+      },
+      ...state.messages
     ];
-
-
-  if(
-    last.role !== "assistant"
-  ){
-
-    return;
-
-  }
-
-
-  state.messages.pop();
-
-  messagesEl.innerHTML = "";
-
-  state.messages.forEach(
-    function(message){
-
-      renderMessage(
-        message.role,
-        message.content
-      );
-
-    }
-  );
-
-
-  const lastUser =
-    state.messages[
-      state.messages.length - 1
-    ];
-
-
-  if(
-    !lastUser ||
-    lastUser.role !== "user"
-  ){
-
-    return;
-
-  }
-
-
-  prompt.value =
-    lastUser.content;
-
-  await sendMessage();
-
-}
-
-
-/* =========================================================
-   STOP GENERATION
-========================================================= */
-
-function stopGeneration(){
-
-  if(
-    state.abortController
-  ){
-
-    state.abortController.abort();
-
-  }
-
-}
-
-
-/* =========================================================
-   GENERATION UI
-========================================================= */
-
-function updateGeneratingUI(
-  active
-){
-
-  state.generating =
-    active;
-
-
-  sendBtn.style.display =
-    active
-      ? "none"
-      : "inline-grid";
-
-
-  stopBtn.style.display =
-    active
-      ? "inline-grid"
-      : "none";
-
-
-  sendBtn.disabled =
-    active;
-
-}
-
-
-/* =========================================================
-   SHOW CHAT
-========================================================= */
-
-function showChat(){
-
-  welcome.style.display =
-    "none";
-
-  messagesEl.style.display =
-    "block";
-
-}
-
-
-/* =========================================================
-   COMMAND CENTER
-========================================================= */
-
-function openCommandCenter(){
-
-  const overlay =
-    document.getElementById(
-      "commandOverlay"
-    );
-
-  overlay.style.display =
-    "flex";
-
-
-  const input =
-    document.getElementById(
-      "commandInput"
-    );
-
-  input.value = "";
-
-  setTimeout(
-    function(){
-      input.focus();
-    },
-    50
-  );
-
-}
-
-
-function closeCommandCenter(){
-
-  document.getElementById(
-    "commandOverlay"
-  ).style.display =
-    "none";
-
-}
-
-
-function closeCommandOutside(event){
-
-  if(
-    event.target.id ===
-    "commandOverlay"
-  ){
-
-    closeCommandCenter();
-
-  }
-
-}
-
-
-function commandAction(action){
-
-  closeCommandCenter();
-
-
-  if(action === "new"){
-
-    newChat();
-
-  }
-
-  else if(action === "voice"){
-
-    toggleVoice();
-
-  }
-
-  else if(action === "clear"){
-
-    state.messages = [];
-
-    messagesEl.innerHTML = "";
-
-    messagesEl.style.display =
-      "none";
-
-    welcome.style.display =
-      "flex";
-
-    saveHistory();
-
-    showStatus(
-      "Conversation cleared"
-    );
-
-  }
-
-  else if(action === "study"){
-
-    setMode("Study");
-
-  }
-
-  else if(action === "code"){
-
-    setMode("Code");
-
-  }
-
-  else if(action === "analyze"){
-
-    setMode("Analyze");
-
-  }
-
-}
-
-
-document.getElementById(
-  "commandInput"
-).addEventListener(
-  "input",
-  function(){
-
-    const query =
-      this.value
-        .toLowerCase()
-        .trim();
-
-    document
-      .querySelectorAll(
-        ".command-item"
-      )
-      .forEach(
-        function(item){
-
-          item.style.display =
-            item.textContent
-              .toLowerCase()
-              .includes(query)
-                ? "flex"
-                : "none";
-
-        }
-      );
-
-  }
-);
-
-
-/* =========================================================
-   CODE TEMPLATE
-========================================================= */
-
-function insertCodeTemplate(){
-
-  prompt.value +=
-`
-// Paste your code here
-
-`;
-
-  autoResize();
-
-  prompt.focus();
-
-}
-
-
-/* =========================================================
-   HISTORY
-========================================================= */
-
-function saveHistory(){
-
-  try{
-
-    localStorage.setItem(
-      "deveshai_history",
-      JSON.stringify({
-        mode:state.mode,
-        messages:
-          state.messages.slice(-50)
-      })
-    );
-
-  }catch(error){
-
-    console.warn(
-      "History save failed",
-      error
-    );
-
-  }
-
-}
-
-
-function loadHistory(){
-
-  try{
-
-    const raw =
-      localStorage.getItem(
-        "deveshai_history"
-      );
-
-
-    if(!raw){
-
-      return;
-
-    }
-
-
-    const data =
-      JSON.parse(raw);
-
-
-    if(
-      data &&
-      Array.isArray(
-        data.messages
-      ) &&
-      data.messages.length
-    ){
-
-      state.mode =
-        data.mode ||
-        "Ask";
-
-      state.messages =
-        data.messages;
-
-
-      setMode(
-        state.mode
-      );
-
-
-      state.messages.forEach(
-        function(message){
-
-          renderMessage(
-            message.role,
-            message.content
-          );
-
-        }
-      );
-
-    }
-
-  }catch(error){
-
-    console.warn(
-      "History load failed",
-      error
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   SIDEBAR
-========================================================= */
-
-function toggleSidebar(){
-
-  document
-    .getElementById("sidebar")
-    .classList.toggle("open");
-
-}
-
-
-function closeSidebar(){
-
-  document
-    .getElementById("sidebar")
-    .classList.remove("open");
-
-}
-
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHtml(value){
-
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
-
-
-/* =========================================================
-   ADVANCED REALTIME VOICE
-========================================================= */
-
-let voicePC = null;
-let voiceDC = null;
-let voiceStream = null;
-let voiceAudio = null;
-
-let voiceConnected = false;
-let voiceStarting = false;
-
-
-/* ---------------------------------------------------------
-   TOGGLE
---------------------------------------------------------- */
-
-async function toggleVoice(){
-
-  if(voiceStarting){
-
-    return;
-
-  }
-
-
-  if(voiceConnected){
-
-    stopAdvancedVoice();
-
-    return;
-
-  }
-
-
-  await startAdvancedVoice();
-
-}
-
-
-/* ---------------------------------------------------------
-   START
---------------------------------------------------------- */
-
-async function startAdvancedVoice(){
-
-  voiceStarting = true;
-
-  const button =
-    document.getElementById(
-      "voiceBtn"
-    );
-
-
-  try{
-
-    if(
-      !navigator.mediaDevices ||
-      !navigator.mediaDevices.getUserMedia
-    ){
-
-      throw new Error(
-        "Microphone access is not supported by this browser."
-      );
-
-    }
-
-
-    showVoicePanel(
-      "Requesting microphone..."
-    );
-
-
-    voiceStream =
-      await navigator.mediaDevices
-        .getUserMedia({
-          audio:{
-            echoCancellation:true,
-            noiseSuppression:true,
-            autoGainControl:true
-          }
-        });
-
 
     const response =
       await fetch(
-        "/api/realtime/session",
+        "/api/chat",
         {
-          method:"POST",
-          headers:{
+          method: "POST",
+
+          headers: {
             "Content-Type":
               "application/json"
-          }
-        }
-      );
-
-
-    const session =
-      await response.json();
-
-
-    if(!response.ok){
-
-      throw new Error(
-        session.error ||
-        "Could not create realtime session."
-      );
-
-    }
-
-
-    const clientSecret =
-      session.value ||
-      session.client_secret?.value;
-
-
-    if(!clientSecret){
-
-      throw new Error(
-        "Realtime session did not return a client secret."
-      );
-
-    }
-
-
-    voicePC =
-      new RTCPeerConnection();
-
-
-    voiceAudio =
-      document.createElement(
-        "audio"
-      );
-
-    voiceAudio.autoplay =
-      true;
-
-    voiceAudio.style.display =
-      "none";
-
-    document.body.appendChild(
-      voiceAudio
-    );
-
-
-    voicePC.ontrack =
-      function(event){
-
-        if(
-          event.streams &&
-          event.streams[0]
-        ){
-
-          voiceAudio.srcObject =
-            event.streams[0];
-
-        }
-
-      };
-
-
-    voiceStream
-      .getTracks()
-      .forEach(
-        function(track){
-
-          voicePC.addTrack(
-            track,
-            voiceStream
-          );
-
-        }
-      );
-
-
-    voiceDC =
-      voicePC.createDataChannel(
-        "oai-events"
-      );
-
-
-    voiceDC.onopen =
-      function(){
-
-        voiceConnected =
-          true;
-
-        voiceStarting =
-          false;
-
-
-        updateVoiceButton(
-          true,
-          "listening"
-        );
-
-
-        updateVoicePanel(
-          "Listening..."
-        );
-
-
-        sendVoiceEvent({
-
-          type:
-            "session.update",
-
-          session:{
-
-            type:
-              "realtime",
-
-            instructions:
-`You are DeveshAI Voice.
-
-Speak naturally and conversationally.
-
-If the user speaks Hinglish,
-respond in easy Hinglish.
-
-If the user speaks Hindi,
-respond in Hindi.
-
-Keep responses conversational and useful.
-Do not unnecessarily give long answers.`,
-
-            audio:{
-
-              input:{
-
-                turn_detection:{
-
-                  type:
-                    "server_vad",
-
-                  threshold:
-                    .5,
-
-                  prefix_padding_ms:
-                    300,
-
-                  silence_duration_ms:
-                    500
-
-                }
-
-              }
-
-            }
-
-          }
-
-        });
-
-
-        showStatus(
-          "DeveshAI Voice connected"
-        );
-
-      };
-
-
-    voiceDC.onmessage =
-      function(event){
-
-        try{
-
-          const data =
-            JSON.parse(
-              event.data
-            );
-
-          handleVoiceEvent(
-            data
-          );
-
-        }catch(error){
-
-          console.error(
-            "Voice event error",
-            error
-          );
-
-        }
-
-      };
-
-
-    voiceDC.onerror =
-      function(){
-
-        showStatus(
-          "Voice connection error."
-        );
-
-      };
-
-
-    const offer =
-      await voicePC.createOffer();
-
-
-    await voicePC.setLocalDescription(
-      offer
-    );
-
-
-    const answerResponse =
-      await fetch(
-        "https://api.openai.com/v1/realtime/calls",
-        {
-          method:"POST",
-
-          headers:{
-            "Authorization":
-              "Bearer " +
-              clientSecret,
-
-            "Content-Type":
-              "application/sdp"
           },
 
-          body:
-            offer.sdp
+          body: JSON.stringify({
+            messages
+          })
         }
       );
 
+    const data =
+      await response.json();
 
-    if(
-      !answerResponse.ok
-    ){
-
-      const error =
-        await answerResponse.text();
-
+    if (!response.ok) {
       throw new Error(
-        error ||
-        "Realtime connection failed."
+        data.error ||
+        "Chat request failed."
       );
-
     }
 
+    thinking.remove();
 
-    const answer =
-      await answerResponse.text();
+    const reply =
+      data.reply ||
+      "I couldn't generate a response.";
 
+    renderMessage(
+      "assistant",
+      reply
+    );
 
-    await voicePC.setRemoteDescription({
-
-      type:"answer",
-
-      sdp:answer
-
+    state.messages.push({
+      role: "assistant",
+      content: reply
     });
 
+  } catch (error) {
 
-  }catch(error){
+    thinking.remove();
 
-    console.error(
-      "Advanced voice error:",
-      error
+    renderMessage(
+      "assistant",
+      "Error: " + error.message
     );
 
+  } finally {
 
-    stopAdvancedVoice(
-      false
-    );
-
-
-    showStatus(
-      error.message ||
-      "Could not start voice mode."
-    );
+    state.generating = false;
+    sendBtn.disabled = false;
 
   }
-
 }
 
-
 /* =========================================================
-   VOICE EVENTS
+   QUICK PROMPT
 ========================================================= */
 
-function handleVoiceEvent(event){
+function quickPrompt(text) {
 
-  if(!event){
+  input.value = text;
 
+  autoResize();
+
+  sendCurrent();
+}
+
+/* =========================================================
+   IMAGE GENERATION
+========================================================= */
+
+function openImageMode() {
+
+  const prompt =
+    window.prompt(
+      "What image should DeveshAI generate?"
+    );
+
+  if (!prompt || !prompt.trim()) {
     return;
-
   }
 
-
-  if(
-    event.type ===
-    "input_audio_buffer.speech_started"
-  ){
-
-    updateVoiceButton(
-      true,
-      "user-speaking"
-    );
-
-    updateVoicePanel(
-      "Listening..."
-    );
-
-  }
-
-
-  if(
-    event.type ===
-    "input_audio_buffer.speech_stopped"
-  ){
-
-    updateVoiceButton(
-      true,
-      "thinking"
-    );
-
-    updateVoicePanel(
-      "Thinking..."
-    );
-
-  }
-
-
-  if(
-    event.type ===
-    "response.created"
-  ){
-
-    updateVoicePanel(
-      "Thinking..."
-    );
-
-  }
-
-
-  if(
-    event.type ===
-    "response.audio.delta"
-  ){
-
-    updateVoiceButton(
-      true,
-      "speaking"
-    );
-
-    updateVoicePanel(
-      "DeveshAI is speaking..."
-    );
-
-  }
-
-
-  if(
-    event.type ===
-    "response.audio.done"
-  ){
-
-    updateVoiceButton(
-      true,
-      "listening"
-    );
-
-    updateVoicePanel(
-      "Listening..."
-    );
-
-  }
-
-
-  if(
-    event.type ===
-    "response.done"
-  ){
-
-    updateVoiceButton(
-      true,
-      "listening"
-    );
-
-    updateVoicePanel(
-      "Listening..."
-    );
-
-  }
-
-
-  if(
-    event.type ===
-    "conversation.item.input_audio_transcription.completed"
-  ){
-
-    const transcript =
-      event.transcript;
-
-    if(transcript){
-
-      addVoiceTranscript(
-        "You",
-        transcript
-      );
-
-    }
-
-  }
-
-
-  if(
-    event.type ===
-    "response.audio_transcript.done"
-  ){
-
-    const transcript =
-      event.transcript;
-
-    if(transcript){
-
-      addVoiceTranscript(
-        "DeveshAI",
-        transcript
-      );
-
-    }
-
-  }
-
-
-  if(
-    event.type ===
-    "error"
-  ){
-
-    console.error(
-      "Realtime error:",
-      event
-    );
-
-
-    showStatus(
-      event.error?.message ||
-      "Realtime voice error."
-    );
-
-  }
-
+  generateImage(
+    prompt.trim()
+  );
 }
 
+async function generateImage(prompt) {
 
-/* =========================================================
-   SEND VOICE EVENT
-========================================================= */
+  state.generating = true;
 
-function sendVoiceEvent(event){
+  sendBtn.disabled = true;
 
-  if(
-    voiceDC &&
-    voiceDC.readyState ===
-      "open"
-  ){
-
-    voiceDC.send(
-      JSON.stringify(event)
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   VOICE TRANSCRIPT
-========================================================= */
-
-function addVoiceTranscript(
-  speaker,
-  text
-){
-
-  if(!text){
-
-    return;
-
-  }
-
-
-  state.messages.push({
-
-    role:
-      speaker === "You"
-        ? "user"
-        : "assistant",
-
-    content:text
-
-  });
-
-
-  saveHistory();
-
-}
-
-
-/* =========================================================
-   VOICE UI
-========================================================= */
-
-function showVoicePanel(
-  stateText
-){
-
-  const panel =
-    document.getElementById(
-      "voicePanel"
-    );
-
-  panel.classList.add(
-    "show"
+  showGenerationCard(
+    "image",
+    prompt,
+    "Generating image..."
   );
 
-  updateVoicePanel(
-    stateText
-  );
-
-}
-
-
-function updateVoicePanel(
-  text
-){
-
-  const el =
-    document.getElementById(
-      "voiceState"
-    );
-
-  if(el){
-
-    el.textContent =
-      text;
-
-  }
-
-}
-
-
-function updateVoiceButton(
-  active,
-  state
-){
-
-  const button =
-    document.getElementById(
-      "voiceBtn"
-    );
-
-
-  if(!button){
-
-    return;
-
-  }
-
-
-  if(!active){
-
-    button.classList.remove(
-      "active"
-    );
-
-    button.style.color = "";
-
-    button.style.borderColor = "";
-
-    const span =
-      button.querySelector(
-        "span"
-      );
-
-    if(span){
-
-      span.textContent =
-        "Voice";
-
-    }
-
-    return;
-
-  }
-
-
-  button.classList.add(
-    "active"
-  );
-
-  button.style.color =
-    "#fff";
-
-  button.style.borderColor =
-    "#fff";
-
-
-  const span =
-    button.querySelector(
-      "span"
-    );
-
-
-  if(span){
-
-    if(state === "speaking"){
-
-      span.textContent =
-        "Speaking";
-
-    }
-
-    else if(state === "thinking"){
-
-      span.textContent =
-        "Thinking";
-
-    }
-
-    else{
-
-      span.textContent =
-        "Listening";
-
-    }
-
-  }
-
-}
-
-
-/* =========================================================
-   STOP VOICE
-========================================================= */
-
-function stopAdvancedVoice(
-  closePanel = true
-){
-
-  voiceConnected =
-    false;
-
-  voiceStarting =
-    false;
-
-
-  if(voiceDC){
-
-    try{
-
-      voiceDC.close();
-
-    }catch(_){}
-
-  }
-
-
-  if(voicePC){
-
-    try{
-
-      voicePC.close();
-
-    }catch(_){}
-
-  }
-
-
-  if(voiceStream){
-
-    voiceStream
-      .getTracks()
-      .forEach(
-        function(track){
-
-          track.stop();
-
+  try {
+
+    const response =
+      await fetch(
+        "/api/image",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+            prompt,
+            size: "1024x1024",
+            quality: "auto",
+            background: "auto"
+          })
         }
       );
 
-  }
+    const data =
+      await response.json();
 
-
-  if(voiceAudio){
-
-    try{
-
-      voiceAudio.pause();
-
-      voiceAudio.srcObject =
-        null;
-
-      voiceAudio.remove();
-
-    }catch(_){}
-
-  }
-
-
-  voiceDC = null;
-
-  voicePC = null;
-
-  voiceStream = null;
-
-  voiceAudio = null;
-
-
-  updateVoiceButton(
-    false
-  );
-
-
-  if(closePanel){
-
-    document
-      .getElementById(
-        "voicePanel"
-      )
-      .classList.remove(
-        "show"
+    if (!response.ok) {
+      throw new Error(
+        data.error ||
+        "Image generation failed."
       );
+    }
+
+    updateImageCard(
+      data.image,
+      prompt
+    );
+
+  } catch (error) {
+
+    updateGenerationError(
+      "image",
+      error.message
+    );
+
+  } finally {
+
+    state.generating = false;
+    sendBtn.disabled = false;
 
   }
-
-
-  showStatus(
-    "Voice mode stopped."
-  );
-
 }
 
-
 /* =========================================================
-   KEYBOARD SHORTCUTS
+   VIDEO GENERATION
 ========================================================= */
 
-document.addEventListener(
-  "keydown",
-  function(event){
+function openVideoMode() {
 
-    if(
-      event.key === "Escape"
-    ){
+  const prompt =
+    window.prompt(
+      "What video should DeveshAI generate?"
+    );
 
-      closeCommandCenter();
+  if (!prompt || !prompt.trim()) {
+    return;
+  }
 
-      if(voiceConnected){
+  generateVideo(
+    prompt.trim()
+  );
+}
 
-        stopAdvancedVoice();
+async function generateVideo(prompt) {
 
-      }
+  state.generating = true;
+
+  sendBtn.disabled = true;
+
+  const card =
+    showGenerationCard(
+      "video",
+      prompt,
+      "Starting video generation..."
+    );
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/video",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+            prompt,
+            model: "sora-2",
+            seconds: "4",
+            size: "1280x720"
+          })
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.error ||
+        "Video generation failed."
+      );
+    }
+
+    const videoId =
+      data.video.id;
+
+    updateVideoProgress(
+      card,
+      5,
+      "Video job created..."
+    );
+
+    await pollVideo(
+      card,
+      videoId
+    );
+
+  } catch (error) {
+
+    updateCardError(
+      card,
+      error.message
+    );
+
+  } finally {
+
+    state.generating = false;
+    sendBtn.disabled = false;
+
+  }
+}
+
+async function pollVideo(
+  card,
+  videoId
+) {
+
+  let attempts = 0;
+
+  while (attempts < 120) {
+
+    attempts++;
+
+    await sleep(5000);
+
+    const response =
+      await fetch(
+        `/api/video/${encodeURIComponent(videoId)}`
+      );
+
+    const data =
+      await response.json();
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error ||
+        "Could not check video status."
+      );
 
     }
 
+    const video =
+      data.video;
 
-    if(
-      (event.ctrlKey ||
-       event.metaKey) &&
-      event.key === "k"
-    ){
+    const progress =
+      Number(video.progress || 0);
+
+    updateVideoProgress(
+      card,
+      progress,
+      getVideoStatusText(
+        video.status,
+        progress
+      )
+    );
+
+    if (
+      video.status ===
+      "completed"
+    ) {
+
+      showCompletedVideo(
+        card,
+        videoId
+      );
+
+      return;
+    }
+
+    if (
+      video.status ===
+      "failed"
+    ) {
+
+      throw new Error(
+        video.error?.message ||
+        "Video generation failed."
+      );
+
+    }
+
+    if (
+      video.status ===
+      "canceled"
+    ) {
+
+      throw new Error(
+        "Video generation was canceled."
+      );
+
+    }
+  }
+
+  throw new Error(
+    "Video generation is taking too long. Please check again later."
+  );
+}
+
+function getVideoStatusText(
+  status,
+  progress
+) {
+
+  if (status === "queued") {
+    return "Waiting for generation...";
+  }
+
+  if (status === "in_progress") {
+    return `Generating video... ${progress}%`;
+  }
+
+  if (status === "completed") {
+    return "Video ready.";
+  }
+
+  return "Processing...";
+}
+
+/* =========================================================
+   GENERATION CARDS
+========================================================= */
+
+function showGenerationCard(
+  type,
+  prompt,
+  status
+) {
+
+  const card =
+    document.createElement("div");
+
+  card.className =
+    "generation-card";
+
+  card.dataset.type =
+    type;
+
+  const header =
+    document.createElement("div");
+
+  header.className =
+    "generation-header";
+
+  const title =
+    document.createElement("div");
+
+  title.className =
+    "generation-title";
+
+  title.textContent =
+    type === "image"
+      ? "Image Generation"
+      : "Video Generation";
+
+  const statusEl =
+    document.createElement("div");
+
+  statusEl.className =
+    "generation-status";
+
+  statusEl.textContent =
+    status;
+
+  header.appendChild(title);
+  header.appendChild(statusEl);
+
+  card.appendChild(header);
+
+  const promptEl =
+    document.createElement("div");
+
+  promptEl.style.color = "#777";
+  promptEl.style.fontSize = "12px";
+  promptEl.style.marginBottom = "14px";
+  promptEl.textContent =
+    prompt;
+
+  card.appendChild(promptEl);
+
+  if (type === "video") {
+
+    const progressWrap =
+      document.createElement("div");
+
+    progressWrap.className =
+      "progress-wrap";
+
+    progressWrap.innerHTML = `
+      <div class="progress-track">
+        <div class="progress-bar"></div>
+      </div>
+      <div class="progress-text">
+        0%
+      </div>
+    `;
+
+    card.appendChild(
+      progressWrap
+    );
+
+  } else {
+
+    const loading =
+      document.createElement("div");
+
+    loading.style.height = "300px";
+    loading.style.borderRadius = "12px";
+    loading.style.background =
+      "linear-gradient(110deg,#090909,#181818,#090909)";
+    loading.style.backgroundSize =
+      "300% 100%";
+    loading.style.animation =
+      "loading 1.8s infinite";
+
+    card.appendChild(
+      loading
+    );
+
+  }
+
+  chat.appendChild(card);
+
+  chat.scrollTop =
+    chat.scrollHeight;
+
+  return card;
+}
+
+/* Add loading animation dynamically */
+
+const style =
+  document.createElement("style");
+
+style.textContent = `
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+`;
+
+document.head.appendChild(style);
+
+/* =========================================================
+   IMAGE CARD UPDATE
+========================================================= */
+
+function updateImageCard(
+  image,
+  prompt
+) {
+
+  const cards =
+    document.querySelectorAll(
+      '.generation-card[data-type="image"]'
+    );
+
+  const card =
+    cards[cards.length - 1];
+
+  if (!card) return;
+
+  card.innerHTML = "";
+
+  const header =
+    document.createElement("div");
+
+  header.className =
+    "generation-header";
+
+  header.innerHTML = `
+    <div class="generation-title">
+      Generated Image
+    </div>
+    <div class="generation-status">
+      Complete
+    </div>
+  `;
+
+  card.appendChild(header);
+
+  const img =
+    document.createElement("img");
+
+  img.className =
+    "generated-image";
+
+  img.src = image;
+  img.alt = prompt;
+
+  card.appendChild(img);
+
+  const download =
+    document.createElement("a");
+
+  download.className =
+    "download-btn";
+
+  download.textContent =
+    "Download image";
+
+  download.href =
+    image;
+
+  download.download =
+    "deveshai-image.png";
+
+  card.appendChild(download);
+
+  chat.scrollTop =
+    chat.scrollHeight;
+}
+
+/* =========================================================
+   VIDEO PROGRESS
+========================================================= */
+
+function updateVideoProgress(
+  card,
+  progress,
+  text
+) {
+
+  const bar =
+    card.querySelector(
+      ".progress-bar"
+    );
+
+  const progressText =
+    card.querySelector(
+      ".progress-text"
+    );
+
+  const status =
+    card.querySelector(
+      ".generation-status"
+    );
+
+  if (bar) {
+    bar.style.width =
+      Math.max(
+        0,
+        Math.min(100, progress)
+      ) + "%";
+  }
+
+  if (progressText) {
+    progressText.textContent =
+      Math.round(progress) + "%";
+  }
+
+  if (status) {
+    status.textContent =
+      text;
+  }
+}
+
+/* =========================================================
+   COMPLETED VIDEO
+========================================================= */
+
+function showCompletedVideo(
+  card,
+  videoId
+) {
+
+  card.innerHTML = "";
+
+  const header =
+    document.createElement("div");
+
+  header.className =
+    "generation-header";
+
+  header.innerHTML = `
+    <div class="generation-title">
+      Generated Video
+    </div>
+
+    <div class="generation-status">
+      Complete
+    </div>
+  `;
+
+  card.appendChild(header);
+
+  const video =
+    document.createElement("video");
+
+  video.className =
+    "generated-video";
+
+  video.controls = true;
+  video.playsInline = true;
+
+  video.src =
+    `/api/video/${encodeURIComponent(videoId)}/content`;
+
+  card.appendChild(video);
+
+  const download =
+    document.createElement("a");
+
+  download.className =
+    "download-btn";
+
+  download.textContent =
+    "Download video";
+
+  download.href =
+    video.src;
+
+  download.download =
+    `deveshai-${videoId}.mp4`;
+
+  card.appendChild(download);
+
+  chat.scrollTop =
+    chat.scrollHeight;
+}
+
+/* =========================================================
+   ERRORS
+========================================================= */
+
+function updateGenerationError(
+  type,
+  message
+) {
+
+  const cards =
+    document.querySelectorAll(
+      ".generation-card"
+    );
+
+  const card =
+    cards[cards.length - 1];
+
+  if (!card) return;
+
+  updateCardError(
+    card,
+    message
+  );
+}
+
+function updateCardError(
+  card,
+  message
+) {
+
+  const status =
+    card.querySelector(
+      ".generation-status"
+    );
+
+  if (status) {
+    status.textContent =
+      "Generation failed";
+  }
+
+  const error =
+    document.createElement("div");
+
+  error.style.marginTop =
+    "15px";
+
+  error.style.padding =
+    "12px";
+
+  error.style.border =
+    "1px solid #333";
+
+  error.style.borderRadius =
+    "10px";
+
+  error.style.color =
+    "#aaa";
+
+  error.textContent =
+    message;
+
+  card.appendChild(error);
+}
+
+/* =========================================================
+   CHAT CONTROLS
+========================================================= */
+
+function clearChat() {
+
+  state.messages = [];
+
+  chat.innerHTML = "";
+
+  chat.appendChild(
+    createWelcome()
+  );
+}
+
+function createWelcome() {
+
+  const el =
+    document.createElement("div");
+
+  el.className =
+    "welcome";
+
+  el.innerHTML = `
+    <h1>
+      Devesh<span>AI</span>
+    </h1>
+
+    <p>
+      One workspace for conversation,
+      creation, image generation and video generation.
+    </p>
+
+    <div class="quick-grid">
+
+      <button
+        class="quick"
+        onclick="quickPrompt('Explain quantum computing in very simple Hinglish.')">
+        <strong>Ask anything</strong>
+        Get a clear AI answer.
+      </button>
+
+      <button
+        class="quick"
+        onclick="openImageMode()">
+        <strong>Generate image</strong>
+        Create an image from your idea.
+      </button>
+
+      <button
+        class="quick"
+        onclick="openVideoMode()">
+        <strong>Generate video</strong>
+        Create a short AI video.
+      </button>
+
+    </div>
+  `;
+
+  return el;
+}
+
+function newChat() {
+
+  state.messages = [];
+
+  chat.innerHTML = "";
+
+  chat.appendChild(
+    createWelcome()
+  );
+
+  input.focus();
+}
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+input.addEventListener(
+  "input",
+  autoResize
+);
+
+function autoResize() {
+
+  input.style.height =
+    "auto";
+
+  input.style.height =
+    Math.min(
+      input.scrollHeight,
+      180
+    ) + "px";
+}
+
+input.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key === "Enter" &&
+      !event.shiftKey
+    ) {
 
       event.preventDefault();
 
-      openCommandCenter();
-
+      sendCurrent();
     }
 
   }
 );
 
-
 /* =========================================================
-   BACKGROUND ANIMATION
+   HELPERS
 ========================================================= */
 
-const canvas =
-  document.getElementById(
-    "background"
+function sleep(ms) {
+
+  return new Promise(
+    resolve =>
+      setTimeout(
+        resolve,
+        ms
+      )
   );
-
-const ctx =
-  canvas.getContext("2d");
-
-let W = 0;
-let H = 0;
-
-let pointer = {
-  x:-9999,
-  y:-9999
-};
-
-
-function resizeCanvas(){
-
-  W =
-    canvas.width =
-      window.innerWidth *
-      devicePixelRatio;
-
-  H =
-    canvas.height =
-      window.innerHeight *
-      devicePixelRatio;
-
-  canvas.style.width =
-    window.innerWidth + "px";
-
-  canvas.style.height =
-    window.innerHeight + "px";
-
-  ctx.setTransform(
-    devicePixelRatio,
-    0,
-    0,
-    devicePixelRatio,
-    0,
-    0
-  );
-
 }
-
-
-window.addEventListener(
-  "resize",
-  resizeCanvas
-);
-
-
-window.addEventListener(
-  "pointermove",
-  function(event){
-
-    pointer.x =
-      event.clientX;
-
-    pointer.y =
-      event.clientY;
-
-  }
-);
-
-
-window.addEventListener(
-  "pointerleave",
-  function(){
-
-    pointer.x =
-      -9999;
-
-    pointer.y =
-      -9999;
-
-  }
-);
-
-
-function drawBackground(
-  time
-){
-
-  const width =
-    window.innerWidth;
-
-  const height =
-    window.innerHeight;
-
-
-  ctx.clearRect(
-    0,
-    0,
-    width,
-    height
-  );
-
-
-  const mobile =
-    width < 700;
-
-
-  const waves =
-    mobile
-      ? 18
-      : 32;
-
-
-  for(
-    let i = 0;
-    i < waves;
-    i++
-  ){
-
-    const baseY =
-      height *
-      (0.08 +
-       i /
-       waves *
-       0.92);
-
-
-    ctx.beginPath();
-
-
-    for(
-      let x = -30;
-      x <= width + 30;
-      x += 14
-    ){
-
-      const wave =
-        Math.sin(
-          x * .008 +
-          time * .00035 +
-          i * .32
-        ) *
-        (10 + i * .18);
-
-
-      const pointerDistance =
-        Math.hypot(
-          x - pointer.x,
-          baseY - pointer.y
-        );
-
-
-      const influence =
-        Math.max(
-          0,
-          1 -
-          pointerDistance /
-          280
-        );
-
-
-      const y =
-        baseY +
-        wave +
-        influence *
-        Math.sin(
-          x * .025
-        ) *
-        24;
-
-
-      if(x === -30){
-
-        ctx.moveTo(
-          x,
-          y
-        );
-
-      }else{
-
-        ctx.lineTo(
-          x,
-          y
-        );
-
-      }
-
-    }
-
-
-    ctx.strokeStyle =
-      `rgba(255,255,255,${0.018 + i * .0005})`;
-
-    ctx.lineWidth =
-      i % 7 === 0
-        ? 1.2
-        : .6;
-
-    ctx.stroke();
-
-  }
-
-
-  requestAnimationFrame(
-    drawBackground
-  );
-
-}
-
-
-resizeCanvas();
-
-requestAnimationFrame(
-  drawBackground
-);
-
 
 /* =========================================================
-   INIT
+   INITIAL
 ========================================================= */
 
-loadHistory();
-
-autoResize();
+setMode("Ask");
 
 </script>
 
