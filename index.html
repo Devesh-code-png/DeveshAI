@@ -3,696 +3,740 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>DeveshAI</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
-:root {
-  --bg: #050505;
-  --panel: #0b0b0b;
-  --panel2: #111111;
-  --border: #242424;
-  --text: #f5f5f5;
-  --muted: #8c8c8c;
-  --soft: #151515;
-  --white: #ffffff;
+:root{
+  --bg:#050505;
+  --panel:#0b0b0b;
+  --panel2:#101010;
+  --border:#242424;
+  --text:#f5f5f5;
+  --muted:#8b8b8b;
+  --hover:#171717;
+  --accent:#ffffff;
 }
 
-html,
-body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: var(--bg);
-  color: var(--text);
-  font-family:
-    Inter,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  height:100vh;
+  overflow:hidden;
 }
 
-body {
-  position: relative;
+/* ================= BACKGROUND ================= */
+
+#bgCanvas{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:-2;
+  opacity:.35;
 }
 
-/* =========================================================
-   ANIMATED BACKGROUND
-========================================================= */
-
-#bgCanvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  opacity: .55;
+.noise{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-.noise {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: .035;
-  background-image:
-    repeating-radial-gradient(
-      circle at 0 0,
-      #fff 0,
-      #fff 1px,
-      transparent 1px,
-      transparent 4px
-    );
-  mix-blend-mode: overlay;
+/* ================= APP ================= */
+
+.app{
+  display:flex;
+  height:100vh;
 }
 
-/* =========================================================
-   APP
-========================================================= */
+/* ================= SIDEBAR ================= */
 
-.app {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: 250px 1fr;
-  width: 100%;
-  height: 100vh;
+.sidebar{
+  width:285px;
+  border-right:1px solid var(--border);
+  background:rgba(7,7,7,.92);
+  display:flex;
+  flex-direction:column;
+  transition:.3s ease;
 }
 
-/* =========================================================
-   SIDEBAR
-========================================================= */
-
-.sidebar {
-  border-right: 1px solid var(--border);
-  background: rgba(5,5,5,.82);
-  backdrop-filter: blur(25px);
-  display: flex;
-  flex-direction: column;
-  padding: 18px;
-  animation: sidebarIn .6s ease;
+.brand{
+  height:72px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 20px;
+  border-bottom:1px solid var(--border);
 }
 
-@keyframes sidebarIn {
-  from {
-    opacity: 0;
-    transform: translateX(-25px);
+.logo{
+  width:36px;
+  height:36px;
+  border:1px solid #555;
+  display:grid;
+  place-items:center;
+  font-weight:800;
+  border-radius:10px;
+  animation:pulseLogo 3s infinite;
+}
+
+@keyframes pulseLogo{
+  0%,100%{box-shadow:0 0 0 rgba(255,255,255,0)}
+  50%{box-shadow:0 0 25px rgba(255,255,255,.12)}
+}
+
+.brandText{
+  font-weight:800;
+  letter-spacing:.5px;
+}
+
+.brandSub{
+  font-size:10px;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+.newChat{
+  margin:15px;
+  padding:12px;
+  border:1px solid var(--border);
+  background:#111;
+  color:white;
+  border-radius:10px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.newChat:hover{
+  background:#1c1c1c;
+  transform:translateY(-1px);
+}
+
+.sidebarSection{
+  padding:5px 15px;
+  color:#777;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.searchBox{
+  margin:8px 15px;
+  position:relative;
+}
+
+.searchBox input{
+  width:100%;
+  padding:10px 12px;
+  background:#101010;
+  border:1px solid var(--border);
+  border-radius:9px;
+  color:white;
+  outline:none;
+}
+
+.history{
+  flex:1;
+  overflow:auto;
+  padding:5px 10px;
+}
+
+.chatItem{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px;
+  margin:3px 0;
+  border-radius:9px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.chatItem:hover{
+  background:var(--hover);
+}
+
+.chatItem.active{
+  background:#171717;
+}
+
+.chatTitle{
+  flex:1;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  font-size:13px;
+}
+
+.pin{
+  font-size:11px;
+  opacity:.6;
+}
+
+.chatMenu{
+  border:0;
+  background:none;
+  color:#777;
+  cursor:pointer;
+}
+
+.emptyHistory{
+  text-align:center;
+  color:#666;
+  font-size:12px;
+  padding:30px 10px;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
+
+.topbar{
+  height:72px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  background:rgba(5,5,5,.8);
+  backdrop-filter:blur(15px);
+}
+
+.topLeft{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.menuBtn{
+  display:none;
+  background:none;
+  color:white;
+  border:0;
+  font-size:22px;
+  cursor:pointer;
+}
+
+.modeSelect{
+  display:flex;
+  gap:5px;
+}
+
+.modeBtn{
+  border:1px solid var(--border);
+  background:#0d0d0d;
+  color:#aaa;
+  padding:7px 12px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:12px;
+  transition:.2s;
+}
+
+.modeBtn:hover,
+.modeBtn.active{
+  color:white;
+  background:#1b1b1b;
+  border-color:#444;
+}
+
+.topActions{
+  display:flex;
+  gap:7px;
+}
+
+.iconBtn{
+  width:36px;
+  height:36px;
+  background:#0d0d0d;
+  border:1px solid var(--border);
+  border-radius:9px;
+  color:#bbb;
+  cursor:pointer;
+}
+
+.iconBtn:hover{
+  color:white;
+  background:#1b1b1b;
+}
+
+/* ================= CHAT ================= */
+
+.chatArea{
+  flex:1;
+  overflow:auto;
+  padding:35px 20px 150px;
+  scroll-behavior:smooth;
+}
+
+.chatContainer{
+  width:min(900px,100%);
+  margin:auto;
+}
+
+.welcome{
+  min-height:55vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+  animation:fadeUp .7s ease;
+}
+
+.welcome h1{
+  font-size:clamp(35px,6vw,70px);
+  letter-spacing:-3px;
+  font-weight:800;
+  animation:titleFloat 5s ease-in-out infinite;
+}
+
+@keyframes titleFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-5px)}
+}
+
+.welcome p{
+  margin-top:12px;
+  color:#777;
+}
+
+.quickGrid{
+  margin-top:30px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  width:min(600px,100%);
+}
+
+.quickCard{
+  padding:16px;
+  text-align:left;
+  border:1px solid var(--border);
+  background:rgba(14,14,14,.7);
+  border-radius:12px;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.quickCard:hover{
+  transform:translateY(-3px);
+  border-color:#555;
+  background:#171717;
+}
+
+.quickCard strong{
+  font-size:13px;
+}
+
+.quickCard span{
+  display:block;
+  color:#777;
+  font-size:11px;
+  margin-top:5px;
+}
+
+/* ================= MESSAGE ================= */
+
+.message{
+  display:flex;
+  gap:14px;
+  margin:0 auto 28px;
+  animation:fadeUp .35s ease;
+}
+
+.message.user{
+  flex-direction:row-reverse;
+}
+
+.avatar{
+  flex:none;
+  width:34px;
+  height:34px;
+  border:1px solid #333;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.messageBody{
+  max-width:78%;
+}
+
+.message.user .messageBody{
+  text-align:right;
+}
+
+.messageText{
+  display:inline-block;
+  padding:13px 15px;
+  border:1px solid var(--border);
+  background:#0e0e0e;
+  border-radius:13px;
+  line-height:1.6;
+  font-size:14px;
+  text-align:left;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+.message.user .messageText{
+  background:#181818;
+}
+
+.messageActions{
+  display:flex;
+  gap:5px;
+  margin-top:7px;
+}
+
+.message.user .messageActions{
+  justify-content:flex-end;
+}
+
+.smallBtn{
+  border:0;
+  background:transparent;
+  color:#666;
+  cursor:pointer;
+  font-size:11px;
+  padding:3px 5px;
+}
+
+.smallBtn:hover{
+  color:white;
+}
+
+/* ================= COMPOSER ================= */
+
+.composerWrap{
+  position:absolute;
+  bottom:0;
+  left:285px;
+  right:0;
+  padding:18px 20px 22px;
+  background:linear-gradient(transparent,#050505 35%);
+}
+
+.composer{
+  width:min(900px,100%);
+  margin:auto;
+  border:1px solid #303030;
+  background:#0d0d0d;
+  border-radius:16px;
+  box-shadow:0 15px 60px rgba(0,0,0,.45);
+  overflow:hidden;
+  transition:.25s;
+}
+
+.composer:focus-within{
+  border-color:#555;
+  box-shadow:0 0 0 1px #222,0 15px 60px rgba(0,0,0,.5);
+}
+
+.attachments{
+  display:flex;
+  gap:7px;
+  padding:8px 10px 0;
+  flex-wrap:wrap;
+}
+
+.attachment{
+  font-size:11px;
+  border:1px solid #333;
+  padding:5px 8px;
+  border-radius:7px;
+  color:#aaa;
+}
+
+textarea{
+  width:100%;
+  min-height:55px;
+  max-height:180px;
+  resize:none;
+  background:transparent;
+  border:0;
+  outline:none;
+  color:white;
+  padding:15px;
+  font:inherit;
+}
+
+.composerBottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px;
+}
+
+.composerLeft,
+.composerRight{
+  display:flex;
+  gap:6px;
+}
+
+.toolBtn{
+  border:1px solid transparent;
+  background:transparent;
+  color:#777;
+  padding:8px 10px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.toolBtn:hover{
+  color:white;
+  background:#181818;
+}
+
+.sendBtn{
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  border:0;
+  background:white;
+  color:black;
+  cursor:pointer;
+  font-weight:bold;
+  transition:.2s;
+}
+
+.sendBtn:hover{
+  transform:scale(1.05);
+}
+
+.sendBtn.stop{
+  background:#444;
+  color:white;
+}
+
+/* ================= PANELS ================= */
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.65);
+  backdrop-filter:blur(5px);
+  display:none;
+  z-index:50;
+}
+
+.overlay.show{
+  display:block;
+}
+
+.panel{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(.96);
+  width:min(620px,92vw);
+  max-height:85vh;
+  overflow:auto;
+  background:#0c0c0c;
+  border:1px solid #333;
+  border-radius:16px;
+  padding:22px;
+  z-index:60;
+  display:none;
+}
+
+.panel.show{
+  display:block;
+  animation:panelIn .2s ease forwards;
+}
+
+@keyframes panelIn{
+  to{transform:translate(-50%,-50%) scale(1)}
+}
+
+.panelHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.closeBtn{
+  border:0;
+  background:none;
+  color:#777;
+  font-size:20px;
+  cursor:pointer;
+}
+
+.panelTitle{
+  font-size:20px;
+  font-weight:800;
+}
+
+.panelText{
+  color:#888;
+  font-size:13px;
+  margin-bottom:18px;
+}
+
+.panelInput{
+  width:100%;
+  padding:12px;
+  border:1px solid #333;
+  background:#111;
+  color:white;
+  border-radius:9px;
+  outline:none;
+}
+
+.panelBtn{
+  margin-top:12px;
+  padding:11px 14px;
+  border-radius:9px;
+  border:1px solid #333;
+  background:#171717;
+  color:white;
+  cursor:pointer;
+}
+
+.panelBtn:hover{
+  background:#222;
+}
+
+/* ================= VIDEO ================= */
+
+.progressBox{
+  margin-top:20px;
+  border:1px solid #292929;
+  padding:15px;
+  border-radius:12px;
+}
+
+.progressBar{
+  height:7px;
+  background:#222;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:12px;
+}
+
+.progressFill{
+  height:100%;
+  width:0%;
+  background:white;
+  transition:.4s;
+}
+
+.statusText{
+  color:#888;
+  font-size:12px;
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+  position:fixed;
+  bottom:25px;
+  right:25px;
+  background:#f5f5f5;
+  color:#000;
+  padding:12px 16px;
+  border-radius:10px;
+  font-size:13px;
+  transform:translateY(100px);
+  opacity:0;
+  transition:.3s;
+  z-index:100;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+/* ================= ANIMATION ================= */
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(12px);
   }
-  to {
-    opacity: 1;
-    transform: translateX(0);
+  to{
+    opacity:1;
+    transform:translateY(0);
   }
 }
 
-.logo {
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -1px;
-  margin-bottom: 25px;
-}
+/* ================= MOBILE ================= */
 
-.logo span {
-  color: #777;
-}
+@media(max-width:800px){
 
-.section-title {
-  color: #666;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin: 18px 8px 8px;
-}
-
-.mode {
-  width: 100%;
-  border: 1px solid transparent;
-  background: transparent;
-  color: #aaa;
-  padding: 11px 12px;
-  border-radius: 11px;
-  text-align: left;
-  cursor: pointer;
-  transition: .25s;
-  margin-bottom: 4px;
-}
-
-.mode:hover {
-  color: white;
-  background: #101010;
-  border-color: #222;
-  transform: translateX(3px);
-}
-
-.mode.active {
-  color: white;
-  background: #151515;
-  border-color: #303030;
-}
-
-.sidebar-bottom {
-  margin-top: auto;
-}
-
-.status {
-  border: 1px solid #202020;
-  background: #0c0c0c;
-  padding: 12px;
-  border-radius: 12px;
-  font-size: 11px;
-  color: #777;
-}
-
-.status-dot {
-  width: 7px;
-  height: 7px;
-  display: inline-block;
-  border-radius: 50%;
-  background: #fff;
-  margin-right: 7px;
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0%,100% {
-    opacity: .35;
-    transform: scale(.8);
+  .sidebar{
+    position:fixed;
+    left:-290px;
+    top:0;
+    bottom:0;
+    z-index:80;
   }
-  50% {
-    opacity: 1;
-    transform: scale(1);
+
+  .sidebar.open{
+    left:0;
+  }
+
+  .menuBtn{
+    display:block;
+  }
+
+  .composerWrap{
+    left:0;
+  }
+
+  .modeSelect{
+    display:none;
+  }
+
+  .messageBody{
+    max-width:85%;
+  }
+
+  .quickGrid{
+    grid-template-columns:1fr;
   }
 }
 
-/* =========================================================
-   MAIN
-========================================================= */
+@media(max-width:500px){
 
-.main {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
-/* =========================================================
-   TOP BAR
-========================================================= */
-
-.topbar {
-  height: 62px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  background: rgba(5,5,5,.7);
-  backdrop-filter: blur(20px);
-}
-
-.top-title {
-  font-weight: 700;
-  font-size: 15px;
-}
-
-.top-subtitle {
-  color: #666;
-  font-size: 11px;
-  margin-top: 2px;
-}
-
-.top-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.icon-btn {
-  width: 36px;
-  height: 36px;
-  border: 1px solid #222;
-  background: #0d0d0d;
-  color: #aaa;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: .25s;
-}
-
-.icon-btn:hover {
-  color: white;
-  border-color: #444;
-  transform: translateY(-2px);
-}
-
-/* =========================================================
-   CONTENT
-========================================================= */
-
-.content {
-  flex: 1;
-  min-height: 0;
-  position: relative;
-}
-
-.chat {
-  height: 100%;
-  overflow-y: auto;
-  padding: 30px;
-  scroll-behavior: smooth;
-}
-
-.chat::-webkit-scrollbar {
-  width: 5px;
-}
-
-.chat::-webkit-scrollbar-thumb {
-  background: #222;
-  border-radius: 10px;
-}
-
-/* =========================================================
-   WELCOME
-========================================================= */
-
-.welcome {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  animation: welcomeIn .8s ease;
-}
-
-@keyframes welcomeIn {
-  from {
-    opacity: 0;
-    transform: translateY(25px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.welcome h1 {
-  font-size: clamp(38px, 6vw, 75px);
-  letter-spacing: -4px;
-  font-weight: 900;
-}
-
-.welcome h1 span {
-  color: #666;
-}
-
-.welcome p {
-  color: #777;
-  max-width: 600px;
-  margin-top: 12px;
-  line-height: 1.6;
-}
-
-.quick-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  max-width: 750px;
-  width: 100%;
-  margin-top: 30px;
-}
-
-.quick {
-  border: 1px solid #222;
-  background: rgba(13,13,13,.75);
-  padding: 18px;
-  border-radius: 14px;
-  color: #aaa;
-  cursor: pointer;
-  text-align: left;
-  transition: .3s;
-}
-
-.quick:hover {
-  color: white;
-  border-color: #444;
-  transform: translateY(-5px);
-  background: #111;
-}
-
-.quick strong {
-  display: block;
-  color: white;
-  margin-bottom: 6px;
-}
-
-/* =========================================================
-   MESSAGES
-========================================================= */
-
-.message {
-  max-width: 900px;
-  margin: 0 auto 24px;
-  animation: messageIn .35s ease;
-}
-
-@keyframes messageIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.message.user {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.bubble {
-  max-width: 80%;
-  padding: 14px 16px;
-  border-radius: 15px;
-  white-space: pre-wrap;
-  line-height: 1.65;
-  font-size: 14px;
-}
-
-.user .bubble {
-  background: #eeeeee;
-  color: #050505;
-}
-
-.assistant .bubble {
-  background: #0e0e0e;
-  border: 1px solid #222;
-  color: #ddd;
-}
-
-.message-tools {
-  display: flex;
-  gap: 6px;
-  margin-top: 7px;
-}
-
-.message-tools button {
-  border: 0;
-  background: transparent;
-  color: #555;
-  cursor: pointer;
-  font-size: 11px;
-}
-
-.message-tools button:hover {
-  color: #aaa;
-}
-
-/* =========================================================
-   GENERATION CARDS
-========================================================= */
-
-.generation-card {
-  max-width: 900px;
-  margin: 20px auto;
-  border: 1px solid #292929;
-  background: rgba(10,10,10,.9);
-  border-radius: 18px;
-  padding: 16px;
-  animation: cardIn .5s ease;
-}
-
-@keyframes cardIn {
-  from {
-    opacity: 0;
-    transform: scale(.97);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.generation-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.generation-title {
-  font-weight: 700;
-}
-
-.generation-status {
-  font-size: 11px;
-  color: #777;
-}
-
-.generated-image {
-  display: block;
-  width: 100%;
-  max-height: 650px;
-  object-fit: contain;
-  border-radius: 12px;
-  background: #050505;
-}
-
-.generated-video {
-  display: block;
-  width: 100%;
-  max-height: 650px;
-  border-radius: 12px;
-  background: #000;
-}
-
-.download-btn {
-  display: inline-block;
-  margin-top: 12px;
-  border: 1px solid #333;
-  background: #111;
-  color: white;
-  padding: 9px 13px;
-  border-radius: 9px;
-  text-decoration: none;
-  font-size: 12px;
-}
-
-.download-btn:hover {
-  background: #191919;
-}
-
-/* =========================================================
-   PROGRESS
-========================================================= */
-
-.progress-wrap {
-  margin-top: 15px;
-}
-
-.progress-track {
-  height: 5px;
-  background: #191919;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: white;
-  transition: width .5s ease;
-}
-
-.progress-text {
-  margin-top: 8px;
-  font-size: 11px;
-  color: #666;
-}
-
-/* =========================================================
-   COMPOSER
-========================================================= */
-
-.composer-area {
-  padding: 15px 20px 20px;
-  border-top: 1px solid #1b1b1b;
-  background: rgba(5,5,5,.85);
-  backdrop-filter: blur(25px);
-}
-
-.composer {
-  max-width: 1000px;
-  margin: auto;
-  border: 1px solid #292929;
-  background: #0c0c0c;
-  border-radius: 17px;
-  padding: 9px;
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
-  transition: .25s;
-}
-
-.composer:focus-within {
-  border-color: #555;
-  box-shadow: 0 0 30px rgba(255,255,255,.04);
-}
-
-textarea {
-  flex: 1;
-  min-height: 42px;
-  max-height: 180px;
-  resize: none;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  color: white;
-  padding: 11px;
-  font: inherit;
-}
-
-textarea::placeholder {
-  color: #555;
-}
-
-.tool-btn {
-  width: 40px;
-  height: 40px;
-  border: 1px solid #242424;
-  background: #101010;
-  color: #aaa;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: .25s;
-}
-
-.tool-btn:hover {
-  color: white;
-  border-color: #444;
-  transform: translateY(-2px);
-}
-
-.send-btn {
-  width: 42px;
-  height: 42px;
-  border: 0;
-  background: white;
-  color: black;
-  border-radius: 11px;
-  cursor: pointer;
-  font-weight: 900;
-  transition: .25s;
-}
-
-.send-btn:hover {
-  transform: scale(1.06);
-}
-
-.send-btn:disabled {
-  opacity: .3;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.composer-info {
-  max-width: 1000px;
-  margin: 8px auto 0;
-  color: #444;
-  font-size: 10px;
-  display: flex;
-  justify-content: space-between;
-}
-
-/* =========================================================
-   MODE PANEL
-========================================================= */
-
-.mode-panel {
-  display: none;
-  position: absolute;
-  bottom: 95px;
-  left: 20px;
-  width: 280px;
-  border: 1px solid #292929;
-  background: #0a0a0a;
-  border-radius: 15px;
-  padding: 10px;
-  z-index: 10;
-  box-shadow: 0 20px 60px rgba(0,0,0,.7);
-}
-
-.mode-panel.show {
-  display: block;
-  animation: panelIn .2s ease;
-}
-
-@keyframes panelIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.mode-option {
-  padding: 12px;
-  border-radius: 10px;
-  cursor: pointer;
-  color: #999;
-}
-
-.mode-option:hover,
-.mode-option.active {
-  background: #151515;
-  color: white;
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 800px) {
-
-  .app {
-    grid-template-columns: 1fr;
+  .topbar{
+    padding:0 12px;
   }
 
-  .sidebar {
-    display: none;
+  .chatArea{
+    padding:20px 12px 145px;
   }
 
-  .chat {
-    padding: 18px;
+  .composerWrap{
+    padding:10px;
   }
 
-  .quick-grid {
-    grid-template-columns: 1fr;
+  .welcome h1{
+    letter-spacing:-2px;
   }
 
-  .bubble {
-    max-width: 92%;
-  }
-
-  .composer-area {
-    padding: 10px;
-  }
-
-  .topbar {
-    padding: 0 12px;
-  }
-
-  .welcome h1 {
-    letter-spacing: -2px;
+  .messageText{
+    font-size:13px;
   }
 }
 </style>
@@ -705,341 +749,1857 @@ textarea::placeholder {
 
 <div class="app">
 
-  <!-- SIDEBAR -->
+<!-- ================= SIDEBAR ================= -->
 
-  <aside class="sidebar">
+<aside class="sidebar" id="sidebar">
 
-    <div class="logo">
-      Devesh<span>AI</span>
+  <div class="brand">
+    <div class="logo">D</div>
+    <div>
+      <div class="brandText">DeveshAI</div>
+      <div class="brandSub">AI WORKSPACE</div>
     </div>
+  </div>
 
-    <div class="section-title">
-      Workspace
-    </div>
+  <button class="newChat" onclick="newChat()">
+    + New Chat
+  </button>
 
-    <button class="mode active" data-mode="Ask">
-      ✦ Ask
-    </button>
+  <div class="sidebarSection">
+    Chats
+  </div>
 
-    <button class="mode" data-mode="Study">
-      ◈ Study
-    </button>
+  <div class="searchBox">
+    <input
+      id="historySearch"
+      placeholder="Search chats..."
+      oninput="renderHistory()"
+    >
+  </div>
 
-    <button class="mode" data-mode="Create">
-      ◆ Create
-    </button>
+  <div class="history" id="history"></div>
 
-    <button class="mode" data-mode="Code">
-      ◇ Code
-    </button>
+</aside>
 
-    <button class="mode" data-mode="Analyze">
-      ◎ Analyze
-    </button>
+<!-- ================= MAIN ================= -->
 
-    <div class="section-title">
-      Generate
-    </div>
+<main class="main">
 
-    <button class="mode" onclick="openImageMode()">
-      ▣ Image
-    </button>
+  <header class="topbar">
 
-    <button class="mode" onclick="openVideoMode()">
-      ▰ Video
-    </button>
+    <div class="topLeft">
 
-    <div class="sidebar-bottom">
+      <button
+        class="menuBtn"
+        onclick="toggleSidebar()"
+      >
+        ☰
+      </button>
 
-      <div class="status">
-        <span class="status-dot"></span>
-        DeveshAI Online
-      </div>
-
-    </div>
-
-  </aside>
-
-  <!-- MAIN -->
-
-  <main class="main">
-
-    <header class="topbar">
-
-      <div>
-        <div class="top-title" id="topTitle">
-          DeveshAI
-        </div>
-
-        <div class="top-subtitle" id="topSubtitle">
-          AI workspace
-        </div>
-      </div>
-
-      <div class="top-actions">
+      <div class="modeSelect">
 
         <button
-          class="icon-btn"
-          onclick="newChat()"
-          title="New chat">
-          +
+          class="modeBtn active"
+          data-mode="Ask"
+          onclick="setMode('Ask',this)"
+        >
+          Ask
         </button>
 
         <button
-          class="icon-btn"
-          onclick="clearChat()"
-          title="Clear">
-          ×
+          class="modeBtn"
+          data-mode="Study"
+          onclick="setMode('Study',this)"
+        >
+          Study
+        </button>
+
+        <button
+          class="modeBtn"
+          data-mode="Create"
+          onclick="setMode('Create',this)"
+        >
+          Create
+        </button>
+
+        <button
+          class="modeBtn"
+          data-mode="Code"
+          onclick="setMode('Code',this)"
+        >
+          Code
+        </button>
+
+        <button
+          class="modeBtn"
+          data-mode="Analyze"
+          onclick="setMode('Analyze',this)"
+        >
+          Analyze
         </button>
 
       </div>
 
-    </header>
+    </div>
 
-    <section class="content">
+    <div class="topActions">
 
-      <div class="chat" id="chat">
+      <button
+        class="iconBtn"
+        title="Export Chat"
+        onclick="exportChat()"
+      >
+        ↓
+      </button>
 
-        <div class="welcome" id="welcome">
+      <button
+        class="iconBtn"
+        title="Clear Chat"
+        onclick="clearCurrentChat()"
+      >
+        ×
+      </button>
 
-          <h1>
-            Devesh<span>AI</span>
-          </h1>
+    </div>
 
-          <p>
-            One workspace for conversation, creation,
-            image generation and video generation.
-          </p>
+  </header>
 
-          <div class="quick-grid">
+  <section class="chatArea" id="chatArea">
 
-            <button
-              class="quick"
-              onclick="quickPrompt('Explain quantum computing in very simple Hinglish.')">
-              <strong>Ask anything</strong>
-              Get a clear AI answer.
-            </button>
+    <div class="chatContainer" id="chatContainer">
 
-            <button
-              class="quick"
-              onclick="openImageMode()">
-              <strong>Generate image</strong>
-              Create an image from your idea.
-            </button>
+      <div class="welcome" id="welcome">
 
-            <button
-              class="quick"
-              onclick="openVideoMode()">
-              <strong>Generate video</strong>
-              Create a short AI video.
-            </button>
+        <h1>DeveshAI</h1>
 
+        <p id="welcomeText">
+          Think. Create. Build.
+        </p>
+
+        <div class="quickGrid">
+
+          <div
+            class="quickCard"
+            onclick="quickPrompt('Explain a difficult topic to me in very simple language.')"
+          >
+            <strong>Explain something</strong>
+            <span>Simple step-by-step explanation</span>
+          </div>
+
+          <div
+            class="quickCard"
+            onclick="quickPrompt('Help me write something professional.')"
+          >
+            <strong>Write</strong>
+            <span>Messages, emails and documents</span>
+          </div>
+
+          <div
+            class="quickCard"
+            onclick="quickPrompt('Help me debug this code.')"
+          >
+            <strong>Code</strong>
+            <span>Debug and build projects</span>
+          </div>
+
+          <div
+            class="quickCard"
+            onclick="openImagePanel()"
+          >
+            <strong>Create image</strong>
+            <span>Generate an image from a prompt</span>
           </div>
 
         </div>
 
       </div>
 
-      <!-- MODE PANEL -->
+    </div>
 
-      <div class="mode-panel" id="modePanel">
+  </section>
 
-        <div
-          class="mode-option active"
-          onclick="setMode('Ask')">
-          Ask
-        </div>
+</main>
 
-        <div
-          class="mode-option"
-          onclick="setMode('Study')">
-          Study
-        </div>
+</div>
 
-        <div
-          class="mode-option"
-          onclick="setMode('Create')">
-          Create
-        </div>
+<!-- ================= COMPOSER ================= -->
 
-        <div
-          class="mode-option"
-          onclick="setMode('Code')">
-          Code
-        </div>
+<div class="composerWrap">
 
-        <div
-          class="mode-option"
-          onclick="setMode('Analyze')">
-          Analyze
-        </div>
+  <div class="composer">
+
+    <div
+      class="attachments"
+      id="attachments"
+    ></div>
+
+    <textarea
+      id="prompt"
+      placeholder="Message DeveshAI..."
+      onkeydown="handleKey(event)"
+    ></textarea>
+
+    <div class="composerBottom">
+
+      <div class="composerLeft">
+
+        <button
+          class="toolBtn"
+          onclick="document.getElementById('fileInput').click()"
+          title="Attach file"
+        >
+          + File
+        </button>
+
+        <button
+          class="toolBtn"
+          onclick="startVoiceInput()"
+          title="Voice input"
+        >
+          🎙
+        </button>
+
+        <button
+          class="toolBtn"
+          onclick="speakLast()"
+          title="Speak latest answer"
+        >
+          🔊
+        </button>
 
       </div>
 
-    </section>
-
-    <!-- COMPOSER -->
-
-    <div class="composer-area">
-
-      <div class="composer">
+      <div class="composerRight">
 
         <button
-          class="tool-btn"
-          onclick="toggleModePanel()"
-          title="Modes">
-          ◉
+          class="toolBtn"
+          onclick="openImagePanel()"
+        >
+          Image
         </button>
 
         <button
-          class="tool-btn"
-          onclick="openImageMode()"
-          title="Image generation">
-          ▣
+          class="toolBtn"
+          onclick="openVideoPanel()"
+        >
+          Video
         </button>
 
         <button
-          class="tool-btn"
-          onclick="openVideoMode()"
-          title="Video generation">
-          ▰
-        </button>
-
-        <textarea
-          id="input"
-          placeholder="Message DeveshAI..."
-          rows="1"></textarea>
-
-        <button
-          class="send-btn"
+          class="sendBtn"
           id="sendBtn"
-          onclick="sendCurrent()">
+          onclick="sendMessage()"
+        >
           ↑
         </button>
 
       </div>
 
-      <div class="composer-info">
-
-        <span id="modeLabel">
-          Ask mode
-        </span>
-
-        <span>
-          Enter to send · Shift+Enter for new line
-        </span>
-
-      </div>
-
     </div>
 
-  </main>
+  </div>
 
 </div>
 
+<input
+  type="file"
+  id="fileInput"
+  hidden
+  multiple
+  onchange="handleFiles(this.files)"
+>
+
+<!-- ================= IMAGE PANEL ================= -->
+
+<div
+  class="overlay"
+  id="imageOverlay"
+  onclick="closePanels()"
+></div>
+
+<div
+  class="panel"
+  id="imagePanel"
+>
+
+  <div class="panelHeader">
+
+    <div class="panelTitle">
+      Image Generation
+    </div>
+
+    <button
+      class="closeBtn"
+      onclick="closePanels()"
+    >
+      ×
+    </button>
+
+  </div>
+
+  <div class="panelText">
+    Describe the image you want DeveshAI to generate.
+  </div>
+
+  <input
+    class="panelInput"
+    id="imagePrompt"
+    placeholder="Example: futuristic black and white city..."
+  >
+
+  <button
+    class="panelBtn"
+    onclick="generateImage()"
+  >
+    Generate Image
+  </button>
+
+  <div id="imageResult"></div>
+
+</div>
+
+<!-- ================= VIDEO PANEL ================= -->
+
+<div
+  class="panel"
+  id="videoPanel"
+>
+
+  <div class="panelHeader">
+
+    <div class="panelTitle">
+      Video Generation
+    </div>
+
+    <button
+      class="closeBtn"
+      onclick="closePanels()"
+    >
+      ×
+    </button>
+
+  </div>
+
+  <div class="panelText">
+    Create a short AI video from a text prompt.
+  </div>
+
+  <input
+    class="panelInput"
+    id="videoPrompt"
+    placeholder="Describe your video..."
+  >
+
+  <button
+    class="panelBtn"
+    onclick="generateVideo()"
+  >
+    Generate Video
+  </button>
+
+  <div
+    class="progressBox"
+    id="videoProgress"
+    style="display:none"
+  >
+
+    <div
+      class="statusText"
+      id="videoStatus"
+    >
+      Starting...
+    </div>
+
+    <div class="progressBar">
+      <div
+        class="progressFill"
+        id="videoProgressFill"
+      ></div>
+    </div>
+
+  </div>
+
+  <div id="videoResult"></div>
+
+</div>
+
+<div
+  class="toast"
+  id="toast"
+></div>
+
 <script>
+
 /* =========================================================
    STATE
 ========================================================= */
 
-const state = {
-  mode: "Ask",
-  messages: [],
-  generating: false,
-  currentGeneration: null
-};
+let chats = JSON.parse(
+  localStorage.getItem("deveshai_chats") || "[]"
+);
+
+let currentChatId = null;
+let currentMode = "Ask";
+let attachedFiles = [];
+let generating = false;
 
 /* =========================================================
-   DOM
+   INIT
 ========================================================= */
 
-const chat = document.getElementById("chat");
-const welcome = document.getElementById("welcome");
-const input = document.getElementById("input");
-const sendBtn = document.getElementById("sendBtn");
-const modeLabel = document.getElementById("modeLabel");
-const topTitle = document.getElementById("topTitle");
-const topSubtitle = document.getElementById("topSubtitle");
+document.addEventListener("DOMContentLoaded", () => {
+
+  renderHistory();
+
+  if(chats.length){
+    loadChat(chats[0].id);
+  }else{
+    createChat();
+  }
+
+  autoResize();
+
+});
 
 /* =========================================================
-   MODE INSTRUCTIONS
+   CHAT MANAGEMENT
 ========================================================= */
 
-const modeInstructions = {
+function createChat(){
 
-  Ask:
-    "Answer clearly and naturally.",
+  const chat = {
+    id: Date.now().toString(),
+    title:"New Chat",
+    pinned:false,
+    createdAt:Date.now(),
+    messages:[]
+  };
 
-  Study:
-    "Teach step-by-step using simple language. Give examples when useful.",
+  chats.unshift(chat);
 
-  Create:
-    "Help creatively with writing, ideas, concepts and content.",
+  currentChatId = chat.id;
 
-  Code:
-    "Write correct, complete, runnable code. Explain important parts simply.",
+  saveChats();
 
-  Analyze:
-    "Analyze carefully. Separate facts, assumptions, risks and conclusions."
+  renderHistory();
 
-};
+  renderMessages();
+
+}
+
+function newChat(){
+
+  createChat();
+
+  document.getElementById("prompt").focus();
+
+  closeSidebarMobile();
+
+}
+
+function getCurrentChat(){
+
+  return chats.find(
+    c => c.id === currentChatId
+  );
+
+}
+
+function saveChats(){
+
+  localStorage.setItem(
+    "deveshai_chats",
+    JSON.stringify(chats)
+  );
+
+}
+
+function loadChat(id){
+
+  const chat = chats.find(
+    c => c.id === id
+  );
+
+  if(!chat) return;
+
+  currentChatId = id;
+
+  renderHistory();
+
+  renderMessages();
+
+  closeSidebarMobile();
+
+}
+
+function renderHistory(){
+
+  const box =
+    document.getElementById("history");
+
+  const search =
+    document.getElementById("historySearch")
+      .value
+      .toLowerCase();
+
+  box.innerHTML = "";
+
+  const filtered = chats
+    .filter(chat =>
+      chat.title
+        .toLowerCase()
+        .includes(search)
+    )
+    .sort((a,b) =>
+      Number(b.pinned) - Number(a.pinned)
+    );
+
+  if(!filtered.length){
+
+    box.innerHTML =
+      `<div class="emptyHistory">No chats found</div>`;
+
+    return;
+
+  }
+
+  filtered.forEach(chat => {
+
+    const item =
+      document.createElement("div");
+
+    item.className =
+      "chatItem " +
+      (chat.id === currentChatId
+        ? "active"
+        : "");
+
+    item.onclick = () =>
+      loadChat(chat.id);
+
+    item.innerHTML = `
+
+      <span class="pin">
+        ${chat.pinned ? "★" : ""}
+      </span>
+
+      <span class="chatTitle">
+        ${escapeHTML(chat.title)}
+      </span>
+
+      <button
+        class="chatMenu"
+        onclick="event.stopPropagation();chatOptions('${chat.id}')"
+      >
+        ⋯
+      </button>
+
+    `;
+
+    box.appendChild(item);
+
+  });
+
+}
+
+function chatOptions(id){
+
+  const chat =
+    chats.find(c => c.id === id);
+
+  if(!chat) return;
+
+  const action =
+    prompt(
+      "Type: rename / pin / delete"
+    );
+
+  if(!action) return;
+
+  if(action === "rename"){
+
+    const name =
+      prompt("New chat name:",chat.title);
+
+    if(name){
+      chat.title = name.trim();
+    }
+
+  }
+
+  else if(action === "pin"){
+
+    chat.pinned = !chat.pinned;
+
+  }
+
+  else if(action === "delete"){
+
+    if(confirm("Delete this chat?")){
+
+      chats =
+        chats.filter(c => c.id !== id);
+
+      if(currentChatId === id){
+
+        if(chats.length){
+          currentChatId = chats[0].id;
+        }else{
+          createChat();
+          return;
+        }
+
+      }
+
+    }
+
+  }
+
+  saveChats();
+
+  renderHistory();
+
+  renderMessages();
+
+}
+
+function clearCurrentChat(){
+
+  const chat =
+    getCurrentChat();
+
+  if(!chat) return;
+
+  if(!confirm("Clear this chat?")) return;
+
+  chat.messages = [];
+
+  chat.title = "New Chat";
+
+  saveChats();
+
+  renderHistory();
+
+  renderMessages();
+
+}
 
 /* =========================================================
-   BACKGROUND ANIMATION
+   RENDER MESSAGES
 ========================================================= */
 
-const canvas = document.getElementById("bgCanvas");
-const ctx = canvas.getContext("2d");
+function renderMessages(){
+
+  const container =
+    document.getElementById("chatContainer");
+
+  const chat =
+    getCurrentChat();
+
+  if(!chat) return;
+
+  container.innerHTML = "";
+
+  if(!chat.messages.length){
+
+    container.innerHTML = `
+
+      <div class="welcome" id="welcome">
+
+        <h1>DeveshAI</h1>
+
+        <p>
+          ${escapeHTML(currentMode)} mode
+        </p>
+
+        <div class="quickGrid">
+
+          <div
+            class="quickCard"
+            onclick="quickPrompt('Explain a difficult topic to me in very simple language.')"
+          >
+            <strong>Explain something</strong>
+            <span>Simple step-by-step explanation</span>
+          </div>
+
+          <div
+            class="quickCard"
+            onclick="quickPrompt('Help me write something professional.')"
+          >
+            <strong>Write</strong>
+            <span>Messages, emails and documents</span>
+          </div>
+
+          <div
+            class="quickCard"
+            onclick="quickPrompt('Help me debug this code.')"
+          >
+            <strong>Code</strong>
+            <span>Debug and build projects</span>
+          </div>
+
+          <div
+            class="quickCard"
+            onclick="openImagePanel()"
+          >
+            <strong>Create image</strong>
+            <span>Generate an image from a prompt</span>
+          </div>
+
+        </div>
+
+      </div>
+    `;
+
+    return;
+
+  }
+
+  chat.messages.forEach(
+    (message,index) => {
+
+      const div =
+        document.createElement("div");
+
+      div.className =
+        "message " +
+        message.role;
+
+      const label =
+        message.role === "user"
+          ? "YOU"
+          : "AI";
+
+      div.innerHTML = `
+
+        <div class="avatar">
+          ${label}
+        </div>
+
+        <div class="messageBody">
+
+          <div class="messageText">
+            ${escapeHTML(message.content)}
+          </div>
+
+          <div class="messageActions">
+
+            <button
+              class="smallBtn"
+              onclick="copyMessage(${index})"
+            >
+              Copy
+            </button>
+
+            ${
+              message.role === "assistant"
+              ? `
+                <button
+                  class="smallBtn"
+                  onclick="speakText(${index})"
+                >
+                  Speak
+                </button>
+              `
+              : ""
+            }
+
+            ${
+              message.role === "assistant"
+              ? `
+                <button
+                  class="smallBtn"
+                  onclick="regenerate(${index})"
+                >
+                  Regenerate
+                </button>
+              `
+              : ""
+            }
+
+          </div>
+
+        </div>
+
+      `;
+
+      container.appendChild(div);
+
+    }
+  );
+
+  const area =
+    document.getElementById("chatArea");
+
+  area.scrollTop =
+    area.scrollHeight;
+
+}
+
+/* =========================================================
+   SEND MESSAGE
+========================================================= */
+
+async function sendMessage(){
+
+  if(generating) return;
+
+  const textarea =
+    document.getElementById("prompt");
+
+  const text =
+    textarea.value.trim();
+
+  if(!text) return;
+
+  const chat =
+    getCurrentChat();
+
+  if(!chat) return;
+
+  chat.messages.push({
+    role:"user",
+    content:text
+  });
+
+  if(chat.title === "New Chat"){
+
+    chat.title =
+      text.slice(0,45) +
+      (text.length > 45 ? "..." : "");
+
+  }
+
+  textarea.value = "";
+
+  autoResize();
+
+  saveChats();
+
+  renderHistory();
+
+  renderMessages();
+
+  generating = true;
+
+  updateSendButton(true);
+
+  try{
+
+    const response =
+      await fetch("/api/chat",{
+        method:"POST",
+        headers:{
+          "Content-Type":
+            "application/json"
+        },
+        body:JSON.stringify({
+          messages:chat.messages.map(
+            m => ({
+              role:m.role,
+              content:m.content
+            })
+          ),
+          mode:currentMode
+        })
+      });
+
+    const data =
+      await response.json();
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error ||
+        "Request failed"
+      );
+
+    }
+
+    chat.messages.push({
+      role:"assistant",
+      content:
+        data.reply ||
+        "No response received."
+    });
+
+    saveChats();
+
+    renderMessages();
+
+  }catch(error){
+
+    chat.messages.push({
+      role:"assistant",
+      content:
+        "⚠️ " +
+        (error.message ||
+          "Something went wrong.")
+    });
+
+    saveChats();
+
+    renderMessages();
+
+  }finally{
+
+    generating = false;
+
+    updateSendButton(false);
+
+  }
+
+}
+
+/* =========================================================
+   REGENERATE
+========================================================= */
+
+async function regenerate(index){
+
+  const chat =
+    getCurrentChat();
+
+  if(!chat) return;
+
+  if(chat.messages[index]?.role !== "assistant")
+    return;
+
+  const userMessage =
+    chat.messages
+      .slice(0,index)
+      .reverse()
+      .find(m => m.role === "user");
+
+  if(!userMessage) return;
+
+  chat.messages =
+    chat.messages.slice(0,index);
+
+  saveChats();
+
+  renderMessages();
+
+  generating = true;
+
+  updateSendButton(true);
+
+  try{
+
+    const response =
+      await fetch("/api/chat",{
+        method:"POST",
+        headers:{
+          "Content-Type":
+            "application/json"
+        },
+        body:JSON.stringify({
+          messages:
+            chat.messages
+        })
+      });
+
+    const data =
+      await response.json();
+
+    if(!response.ok)
+      throw new Error(
+        data.error ||
+        "Regeneration failed"
+      );
+
+    chat.messages.push({
+      role:"assistant",
+      content:data.reply
+    });
+
+    saveChats();
+
+    renderMessages();
+
+  }catch(error){
+
+    chat.messages.push({
+      role:"assistant",
+      content:
+        "⚠️ " +
+        error.message
+    });
+
+    saveChats();
+
+    renderMessages();
+
+  }finally{
+
+    generating = false;
+
+    updateSendButton(false);
+
+  }
+
+}
+
+/* =========================================================
+   COPY
+========================================================= */
+
+async function copyMessage(index){
+
+  const chat =
+    getCurrentChat();
+
+  const message =
+    chat?.messages[index];
+
+  if(!message) return;
+
+  await navigator.clipboard.writeText(
+    message.content
+  );
+
+  showToast("Copied");
+
+}
+
+/* =========================================================
+   SPEECH
+========================================================= */
+
+function speakText(index){
+
+  const chat =
+    getCurrentChat();
+
+  const message =
+    chat?.messages[index];
+
+  if(!message) return;
+
+  speechSynthesis.cancel();
+
+  const utterance =
+    new SpeechSynthesisUtterance(
+      message.content
+    );
+
+  utterance.rate = .95;
+
+  speechSynthesis.speak(
+    utterance
+  );
+
+}
+
+function speakLast(){
+
+  const chat =
+    getCurrentChat();
+
+  if(!chat) return;
+
+  const last =
+    [...chat.messages]
+      .reverse()
+      .find(m =>
+        m.role === "assistant"
+      );
+
+  if(!last) return;
+
+  speechSynthesis.cancel();
+
+  speechSynthesis.speak(
+    new SpeechSynthesisUtterance(
+      last.content
+    )
+  );
+
+}
+
+/* =========================================================
+   VOICE INPUT
+========================================================= */
+
+function startVoiceInput(){
+
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if(!SpeechRecognition){
+
+    showToast(
+      "Voice input is not supported in this browser."
+    );
+
+    return;
+
+  }
+
+  const recognition =
+    new SpeechRecognition();
+
+  recognition.lang = "en-IN";
+
+  recognition.interimResults = false;
+
+  recognition.maxAlternatives = 1;
+
+  recognition.onstart = () =>
+    showToast("Listening...");
+
+  recognition.onresult = event => {
+
+    const text =
+      event.results[0][0].transcript;
+
+    const textarea =
+      document.getElementById("prompt");
+
+    textarea.value +=
+      (textarea.value ? " " : "") +
+      text;
+
+    autoResize();
+
+  };
+
+  recognition.onerror = () =>
+    showToast("Voice input failed.");
+
+  recognition.start();
+
+}
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+function openImagePanel(){
+
+  document
+    .getElementById("imagePanel")
+    .classList.add("show");
+
+  document
+    .getElementById("imageOverlay")
+    .classList.add("show");
+
+}
+
+async function generateImage(){
+
+  const prompt =
+    document
+      .getElementById("imagePrompt")
+      .value
+      .trim();
+
+  if(!prompt){
+
+    showToast(
+      "Write an image prompt first."
+    );
+
+    return;
+
+  }
+
+  const result =
+    document.getElementById("imageResult");
+
+  result.innerHTML =
+    "<p class='panelText'>Generating...</p>";
+
+  try{
+
+    const response =
+      await fetch("/api/image",{
+        method:"POST",
+        headers:{
+          "Content-Type":
+            "application/json"
+        },
+        body:JSON.stringify({
+          prompt
+        })
+      });
+
+    const data =
+      await response.json();
+
+    if(!response.ok)
+      throw new Error(
+        data.error ||
+        "Image generation failed."
+      );
+
+    if(data.image_base64){
+
+      result.innerHTML = `
+
+        <img
+          src="data:image/png;base64,${data.image_base64}"
+          style="
+            width:100%;
+            margin-top:20px;
+            border-radius:12px;
+            border:1px solid #333;
+          "
+        >
+
+        <a
+          href="data:image/png;base64,${data.image_base64}"
+          download="deveshai-image.png"
+          class="panelBtn"
+          style="
+            display:inline-block;
+            text-decoration:none;
+          "
+        >
+          Download Image
+        </a>
+
+      `;
+
+    }else if(data.image_url){
+
+      result.innerHTML = `
+
+        <img
+          src="${data.image_url}"
+          style="
+            width:100%;
+            margin-top:20px;
+            border-radius:12px;
+          "
+        >
+
+      `;
+
+    }else{
+
+      throw new Error(
+        "No image returned."
+      );
+
+    }
+
+  }catch(error){
+
+    result.innerHTML = `
+
+      <p
+        class="panelText"
+        style="color:#aaa"
+      >
+        ${escapeHTML(error.message)}
+      </p>
+
+    `;
+
+  }
+
+}
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+function openVideoPanel(){
+
+  document
+    .getElementById("videoPanel")
+    .classList.add("show");
+
+  document
+    .getElementById("imageOverlay")
+    .classList.add("show");
+
+}
+
+async function generateVideo(){
+
+  const prompt =
+    document
+      .getElementById("videoPrompt")
+      .value
+      .trim();
+
+  if(!prompt){
+
+    showToast(
+      "Write a video prompt first."
+    );
+
+    return;
+
+  }
+
+  const progressBox =
+    document.getElementById(
+      "videoProgress"
+    );
+
+  const status =
+    document.getElementById(
+      "videoStatus"
+    );
+
+  const fill =
+    document.getElementById(
+      "videoProgressFill"
+    );
+
+  const result =
+    document.getElementById(
+      "videoResult"
+    );
+
+  progressBox.style.display =
+    "block";
+
+  result.innerHTML = "";
+
+  status.textContent =
+    "Starting video generation...";
+
+  fill.style.width = "0%";
+
+  try{
+
+    const response =
+      await fetch("/api/video",{
+        method:"POST",
+        headers:{
+          "Content-Type":
+            "application/json"
+        },
+        body:JSON.stringify({
+          prompt,
+          model:"sora-2",
+          seconds:"4",
+          size:"1280x720"
+        })
+      });
+
+    const data =
+      await response.json();
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error ||
+        "Video generation failed."
+      );
+
+    }
+
+    const id = data.id;
+
+    status.textContent =
+      "Video is being generated...";
+
+    await pollVideo(
+      id,
+      status,
+      fill,
+      result
+    );
+
+  }catch(error){
+
+    status.textContent =
+      "Generation failed";
+
+    result.innerHTML = `
+
+      <p
+        class="panelText"
+        style="margin-top:12px"
+      >
+        ${escapeHTML(error.message)}
+      </p>
+
+    `;
+
+  }
+
+}
+
+async function pollVideo(
+  id,
+  status,
+  fill,
+  result
+){
+
+  let attempts = 0;
+
+  const maxAttempts = 120;
+
+  while(attempts < maxAttempts){
+
+    await new Promise(
+      resolve =>
+        setTimeout(resolve,5000)
+    );
+
+    attempts++;
+
+    const response =
+      await fetch(
+        `/api/video/${id}`
+      );
+
+    const data =
+      await response.json();
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error ||
+        "Could not check video."
+      );
+
+    }
+
+    const progress =
+      Number(data.progress || 0);
+
+    fill.style.width =
+      Math.max(
+        0,
+        Math.min(
+          100,
+          progress
+        )
+      ) + "%";
+
+    status.textContent =
+      `${data.status || "processing"} — ${progress}%`;
+
+    if(data.status === "completed"){
+
+      fill.style.width = "100%";
+
+      status.textContent =
+        "Video completed.";
+
+      result.innerHTML = `
+
+        <video
+          controls
+          style="
+            width:100%;
+            margin-top:18px;
+            border-radius:12px;
+            border:1px solid #333;
+          "
+        >
+          <source
+            src="/api/video/${id}/content"
+            type="video/mp4"
+          >
+        </video>
+
+        <a
+          href="/api/video/${id}/content"
+          download="deveshai-video.mp4"
+          class="panelBtn"
+          style="
+            display:inline-block;
+            text-decoration:none;
+          "
+        >
+          Download Video
+        </a>
+
+      `;
+
+      return;
+
+    }
+
+    if(
+      data.status === "failed" ||
+      data.status === "error"
+    ){
+
+      throw new Error(
+        data.error ||
+        "Video generation failed."
+      );
+
+    }
+
+  }
+
+  throw new Error(
+    "Video generation is taking too long."
+  );
+
+}
+
+/* =========================================================
+   FILES
+========================================================= */
+
+function handleFiles(files){
+
+  attachedFiles =
+    Array.from(files);
+
+  const box =
+    document.getElementById(
+      "attachments"
+    );
+
+  box.innerHTML = "";
+
+  attachedFiles.forEach(
+    file => {
+
+      const item =
+        document.createElement("div");
+
+      item.className =
+        "attachment";
+
+      item.textContent =
+        file.name;
+
+      box.appendChild(item);
+
+    }
+  );
+
+}
+
+/* =========================================================
+   MODES
+========================================================= */
+
+function setMode(mode,button){
+
+  currentMode = mode;
+
+  document
+    .querySelectorAll(".modeBtn")
+    .forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+  button.classList.add("active");
+
+  const welcome =
+    document.getElementById(
+      "welcomeText"
+    );
+
+  if(welcome){
+
+    welcome.textContent =
+      mode + " mode";
+
+  }
+
+}
+
+/* =========================================================
+   QUICK PROMPT
+========================================================= */
+
+function quickPrompt(text){
+
+  const textarea =
+    document.getElementById(
+      "prompt"
+    );
+
+  textarea.value = text;
+
+  autoResize();
+
+  textarea.focus();
+
+}
+
+/* =========================================================
+   EXPORT
+========================================================= */
+
+function exportChat(){
+
+  const chat =
+    getCurrentChat();
+
+  if(!chat || !chat.messages.length){
+
+    showToast(
+      "Nothing to export."
+    );
+
+    return;
+
+  }
+
+  let output =
+    `DeveshAI — ${chat.title}\n`;
+
+  output +=
+    "================================\n\n";
+
+  chat.messages.forEach(
+    message => {
+
+      output +=
+        `${message.role.toUpperCase()}:\n`;
+
+      output +=
+        `${message.content}\n\n`;
+
+    }
+  );
+
+  const blob =
+    new Blob(
+      [output],
+      {
+        type:"text/plain"
+      }
+    );
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const a =
+    document.createElement("a");
+
+  a.href = url;
+
+  a.download =
+    "deveshai-chat.txt";
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+  showToast("Chat exported");
+
+}
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+function handleKey(event){
+
+  if(
+    event.key === "Enter" &&
+    !event.shiftKey
+  ){
+
+    event.preventDefault();
+
+    sendMessage();
+
+  }
+
+  setTimeout(
+    autoResize,
+    0
+  );
+
+}
+
+function autoResize(){
+
+  const textarea =
+    document.getElementById(
+      "prompt"
+    );
+
+  textarea.style.height =
+    "auto";
+
+  textarea.style.height =
+    Math.min(
+      textarea.scrollHeight,
+      180
+    ) + "px";
+
+}
+
+/* =========================================================
+   UI HELPERS
+========================================================= */
+
+function updateSendButton(active){
+
+  const btn =
+    document.getElementById(
+      "sendBtn"
+    );
+
+  btn.classList.toggle(
+    "stop",
+    active
+  );
+
+  btn.textContent =
+    active ? "…" : "↑";
+
+}
+
+function closePanels(){
+
+  document
+    .querySelectorAll(".panel")
+    .forEach(
+      p => p.classList.remove("show")
+    );
+
+  document
+    .getElementById("imageOverlay")
+    .classList.remove("show");
+
+}
+
+function toggleSidebar(){
+
+  document
+    .getElementById("sidebar")
+    .classList.toggle("open");
+
+}
+
+function closeSidebarMobile(){
+
+  document
+    .getElementById("sidebar")
+    .classList.remove("open");
+
+}
+
+function showToast(text){
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+  toast.textContent = text;
+
+  toast.classList.add("show");
+
+  setTimeout(
+    () =>
+      toast.classList.remove("show"),
+    1800
+  );
+
+}
+
+function escapeHTML(text){
+
+  return String(text)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+/* =========================================================
+   ANIMATED BACKGROUND
+========================================================= */
+
+const canvas =
+  document.getElementById(
+    "bgCanvas"
+  );
+
+const ctx =
+  canvas.getContext("2d");
 
 let particles = [];
 
-function resizeCanvas() {
+function resizeCanvas(){
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width =
+    window.innerWidth *
+    devicePixelRatio;
+
+  canvas.height =
+    window.innerHeight *
+    devicePixelRatio;
+
+  ctx.scale(
+    devicePixelRatio,
+    devicePixelRatio
+  );
 
   particles = [];
 
   const count =
     Math.min(
-      90,
-      Math.floor(window.innerWidth / 15)
+      80,
+      Math.floor(
+        window.innerWidth / 15
+      )
     );
 
-  for (let i = 0; i < count; i++) {
+  for(let i=0;i<count;i++){
 
     particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - .5) * .25,
-      vy: (Math.random() - .5) * .25,
-      r: Math.random() * 1.5 + .2
+
+      x:Math.random() *
+        window.innerWidth,
+
+      y:Math.random() *
+        window.innerHeight,
+
+      vx:(Math.random()-.5)*.25,
+
+      vy:(Math.random()-.5)*.25,
+
+      r:Math.random()*1.4+.3
+
     });
 
   }
+
 }
 
-function animateBackground() {
+function animate(){
 
   ctx.clearRect(
     0,
     0,
-    canvas.width,
-    canvas.height
+    window.innerWidth,
+    window.innerHeight
   );
 
-  for (const p of particles) {
+  particles.forEach(p => {
 
     p.x += p.vx;
+
     p.y += p.vy;
 
-    if (p.x < 0 || p.x > canvas.width) {
+    if(
+      p.x < 0 ||
+      p.x > window.innerWidth
+    )
       p.vx *= -1;
-    }
 
-    if (p.y < 0 || p.y > canvas.height) {
+    if(
+      p.y < 0 ||
+      p.y > window.innerHeight
+    )
       p.vy *= -1;
-    }
 
     ctx.beginPath();
 
@@ -1048,46 +2608,77 @@ function animateBackground() {
       p.y,
       p.r,
       0,
-      Math.PI * 2
+      Math.PI*2
     );
 
-    ctx.fillStyle = "#555";
+    ctx.fillStyle =
+      "rgba(255,255,255,.45)";
+
     ctx.fill();
-  }
 
-  for (let i = 0; i < particles.length; i++) {
+  });
 
-    for (let j = i + 1; j < particles.length; j++) {
+  for(
+    let i=0;
+    i<particles.length;
+    i++
+  ){
 
-      const a = particles[i];
-      const b = particles[j];
+    for(
+      let j=i+1;
+      j<particles.length;
+      j++
+    ){
 
-      const dx = a.x - b.x;
-      const dy = a.y - b.y;
+      const a =
+        particles[i];
+
+      const b =
+        particles[j];
+
+      const dx =
+        a.x-b.x;
+
+      const dy =
+        a.y-b.y;
 
       const distance =
-        Math.sqrt(dx * dx + dy * dy);
+        Math.sqrt(
+          dx*dx +
+          dy*dy
+        );
 
-      if (distance < 110) {
+      if(distance < 120){
 
         ctx.beginPath();
 
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
+        ctx.moveTo(
+          a.x,
+          a.y
+        );
+
+        ctx.lineTo(
+          b.x,
+          b.y
+        );
 
         ctx.strokeStyle =
-          `rgba(255,255,255,${(
-            1 - distance / 110
-          ) * .08})`;
+          `rgba(255,255,255,${
+            (1-distance/120)*.08
+          })`;
 
         ctx.stroke();
+
       }
+
     }
+
   }
 
   requestAnimationFrame(
-    animateBackground
+    animate
   );
+
 }
 
 window.addEventListener(
@@ -1096,1054 +2687,8 @@ window.addEventListener(
 );
 
 resizeCanvas();
-animateBackground();
 
-/* =========================================================
-   MODE
-========================================================= */
-
-function setMode(mode) {
-
-  state.mode = mode;
-
-  document
-    .querySelectorAll(".mode")
-    .forEach(btn => {
-
-      btn.classList.toggle(
-        "active",
-        btn.dataset.mode === mode
-      );
-
-    });
-
-  document
-    .querySelectorAll(".mode-option")
-    .forEach(option => {
-
-      option.classList.toggle(
-        "active",
-        option.textContent.trim() === mode
-      );
-
-    });
-
-  modeLabel.textContent =
-    mode + " mode";
-
-  topSubtitle.textContent =
-    modeInstructions[mode];
-
-  document.getElementById(
-    "modePanel"
-  ).classList.remove("show");
-}
-
-/* =========================================================
-   MODE PANEL
-========================================================= */
-
-function toggleModePanel() {
-
-  document
-    .getElementById("modePanel")
-    .classList.toggle("show");
-
-}
-
-/* =========================================================
-   CHAT RENDER
-========================================================= */
-
-function renderMessage(
-  role,
-  text
-) {
-
-  if (welcome) {
-    welcome.style.display = "none";
-  }
-
-  const wrapper =
-    document.createElement("div");
-
-  wrapper.className =
-    `message ${role}`;
-
-  const bubble =
-    document.createElement("div");
-
-  bubble.className = "bubble";
-
-  bubble.textContent = text;
-
-  wrapper.appendChild(bubble);
-
-  if (role === "assistant") {
-
-    const tools =
-      document.createElement("div");
-
-    tools.className =
-      "message-tools";
-
-    const copy =
-      document.createElement("button");
-
-    copy.textContent = "Copy";
-
-    copy.onclick = () => {
-
-      navigator.clipboard.writeText(text);
-
-      copy.textContent = "Copied";
-
-      setTimeout(() => {
-        copy.textContent = "Copy";
-      }, 1200);
-
-    };
-
-    tools.appendChild(copy);
-
-    wrapper.appendChild(tools);
-  }
-
-  chat.appendChild(wrapper);
-
-  chat.scrollTop =
-    chat.scrollHeight;
-}
-
-/* =========================================================
-   SEND CHAT
-========================================================= */
-
-async function sendCurrent() {
-
-  const text =
-    input.value.trim();
-
-  if (!text || state.generating) {
-    return;
-  }
-
-  input.value = "";
-  autoResize();
-
-  await sendChat(text);
-}
-
-async function sendChat(text) {
-
-  state.generating = true;
-  sendBtn.disabled = true;
-
-  renderMessage(
-    "user",
-    text
-  );
-
-  state.messages.push({
-    role: "user",
-    content: text
-  });
-
-  const thinking =
-    document.createElement("div");
-
-  thinking.className =
-    "message assistant";
-
-  const bubble =
-    document.createElement("div");
-
-  bubble.className =
-    "bubble";
-
-  bubble.textContent =
-    "DeveshAI is thinking…";
-
-  thinking.appendChild(bubble);
-
-  chat.appendChild(thinking);
-
-  chat.scrollTop =
-    chat.scrollHeight;
-
-  try {
-
-    const messages = [
-      {
-        role: "system",
-        content:
-          `Current mode: ${state.mode}.
-           ${modeInstructions[state.mode]}`
-      },
-      ...state.messages
-    ];
-
-    const response =
-      await fetch(
-        "/api/chat",
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-
-          body: JSON.stringify({
-            messages
-          })
-        }
-      );
-
-    const data =
-      await response.json();
-
-    if (!response.ok) {
-      throw new Error(
-        data.error ||
-        "Chat request failed."
-      );
-    }
-
-    thinking.remove();
-
-    const reply =
-      data.reply ||
-      "I couldn't generate a response.";
-
-    renderMessage(
-      "assistant",
-      reply
-    );
-
-    state.messages.push({
-      role: "assistant",
-      content: reply
-    });
-
-  } catch (error) {
-
-    thinking.remove();
-
-    renderMessage(
-      "assistant",
-      "Error: " + error.message
-    );
-
-  } finally {
-
-    state.generating = false;
-    sendBtn.disabled = false;
-
-  }
-}
-
-/* =========================================================
-   QUICK PROMPT
-========================================================= */
-
-function quickPrompt(text) {
-
-  input.value = text;
-
-  autoResize();
-
-  sendCurrent();
-}
-
-/* =========================================================
-   IMAGE GENERATION
-========================================================= */
-
-function openImageMode() {
-
-  const prompt =
-    window.prompt(
-      "What image should DeveshAI generate?"
-    );
-
-  if (!prompt || !prompt.trim()) {
-    return;
-  }
-
-  generateImage(
-    prompt.trim()
-  );
-}
-
-async function generateImage(prompt) {
-
-  state.generating = true;
-
-  sendBtn.disabled = true;
-
-  showGenerationCard(
-    "image",
-    prompt,
-    "Generating image..."
-  );
-
-  try {
-
-    const response =
-      await fetch(
-        "/api/image",
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-
-          body: JSON.stringify({
-            prompt,
-            size: "1024x1024",
-            quality: "auto",
-            background: "auto"
-          })
-        }
-      );
-
-    const data =
-      await response.json();
-
-    if (!response.ok) {
-      throw new Error(
-        data.error ||
-        "Image generation failed."
-      );
-    }
-
-    updateImageCard(
-      data.image,
-      prompt
-    );
-
-  } catch (error) {
-
-    updateGenerationError(
-      "image",
-      error.message
-    );
-
-  } finally {
-
-    state.generating = false;
-    sendBtn.disabled = false;
-
-  }
-}
-
-/* =========================================================
-   VIDEO GENERATION
-========================================================= */
-
-function openVideoMode() {
-
-  const prompt =
-    window.prompt(
-      "What video should DeveshAI generate?"
-    );
-
-  if (!prompt || !prompt.trim()) {
-    return;
-  }
-
-  generateVideo(
-    prompt.trim()
-  );
-}
-
-async function generateVideo(prompt) {
-
-  state.generating = true;
-
-  sendBtn.disabled = true;
-
-  const card =
-    showGenerationCard(
-      "video",
-      prompt,
-      "Starting video generation..."
-    );
-
-  try {
-
-    const response =
-      await fetch(
-        "/api/video",
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-
-          body: JSON.stringify({
-            prompt,
-            model: "sora-2",
-            seconds: "4",
-            size: "1280x720"
-          })
-        }
-      );
-
-    const data =
-      await response.json();
-
-    if (!response.ok) {
-      throw new Error(
-        data.error ||
-        "Video generation failed."
-      );
-    }
-
-    const videoId =
-      data.video.id;
-
-    updateVideoProgress(
-      card,
-      5,
-      "Video job created..."
-    );
-
-    await pollVideo(
-      card,
-      videoId
-    );
-
-  } catch (error) {
-
-    updateCardError(
-      card,
-      error.message
-    );
-
-  } finally {
-
-    state.generating = false;
-    sendBtn.disabled = false;
-
-  }
-}
-
-async function pollVideo(
-  card,
-  videoId
-) {
-
-  let attempts = 0;
-
-  while (attempts < 120) {
-
-    attempts++;
-
-    await sleep(5000);
-
-    const response =
-      await fetch(
-        `/api/video/${encodeURIComponent(videoId)}`
-      );
-
-    const data =
-      await response.json();
-
-    if (!response.ok) {
-
-      throw new Error(
-        data.error ||
-        "Could not check video status."
-      );
-
-    }
-
-    const video =
-      data.video;
-
-    const progress =
-      Number(video.progress || 0);
-
-    updateVideoProgress(
-      card,
-      progress,
-      getVideoStatusText(
-        video.status,
-        progress
-      )
-    );
-
-    if (
-      video.status ===
-      "completed"
-    ) {
-
-      showCompletedVideo(
-        card,
-        videoId
-      );
-
-      return;
-    }
-
-    if (
-      video.status ===
-      "failed"
-    ) {
-
-      throw new Error(
-        video.error?.message ||
-        "Video generation failed."
-      );
-
-    }
-
-    if (
-      video.status ===
-      "canceled"
-    ) {
-
-      throw new Error(
-        "Video generation was canceled."
-      );
-
-    }
-  }
-
-  throw new Error(
-    "Video generation is taking too long. Please check again later."
-  );
-}
-
-function getVideoStatusText(
-  status,
-  progress
-) {
-
-  if (status === "queued") {
-    return "Waiting for generation...";
-  }
-
-  if (status === "in_progress") {
-    return `Generating video... ${progress}%`;
-  }
-
-  if (status === "completed") {
-    return "Video ready.";
-  }
-
-  return "Processing...";
-}
-
-/* =========================================================
-   GENERATION CARDS
-========================================================= */
-
-function showGenerationCard(
-  type,
-  prompt,
-  status
-) {
-
-  const card =
-    document.createElement("div");
-
-  card.className =
-    "generation-card";
-
-  card.dataset.type =
-    type;
-
-  const header =
-    document.createElement("div");
-
-  header.className =
-    "generation-header";
-
-  const title =
-    document.createElement("div");
-
-  title.className =
-    "generation-title";
-
-  title.textContent =
-    type === "image"
-      ? "Image Generation"
-      : "Video Generation";
-
-  const statusEl =
-    document.createElement("div");
-
-  statusEl.className =
-    "generation-status";
-
-  statusEl.textContent =
-    status;
-
-  header.appendChild(title);
-  header.appendChild(statusEl);
-
-  card.appendChild(header);
-
-  const promptEl =
-    document.createElement("div");
-
-  promptEl.style.color = "#777";
-  promptEl.style.fontSize = "12px";
-  promptEl.style.marginBottom = "14px";
-  promptEl.textContent =
-    prompt;
-
-  card.appendChild(promptEl);
-
-  if (type === "video") {
-
-    const progressWrap =
-      document.createElement("div");
-
-    progressWrap.className =
-      "progress-wrap";
-
-    progressWrap.innerHTML = `
-      <div class="progress-track">
-        <div class="progress-bar"></div>
-      </div>
-      <div class="progress-text">
-        0%
-      </div>
-    `;
-
-    card.appendChild(
-      progressWrap
-    );
-
-  } else {
-
-    const loading =
-      document.createElement("div");
-
-    loading.style.height = "300px";
-    loading.style.borderRadius = "12px";
-    loading.style.background =
-      "linear-gradient(110deg,#090909,#181818,#090909)";
-    loading.style.backgroundSize =
-      "300% 100%";
-    loading.style.animation =
-      "loading 1.8s infinite";
-
-    card.appendChild(
-      loading
-    );
-
-  }
-
-  chat.appendChild(card);
-
-  chat.scrollTop =
-    chat.scrollHeight;
-
-  return card;
-}
-
-/* Add loading animation dynamically */
-
-const style =
-  document.createElement("style");
-
-style.textContent = `
-@keyframes loading {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-`;
-
-document.head.appendChild(style);
-
-/* =========================================================
-   IMAGE CARD UPDATE
-========================================================= */
-
-function updateImageCard(
-  image,
-  prompt
-) {
-
-  const cards =
-    document.querySelectorAll(
-      '.generation-card[data-type="image"]'
-    );
-
-  const card =
-    cards[cards.length - 1];
-
-  if (!card) return;
-
-  card.innerHTML = "";
-
-  const header =
-    document.createElement("div");
-
-  header.className =
-    "generation-header";
-
-  header.innerHTML = `
-    <div class="generation-title">
-      Generated Image
-    </div>
-    <div class="generation-status">
-      Complete
-    </div>
-  `;
-
-  card.appendChild(header);
-
-  const img =
-    document.createElement("img");
-
-  img.className =
-    "generated-image";
-
-  img.src = image;
-  img.alt = prompt;
-
-  card.appendChild(img);
-
-  const download =
-    document.createElement("a");
-
-  download.className =
-    "download-btn";
-
-  download.textContent =
-    "Download image";
-
-  download.href =
-    image;
-
-  download.download =
-    "deveshai-image.png";
-
-  card.appendChild(download);
-
-  chat.scrollTop =
-    chat.scrollHeight;
-}
-
-/* =========================================================
-   VIDEO PROGRESS
-========================================================= */
-
-function updateVideoProgress(
-  card,
-  progress,
-  text
-) {
-
-  const bar =
-    card.querySelector(
-      ".progress-bar"
-    );
-
-  const progressText =
-    card.querySelector(
-      ".progress-text"
-    );
-
-  const status =
-    card.querySelector(
-      ".generation-status"
-    );
-
-  if (bar) {
-    bar.style.width =
-      Math.max(
-        0,
-        Math.min(100, progress)
-      ) + "%";
-  }
-
-  if (progressText) {
-    progressText.textContent =
-      Math.round(progress) + "%";
-  }
-
-  if (status) {
-    status.textContent =
-      text;
-  }
-}
-
-/* =========================================================
-   COMPLETED VIDEO
-========================================================= */
-
-function showCompletedVideo(
-  card,
-  videoId
-) {
-
-  card.innerHTML = "";
-
-  const header =
-    document.createElement("div");
-
-  header.className =
-    "generation-header";
-
-  header.innerHTML = `
-    <div class="generation-title">
-      Generated Video
-    </div>
-
-    <div class="generation-status">
-      Complete
-    </div>
-  `;
-
-  card.appendChild(header);
-
-  const video =
-    document.createElement("video");
-
-  video.className =
-    "generated-video";
-
-  video.controls = true;
-  video.playsInline = true;
-
-  video.src =
-    `/api/video/${encodeURIComponent(videoId)}/content`;
-
-  card.appendChild(video);
-
-  const download =
-    document.createElement("a");
-
-  download.className =
-    "download-btn";
-
-  download.textContent =
-    "Download video";
-
-  download.href =
-    video.src;
-
-  download.download =
-    `deveshai-${videoId}.mp4`;
-
-  card.appendChild(download);
-
-  chat.scrollTop =
-    chat.scrollHeight;
-}
-
-/* =========================================================
-   ERRORS
-========================================================= */
-
-function updateGenerationError(
-  type,
-  message
-) {
-
-  const cards =
-    document.querySelectorAll(
-      ".generation-card"
-    );
-
-  const card =
-    cards[cards.length - 1];
-
-  if (!card) return;
-
-  updateCardError(
-    card,
-    message
-  );
-}
-
-function updateCardError(
-  card,
-  message
-) {
-
-  const status =
-    card.querySelector(
-      ".generation-status"
-    );
-
-  if (status) {
-    status.textContent =
-      "Generation failed";
-  }
-
-  const error =
-    document.createElement("div");
-
-  error.style.marginTop =
-    "15px";
-
-  error.style.padding =
-    "12px";
-
-  error.style.border =
-    "1px solid #333";
-
-  error.style.borderRadius =
-    "10px";
-
-  error.style.color =
-    "#aaa";
-
-  error.textContent =
-    message;
-
-  card.appendChild(error);
-}
-
-/* =========================================================
-   CHAT CONTROLS
-========================================================= */
-
-function clearChat() {
-
-  state.messages = [];
-
-  chat.innerHTML = "";
-
-  chat.appendChild(
-    createWelcome()
-  );
-}
-
-function createWelcome() {
-
-  const el =
-    document.createElement("div");
-
-  el.className =
-    "welcome";
-
-  el.innerHTML = `
-    <h1>
-      Devesh<span>AI</span>
-    </h1>
-
-    <p>
-      One workspace for conversation,
-      creation, image generation and video generation.
-    </p>
-
-    <div class="quick-grid">
-
-      <button
-        class="quick"
-        onclick="quickPrompt('Explain quantum computing in very simple Hinglish.')">
-        <strong>Ask anything</strong>
-        Get a clear AI answer.
-      </button>
-
-      <button
-        class="quick"
-        onclick="openImageMode()">
-        <strong>Generate image</strong>
-        Create an image from your idea.
-      </button>
-
-      <button
-        class="quick"
-        onclick="openVideoMode()">
-        <strong>Generate video</strong>
-        Create a short AI video.
-      </button>
-
-    </div>
-  `;
-
-  return el;
-}
-
-function newChat() {
-
-  state.messages = [];
-
-  chat.innerHTML = "";
-
-  chat.appendChild(
-    createWelcome()
-  );
-
-  input.focus();
-}
-
-/* =========================================================
-   INPUT
-========================================================= */
-
-input.addEventListener(
-  "input",
-  autoResize
-);
-
-function autoResize() {
-
-  input.style.height =
-    "auto";
-
-  input.style.height =
-    Math.min(
-      input.scrollHeight,
-      180
-    ) + "px";
-}
-
-input.addEventListener(
-  "keydown",
-  event => {
-
-    if (
-      event.key === "Enter" &&
-      !event.shiftKey
-    ) {
-
-      event.preventDefault();
-
-      sendCurrent();
-    }
-
-  }
-);
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function sleep(ms) {
-
-  return new Promise(
-    resolve =>
-      setTimeout(
-        resolve,
-        ms
-      )
-  );
-}
-
-/* =========================================================
-   INITIAL
-========================================================= */
-
-setMode("Ask");
+animate();
 
 </script>
 
