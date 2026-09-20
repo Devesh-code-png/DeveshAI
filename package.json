@@ -1,13 +1,16 @@
 {
   "name": "deveshai",
-  "version": "1.0.0",
-  "description": "DeveshAI - AI workspace",
+  "version": "4.0.0",
+  "description": "DeveshAI - Advanced AI Workspace",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
-    "express": "latest",
-    "openai": "latest"
+    "express": "^5.1.0",
+    "openai": "^5.19.0"
   }
 }
