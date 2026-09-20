@@ -14,673 +14,795 @@
 
 :root{
   --bg:#050505;
-  --panel:#0b0b0b;
-  --panel2:#101010;
+  --panel:#0c0c0c;
+  --panel2:#111;
   --border:#242424;
+  --border2:#303030;
   --text:#f5f5f5;
-  --muted:#8b8b8b;
-  --hover:#171717;
-  --accent:#ffffff;
+  --muted:#858585;
+  --muted2:#555;
+  --white:#fff;
+  --danger:#ff5555;
 }
 
 body{
-  font-family:Inter,Arial,sans-serif;
+  font-family:Inter,Arial,Helvetica,sans-serif;
   background:var(--bg);
   color:var(--text);
   height:100vh;
   overflow:hidden;
 }
 
-/* ================= BACKGROUND ================= */
-
-#bgCanvas{
-  position:fixed;
-  inset:0;
-  width:100%;
-  height:100%;
-  z-index:-2;
-  opacity:.35;
-}
-
-.noise{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:-1;
-  opacity:.035;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* ================= APP ================= */
+/* =========================
+   APP
+========================= */
 
 .app{
-  display:flex;
   height:100vh;
+  display:flex;
+  background:
+    radial-gradient(circle at 70% 10%,rgba(255,255,255,.045),transparent 25%),
+    radial-gradient(circle at 30% 90%,rgba(255,255,255,.025),transparent 25%),
+    #050505;
 }
 
-/* ================= SIDEBAR ================= */
+/* =========================
+   SIDEBAR
+========================= */
 
 .sidebar{
-  width:285px;
+  width:280px;
+  height:100vh;
+  background:#080808;
   border-right:1px solid var(--border);
-  background:rgba(7,7,7,.92);
   display:flex;
   flex-direction:column;
-  transition:.3s ease;
-}
-
-.brand{
-  height:72px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:0 20px;
-  border-bottom:1px solid var(--border);
+  padding:18px;
+  transition:.25s ease;
+  z-index:20;
 }
 
 .logo{
-  width:36px;
-  height:36px;
-  border:1px solid #555;
-  display:grid;
-  place-items:center;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  margin-bottom:22px;
+}
+
+.logoMark{
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  background:#fff;
+  color:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  font-weight:900;
+}
+
+.logoText{
   font-weight:800;
-  border-radius:10px;
-  animation:pulseLogo 3s infinite;
+  font-size:18px;
 }
 
-@keyframes pulseLogo{
-  0%,100%{box-shadow:0 0 0 rgba(255,255,255,0)}
-  50%{box-shadow:0 0 25px rgba(255,255,255,.12)}
-}
-
-.brandText{
-  font-weight:800;
-  letter-spacing:.5px;
-}
-
-.brandSub{
-  font-size:10px;
-  color:var(--muted);
+.logoSub{
+  font-size:8px;
+  color:#666;
+  letter-spacing:2px;
   margin-top:2px;
 }
 
 .newChat{
-  margin:15px;
-  padding:12px;
-  border:1px solid var(--border);
-  background:#111;
-  color:white;
-  border-radius:10px;
+  width:100%;
+  height:45px;
+  border:0;
+  border-radius:11px;
+  background:#fff;
+  color:#000;
+  font-weight:700;
   cursor:pointer;
+  margin-bottom:10px;
   transition:.2s;
 }
 
 .newChat:hover{
-  background:#1c1c1c;
   transform:translateY(-1px);
-}
-
-.sidebarSection{
-  padding:5px 15px;
-  color:#777;
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:1px;
+  background:#ddd;
 }
 
 .searchBox{
-  margin:8px 15px;
-  position:relative;
+  height:42px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#111;
+  display:flex;
+  align-items:center;
+  padding:0 12px;
+  gap:9px;
+  margin-bottom:20px;
 }
 
 .searchBox input{
   width:100%;
-  padding:10px 12px;
-  background:#101010;
-  border:1px solid var(--border);
-  border-radius:9px;
-  color:white;
+  background:none;
+  border:0;
   outline:none;
+  color:white;
+}
+
+.sectionTitle{
+  color:#555;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:2px;
+  margin:7px 4px 10px;
+}
+
+.navBtn{
+  width:100%;
+  height:40px;
+  background:transparent;
+  border:0;
+  color:#999;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border-radius:9px;
+  padding:0 11px;
+  cursor:pointer;
+  text-align:left;
+  margin-bottom:3px;
+}
+
+.navBtn:hover,
+.navBtn.active{
+  background:#151515;
+  color:white;
+}
+
+.navIcon{
+  width:20px;
+  text-align:center;
 }
 
 .history{
   flex:1;
-  overflow:auto;
-  padding:5px 10px;
+  overflow-y:auto;
+  margin-top:5px;
 }
 
-.chatItem{
+.historyItem{
   display:flex;
   align-items:center;
-  gap:8px;
-  padding:10px;
-  margin:3px 0;
-  border-radius:9px;
+  gap:7px;
+  padding:9px 8px;
+  border-radius:8px;
+  color:#777;
   cursor:pointer;
-  transition:.2s;
+  font-size:12px;
+  margin-bottom:2px;
 }
 
-.chatItem:hover{
-  background:var(--hover);
+.historyItem:hover{
+  background:#121212;
+  color:#fff;
 }
 
-.chatItem.active{
-  background:#171717;
-}
-
-.chatTitle{
-  flex:1;
+.historyItem span{
   overflow:hidden;
   white-space:nowrap;
   text-overflow:ellipsis;
-  font-size:13px;
-}
-
-.pin{
-  font-size:11px;
-  opacity:.6;
-}
-
-.chatMenu{
-  border:0;
-  background:none;
-  color:#777;
-  cursor:pointer;
-}
-
-.emptyHistory{
-  text-align:center;
-  color:#666;
-  font-size:12px;
-  padding:30px 10px;
-}
-
-/* ================= MAIN ================= */
-
-.main{
   flex:1;
-  display:flex;
-  flex-direction:column;
-  min-width:0;
 }
 
-.topbar{
-  height:72px;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 20px;
-  background:rgba(5,5,5,.8);
-  backdrop-filter:blur(15px);
+.historyMore{
+  opacity:0;
+  color:#777;
 }
 
-.topLeft{
+.historyItem:hover .historyMore{
+  opacity:1;
+}
+
+.userArea{
+  border-top:1px solid var(--border);
+  padding-top:15px;
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:10px;
 }
 
-.menuBtn{
-  display:none;
-  background:none;
-  color:white;
-  border:0;
-  font-size:22px;
-  cursor:pointer;
-}
-
-.modeSelect{
+.avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#202020;
   display:flex;
-  gap:5px;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
 }
 
-.modeBtn{
-  border:1px solid var(--border);
-  background:#0d0d0d;
-  color:#aaa;
-  padding:7px 12px;
-  border-radius:8px;
-  cursor:pointer;
+.userInfo{
+  flex:1;
+}
+
+.userName{
   font-size:12px;
-  transition:.2s;
 }
 
-.modeBtn:hover,
-.modeBtn.active{
-  color:white;
-  background:#1b1b1b;
-  border-color:#444;
-}
-
-.topActions{
-  display:flex;
-  gap:7px;
+.userPlan{
+  font-size:9px;
+  color:#555;
+  margin-top:2px;
 }
 
 .iconBtn{
-  width:36px;
-  height:36px;
-  background:#0d0d0d;
-  border:1px solid var(--border);
-  border-radius:9px;
-  color:#bbb;
+  width:35px;
+  height:35px;
+  border:1px solid transparent;
+  background:transparent;
+  color:#777;
+  border-radius:8px;
   cursor:pointer;
 }
 
 .iconBtn:hover{
+  background:#171717;
   color:white;
-  background:#1b1b1b;
 }
 
-/* ================= CHAT ================= */
+/* =========================
+   MAIN
+========================= */
 
-.chatArea{
+.main{
   flex:1;
-  overflow:auto;
-  padding:35px 20px 150px;
+  min-width:0;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+.topbar{
+  height:66px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  padding:0 22px;
+  gap:14px;
+}
+
+.mobileMenu{
+  display:none;
+}
+
+.chatTitle{
+  font-size:14px;
+  font-weight:700;
+  flex:1;
+}
+
+.topActions{
+  display:flex;
+  gap:5px;
+}
+
+/* =========================
+   CHAT
+========================= */
+
+.chat{
+  flex:1;
+  overflow-y:auto;
+  padding:35px 20px 180px;
   scroll-behavior:smooth;
 }
 
-.chatContainer{
+.chatInner{
   width:min(900px,100%);
   margin:auto;
 }
 
-.welcome{
-  min-height:55vh;
+.empty{
+  min-height:60vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+
+.emptyLogo{
+  width:64px;
+  height:64px;
+  border-radius:20px;
+  background:white;
+  color:black;
   display:flex;
   align-items:center;
   justify-content:center;
-  flex-direction:column;
-  text-align:center;
-  animation:fadeUp .7s ease;
+  font-size:32px;
+  font-weight:900;
+  margin-bottom:24px;
+  box-shadow:0 0 60px rgba(255,255,255,.08);
 }
 
-.welcome h1{
-  font-size:clamp(35px,6vw,70px);
-  letter-spacing:-3px;
-  font-weight:800;
-  animation:titleFloat 5s ease-in-out infinite;
+.empty h1{
+  font-size:38px;
+  margin-bottom:12px;
 }
 
-@keyframes titleFloat{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-5px)}
+.empty p{
+  color:#666;
+  font-size:14px;
 }
 
-.welcome p{
-  margin-top:12px;
-  color:#777;
-}
-
-.quickGrid{
-  margin-top:30px;
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  width:min(600px,100%);
-}
-
-.quickCard{
-  padding:16px;
-  text-align:left;
-  border:1px solid var(--border);
-  background:rgba(14,14,14,.7);
-  border-radius:12px;
-  cursor:pointer;
-  transition:.25s;
-}
-
-.quickCard:hover{
-  transform:translateY(-3px);
-  border-color:#555;
-  background:#171717;
-}
-
-.quickCard strong{
-  font-size:13px;
-}
-
-.quickCard span{
-  display:block;
-  color:#777;
-  font-size:11px;
-  margin-top:5px;
-}
-
-/* ================= MESSAGE ================= */
+/* =========================
+   MESSAGES
+========================= */
 
 .message{
   display:flex;
-  gap:14px;
-  margin:0 auto 28px;
-  animation:fadeUp .35s ease;
+  gap:13px;
+  margin:28px 0;
+  animation:messageIn .25s ease;
+}
+
+@keyframes messageIn{
+  from{
+    opacity:0;
+    transform:translateY(8px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
 }
 
 .message.user{
-  flex-direction:row-reverse;
+  justify-content:flex-end;
 }
 
-.avatar{
-  flex:none;
-  width:34px;
-  height:34px;
-  border:1px solid #333;
+.message.user .bubble{
+  background:#171717;
+  border:1px solid #252525;
+  border-radius:18px 18px 5px 18px;
+  max-width:75%;
+}
+
+.message.ai{
+  align-items:flex-start;
+}
+
+.msgAvatar{
+  width:32px;
+  height:32px;
+  min-width:32px;
   border-radius:10px;
-  display:grid;
-  place-items:center;
-  font-size:11px;
-  font-weight:bold;
-}
-
-.messageBody{
-  max-width:78%;
-}
-
-.message.user .messageBody{
-  text-align:right;
-}
-
-.messageText{
-  display:inline-block;
-  padding:13px 15px;
-  border:1px solid var(--border);
-  background:#0e0e0e;
-  border-radius:13px;
-  line-height:1.6;
+  background:white;
+  color:black;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   font-size:14px;
-  text-align:left;
-  white-space:pre-wrap;
-  word-break:break-word;
+  font-weight:900;
 }
 
-.message.user .messageText{
-  background:#181818;
+.bubble{
+  max-width:calc(100% - 50px);
+  line-height:1.65;
+  font-size:14px;
+  color:#ddd;
+}
+
+.userText{
+  padding:12px 15px;
+}
+
+.aiContent{
+  white-space:pre-wrap;
 }
 
 .messageActions{
   display:flex;
-  gap:5px;
-  margin-top:7px;
+  gap:4px;
+  margin-top:9px;
 }
 
-.message.user .messageActions{
-  justify-content:flex-end;
-}
-
-.smallBtn{
+.messageActions button{
   border:0;
   background:transparent;
-  color:#666;
+  color:#555;
   cursor:pointer;
-  font-size:11px;
-  padding:3px 5px;
+  padding:5px 7px;
+  border-radius:6px;
 }
 
-.smallBtn:hover{
+.messageActions button:hover{
+  background:#171717;
   color:white;
 }
 
-/* ================= COMPOSER ================= */
+.codeBlock{
+  margin:14px 0;
+  background:#090909;
+  border:1px solid #272727;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.codeHeader{
+  height:35px;
+  padding:0 11px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#111;
+  color:#666;
+  font-size:10px;
+}
+
+.codeBody{
+  padding:15px;
+  overflow:auto;
+  color:#ddd;
+  font-family:Consolas,monospace;
+  font-size:12px;
+  line-height:1.6;
+}
+
+/* =========================
+   MODE BAR
+========================= */
+
+.modeBar{
+  position:fixed;
+  bottom:115px;
+  left:calc(280px + 50%);
+  transform:translateX(-50%);
+  display:flex;
+  gap:6px;
+  padding:5px;
+  background:#0b0b0b;
+  border:1px solid #292929;
+  border-radius:14px;
+  z-index:10;
+}
+
+.mode{
+  height:32px;
+  padding:0 13px;
+  border:0;
+  border-radius:9px;
+  background:transparent;
+  color:#777;
+  cursor:pointer;
+  font-size:11px;
+}
+
+.mode:hover{
+  color:white;
+}
+
+.mode.active{
+  background:white;
+  color:black;
+  font-weight:700;
+}
+
+/* =========================
+   COMPOSER
+========================= */
 
 .composerWrap{
-  position:absolute;
-  bottom:0;
-  left:285px;
+  position:fixed;
+  left:280px;
   right:0;
-  padding:18px 20px 22px;
-  background:linear-gradient(transparent,#050505 35%);
+  bottom:0;
+  padding:20px 20px 22px;
+  background:linear-gradient(transparent,#050505 30%);
+  z-index:9;
 }
 
 .composer{
   width:min(900px,100%);
   margin:auto;
+  background:#101010;
   border:1px solid #303030;
-  background:#0d0d0d;
-  border-radius:16px;
-  box-shadow:0 15px 60px rgba(0,0,0,.45);
-  overflow:hidden;
-  transition:.25s;
-}
-
-.composer:focus-within{
-  border-color:#555;
-  box-shadow:0 0 0 1px #222,0 15px 60px rgba(0,0,0,.5);
+  border-radius:19px;
+  box-shadow:0 15px 60px rgba(0,0,0,.6);
 }
 
 .attachments{
-  display:flex;
+  display:none;
   gap:7px;
-  padding:8px 10px 0;
+  padding:10px 12px 0;
   flex-wrap:wrap;
 }
 
-.attachment{
-  font-size:11px;
-  border:1px solid #333;
-  padding:5px 8px;
-  border-radius:7px;
+.fileChip{
+  border:1px solid #292929;
+  background:#171717;
+  border-radius:8px;
+  padding:6px 9px;
+  font-size:10px;
   color:#aaa;
 }
 
-textarea{
-  width:100%;
-  min-height:55px;
-  max-height:180px;
+.promptRow{
+  min-height:65px;
+  display:flex;
+  align-items:flex-end;
+  gap:8px;
+  padding:12px;
+}
+
+.prompt{
+  flex:1;
+  min-height:40px;
+  max-height:160px;
   resize:none;
-  background:transparent;
   border:0;
-  outline:none;
+  outline:0;
+  background:transparent;
   color:white;
-  padding:15px;
-  font:inherit;
+  font:14px Arial;
+  padding:10px 3px;
+}
+
+.prompt::placeholder{
+  color:#555;
 }
 
 .composerBottom{
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  padding:8px;
-}
-
-.composerLeft,
-.composerRight{
-  display:flex;
-  gap:6px;
+  gap:5px;
+  padding:0 10px 10px;
 }
 
 .toolBtn{
-  border:1px solid transparent;
+  height:32px;
+  border:0;
   background:transparent;
   color:#777;
-  padding:8px 10px;
   border-radius:8px;
+  padding:0 9px;
   cursor:pointer;
+  font-size:11px;
 }
 
 .toolBtn:hover{
+  background:#1a1a1a;
   color:white;
-  background:#181818;
 }
 
 .sendBtn{
-  width:38px;
-  height:38px;
-  border-radius:10px;
+  margin-left:auto;
+  width:37px;
+  height:37px;
   border:0;
+  border-radius:50%;
   background:white;
   color:black;
+  font-size:17px;
   cursor:pointer;
-  font-weight:bold;
-  transition:.2s;
 }
 
 .sendBtn:hover{
-  transform:scale(1.05);
+  background:#ddd;
 }
 
 .sendBtn.stop{
-  background:#444;
-  color:white;
+  background:#fff;
 }
 
-/* ================= PANELS ================= */
+/* =========================
+   PANELS / MODALS
+========================= */
 
 .overlay{
+  display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.65);
-  backdrop-filter:blur(5px);
-  display:none;
-  z-index:50;
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(7px);
+  z-index:100;
 }
 
 .overlay.show{
-  display:block;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.panel{
-  position:fixed;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%) scale(.96);
+.modal{
   width:min(620px,92vw);
   max-height:85vh;
   overflow:auto;
-  background:#0c0c0c;
-  border:1px solid #333;
-  border-radius:16px;
+  background:#0d0d0d;
+  border:1px solid #303030;
+  border-radius:18px;
   padding:22px;
-  z-index:60;
-  display:none;
+  box-shadow:0 30px 100px #000;
 }
 
-.panel.show{
-  display:block;
-  animation:panelIn .2s ease forwards;
-}
-
-@keyframes panelIn{
-  to{transform:translate(-50%,-50%) scale(1)}
-}
-
-.panelHeader{
+.modalHeader{
   display:flex;
-  justify-content:space-between;
   align-items:center;
   margin-bottom:20px;
 }
 
-.closeBtn{
+.modalHeader h2{
+  font-size:18px;
+  flex:1;
+}
+
+.close{
   border:0;
-  background:none;
-  color:#777;
-  font-size:20px;
+  background:#181818;
+  color:#999;
+  width:32px;
+  height:32px;
+  border-radius:8px;
   cursor:pointer;
 }
 
-.panelTitle{
-  font-size:20px;
-  font-weight:800;
+.settingRow{
+  padding:15px 0;
+  border-bottom:1px solid #202020;
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-.panelText{
-  color:#888;
+.settingInfo{
+  flex:1;
+}
+
+.settingTitle{
   font-size:13px;
-  margin-bottom:18px;
+  color:white;
 }
 
-.panelInput{
-  width:100%;
-  padding:12px;
-  border:1px solid #333;
-  background:#111;
-  color:white;
-  border-radius:9px;
-  outline:none;
+.settingDesc{
+  color:#666;
+  font-size:10px;
+  margin-top:4px;
 }
 
-.panelBtn{
-  margin-top:12px;
-  padding:11px 14px;
-  border-radius:9px;
-  border:1px solid #333;
-  background:#171717;
-  color:white;
+.switch{
+  width:40px;
+  height:22px;
+  background:#333;
+  border-radius:20px;
+  position:relative;
   cursor:pointer;
 }
 
-.panelBtn:hover{
-  background:#222;
-}
-
-/* ================= VIDEO ================= */
-
-.progressBox{
-  margin-top:20px;
-  border:1px solid #292929;
-  padding:15px;
-  border-radius:12px;
-}
-
-.progressBar{
-  height:7px;
-  background:#222;
-  border-radius:10px;
-  overflow:hidden;
-  margin-top:12px;
-}
-
-.progressFill{
-  height:100%;
-  width:0%;
+.switch.on{
   background:white;
-  transition:.4s;
 }
 
-.statusText{
-  color:#888;
-  font-size:12px;
+.switch::after{
+  content:"";
+  width:16px;
+  height:16px;
+  background:#777;
+  border-radius:50%;
+  position:absolute;
+  top:3px;
+  left:3px;
+  transition:.2s;
 }
 
-/* ================= TOAST ================= */
+.switch.on::after{
+  left:21px;
+  background:black;
+}
+
+/* =========================
+   QUICK PANEL
+========================= */
+
+.quickPanel{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.quickCard{
+  padding:16px;
+  background:#111;
+  border:1px solid #252525;
+  border-radius:12px;
+  cursor:pointer;
+}
+
+.quickCard:hover{
+  border-color:#555;
+  background:#151515;
+}
+
+.quickCard strong{
+  display:block;
+  font-size:13px;
+  margin-bottom:5px;
+}
+
+.quickCard span{
+  font-size:10px;
+  color:#666;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.typing{
+  display:flex;
+  gap:5px;
+  padding:8px 0;
+}
+
+.typing i{
+  width:5px;
+  height:5px;
+  background:#777;
+  border-radius:50%;
+  animation:dot 1s infinite;
+}
+
+.typing i:nth-child(2){
+  animation-delay:.15s;
+}
+
+.typing i:nth-child(3){
+  animation-delay:.3s;
+}
+
+@keyframes dot{
+  0%,60%,100%{
+    transform:translateY(0);
+    opacity:.4;
+  }
+  30%{
+    transform:translateY(-5px);
+    opacity:1;
+  }
+}
+
+/* =========================
+   TOAST
+========================= */
 
 .toast{
   position:fixed;
+  right:22px;
   bottom:25px;
-  right:25px;
-  background:#f5f5f5;
+  background:#fff;
   color:#000;
-  padding:12px 16px;
+  padding:11px 16px;
   border-radius:10px;
-  font-size:13px;
+  font-size:12px;
+  font-weight:700;
   transform:translateY(100px);
   opacity:0;
-  transition:.3s;
-  z-index:100;
+  transition:.25s;
+  z-index:300;
 }
 
 .toast.show{
-  transform:translateY(0);
+  transform:none;
   opacity:1;
 }
 
-/* ================= ANIMATION ================= */
-
-@keyframes fadeUp{
-  from{
-    opacity:0;
-    transform:translateY(12px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-/* ================= MOBILE ================= */
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media(max-width:800px){
 
@@ -689,14 +811,13 @@ textarea{
     left:-290px;
     top:0;
     bottom:0;
-    z-index:80;
   }
 
   .sidebar.open{
     left:0;
   }
 
-  .menuBtn{
+  .mobileMenu{
     display:block;
   }
 
@@ -704,39 +825,23 @@ textarea{
     left:0;
   }
 
-  .modeSelect{
-    display:none;
+  .modeBar{
+    left:50%;
+    bottom:115px;
+    max-width:95vw;
+    overflow-x:auto;
   }
 
-  .messageBody{
-    max-width:85%;
+  .mode{
+    white-space:nowrap;
   }
 
-  .quickGrid{
+  .empty h1{
+    font-size:28px;
+  }
+
+  .quickPanel{
     grid-template-columns:1fr;
-  }
-}
-
-@media(max-width:500px){
-
-  .topbar{
-    padding:0 12px;
-  }
-
-  .chatArea{
-    padding:20px 12px 145px;
-  }
-
-  .composerWrap{
-    padding:10px;
-  }
-
-  .welcome h1{
-    letter-spacing:-2px;
-  }
-
-  .messageText{
-    font-size:13px;
   }
 }
 </style>
@@ -744,173 +849,122 @@ textarea{
 
 <body>
 
-<canvas id="bgCanvas"></canvas>
-<div class="noise"></div>
-
 <div class="app">
 
-<!-- ================= SIDEBAR ================= -->
+<!-- =========================
+     SIDEBAR
+========================= -->
 
 <aside class="sidebar" id="sidebar">
 
-  <div class="brand">
-    <div class="logo">D</div>
+  <div class="logo">
+    <div class="logoMark">D</div>
     <div>
-      <div class="brandText">DeveshAI</div>
-      <div class="brandSub">AI WORKSPACE</div>
+      <div class="logoText">DeveshAI</div>
+      <div class="logoSub">INTELLIGENCE</div>
     </div>
   </div>
 
-  <button class="newChat" onclick="newChat()">
-    + New Chat
-  </button>
-
-  <div class="sidebarSection">
-    Chats
-  </div>
+  <button class="newChat" id="newChat">＋ New Chat</button>
 
   <div class="searchBox">
-    <input
-      id="historySearch"
-      placeholder="Search chats..."
-      oninput="renderHistory()"
-    >
+    <span>⌕</span>
+    <input id="searchInput" placeholder="Search chats...">
   </div>
+
+  <div class="sectionTitle">WORKSPACE</div>
+
+  <button class="navBtn" data-action="projects">
+    <span class="navIcon">▣</span>
+    Projects
+  </button>
+
+  <button class="navBtn" data-action="history">
+    <span class="navIcon">◫</span>
+    Chat History
+  </button>
+
+  <button class="navBtn" data-action="memory">
+    <span class="navIcon">◉</span>
+    Memory
+  </button>
+
+  <button class="navBtn" data-action="custom">
+    <span class="navIcon">◇</span>
+    Custom AI
+  </button>
+
+  <button class="navBtn" data-action="apps">
+    <span class="navIcon">◎</span>
+    Apps
+  </button>
+
+  <div class="sectionTitle">RECENT CHATS</div>
 
   <div class="history" id="history"></div>
 
+  <div class="userArea">
+    <div class="avatar">D</div>
+
+    <div class="userInfo">
+      <div class="userName">Devesh</div>
+      <div class="userPlan">DeveshAI Workspace</div>
+    </div>
+
+    <button class="iconBtn" id="settingsBtn">⚙</button>
+  </div>
+
 </aside>
 
-<!-- ================= MAIN ================= -->
+
+<!-- =========================
+     MAIN
+========================= -->
 
 <main class="main">
 
   <header class="topbar">
 
-    <div class="topLeft">
+    <button class="iconBtn mobileMenu" id="mobileMenu">☰</button>
 
-      <button
-        class="menuBtn"
-        onclick="toggleSidebar()"
-      >
-        ☰
-      </button>
-
-      <div class="modeSelect">
-
-        <button
-          class="modeBtn active"
-          data-mode="Ask"
-          onclick="setMode('Ask',this)"
-        >
-          Ask
-        </button>
-
-        <button
-          class="modeBtn"
-          data-mode="Study"
-          onclick="setMode('Study',this)"
-        >
-          Study
-        </button>
-
-        <button
-          class="modeBtn"
-          data-mode="Create"
-          onclick="setMode('Create',this)"
-        >
-          Create
-        </button>
-
-        <button
-          class="modeBtn"
-          data-mode="Code"
-          onclick="setMode('Code',this)"
-        >
-          Code
-        </button>
-
-        <button
-          class="modeBtn"
-          data-mode="Analyze"
-          onclick="setMode('Analyze',this)"
-        >
-          Analyze
-        </button>
-
-      </div>
-
+    <div class="chatTitle" id="chatTitle">
+      New conversation
     </div>
 
     <div class="topActions">
 
-      <button
-        class="iconBtn"
-        title="Export Chat"
-        onclick="exportChat()"
-      >
-        ↓
+      <button class="iconBtn" id="renameBtn" title="Rename">
+        ✎
       </button>
 
-      <button
-        class="iconBtn"
-        title="Clear Chat"
-        onclick="clearCurrentChat()"
-      >
-        ×
+      <button class="iconBtn" id="shareBtn" title="Share">
+        ↗
+      </button>
+
+      <button class="iconBtn" id="moreBtn" title="More">
+        ⋯
       </button>
 
     </div>
 
   </header>
 
-  <section class="chatArea" id="chatArea">
 
-    <div class="chatContainer" id="chatContainer">
+  <!-- CHAT -->
 
-      <div class="welcome" id="welcome">
+  <section class="chat" id="chat">
 
-        <h1>DeveshAI</h1>
+    <div class="chatInner" id="chatInner">
 
-        <p id="welcomeText">
-          Think. Create. Build.
+      <div class="empty" id="emptyState">
+
+        <div class="emptyLogo">D</div>
+
+        <h1>What can I help you build?</h1>
+
+        <p>
+          Ask, create, research, code, analyze or learn.
         </p>
-
-        <div class="quickGrid">
-
-          <div
-            class="quickCard"
-            onclick="quickPrompt('Explain a difficult topic to me in very simple language.')"
-          >
-            <strong>Explain something</strong>
-            <span>Simple step-by-step explanation</span>
-          </div>
-
-          <div
-            class="quickCard"
-            onclick="quickPrompt('Help me write something professional.')"
-          >
-            <strong>Write</strong>
-            <span>Messages, emails and documents</span>
-          </div>
-
-          <div
-            class="quickCard"
-            onclick="quickPrompt('Help me debug this code.')"
-          >
-            <strong>Code</strong>
-            <span>Debug and build projects</span>
-          </div>
-
-          <div
-            class="quickCard"
-            onclick="openImagePanel()"
-          >
-            <strong>Create image</strong>
-            <span>Generate an image from a prompt</span>
-          </div>
-
-        </div>
 
       </div>
 
@@ -922,77 +976,215 @@ textarea{
 
 </div>
 
-<!-- ================= COMPOSER ================= -->
+
+<!-- =========================
+     MODE BAR
+========================= -->
+
+<div class="modeBar">
+
+  <button class="mode active" data-mode="ask">
+    Ask
+  </button>
+
+  <button class="mode" data-mode="think">
+    Think
+  </button>
+
+  <button class="mode" data-mode="study">
+    Study
+  </button>
+
+  <button class="mode" data-mode="code">
+    Code
+  </button>
+
+  <button class="mode" data-mode="create">
+    Create
+  </button>
+
+  <button class="mode" data-mode="analyze">
+    Analyze
+  </button>
+
+</div>
+
+
+<!-- =========================
+     COMPOSER
+========================= -->
 
 <div class="composerWrap">
 
   <div class="composer">
 
-    <div
-      class="attachments"
-      id="attachments"
-    ></div>
+    <div class="attachments" id="attachments"></div>
 
-    <textarea
-      id="prompt"
-      placeholder="Message DeveshAI..."
-      onkeydown="handleKey(event)"
-    ></textarea>
+    <div class="promptRow">
+
+      <textarea
+        id="prompt"
+        class="prompt"
+        rows="1"
+        placeholder="Message DeveshAI..."
+      ></textarea>
+
+    </div>
 
     <div class="composerBottom">
 
-      <div class="composerLeft">
+      <button class="toolBtn" id="attachBtn">
+        ＋ Attach
+      </button>
 
-        <button
-          class="toolBtn"
-          onclick="document.getElementById('fileInput').click()"
-          title="Attach file"
-        >
-          + File
-        </button>
+      <button class="toolBtn" id="webBtn">
+        ◉ Web
+      </button>
 
-        <button
-          class="toolBtn"
-          onclick="startVoiceInput()"
-          title="Voice input"
-        >
-          🎙
-        </button>
+      <button class="toolBtn" id="voiceBtn">
+        🎤 Voice
+      </button>
 
-        <button
-          class="toolBtn"
-          onclick="speakLast()"
-          title="Speak latest answer"
-        >
-          🔊
-        </button>
+      <button class="toolBtn" id="imageBtn">
+        ◇ Image
+      </button>
 
+      <button class="toolBtn" id="quickBtn">
+        ⋯ Tools
+      </button>
+
+      <input
+        type="file"
+        id="fileInput"
+        multiple
+        hidden
+        accept="image/*,.pdf,.txt,.csv,.doc,.docx,.xls,.xlsx,.ppt,.pptx"
+      >
+
+      <button class="sendBtn" id="sendBtn">
+        ↑
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     SETTINGS MODAL
+========================= -->
+
+<div class="overlay" id="settingsModal">
+
+  <div class="modal">
+
+    <div class="modalHeader">
+      <h2>Settings</h2>
+      <button class="close" data-close="settingsModal">×</button>
+    </div>
+
+    <div class="settingRow">
+
+      <div class="settingInfo">
+        <div class="settingTitle">Enter to send</div>
+        <div class="settingDesc">
+          Press Enter to send messages.
+        </div>
       </div>
 
-      <div class="composerRight">
+      <div class="switch on" data-setting="enter"></div>
 
-        <button
-          class="toolBtn"
-          onclick="openImagePanel()"
-        >
-          Image
-        </button>
+    </div>
 
-        <button
-          class="toolBtn"
-          onclick="openVideoPanel()"
-        >
-          Video
-        </button>
+    <div class="settingRow">
 
-        <button
-          class="sendBtn"
-          id="sendBtn"
-          onclick="sendMessage()"
-        >
-          ↑
-        </button>
+      <div class="settingInfo">
+        <div class="settingTitle">Read responses automatically</div>
+        <div class="settingDesc">
+          Use browser speech after AI replies.
+        </div>
+      </div>
 
+      <div class="switch" data-setting="autovoice"></div>
+
+    </div>
+
+    <div class="settingRow">
+
+      <div class="settingInfo">
+        <div class="settingTitle">Save chat history</div>
+        <div class="settingDesc">
+          Store conversations locally in this browser.
+        </div>
+      </div>
+
+      <div class="switch on" data-setting="history"></div>
+
+    </div>
+
+    <div class="settingRow">
+
+      <div class="settingInfo">
+        <div class="settingTitle">Monochrome interface</div>
+        <div class="settingDesc">
+          Keep the DeveshAI black and white visual system.
+        </div>
+      </div>
+
+      <div class="switch on"></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     TOOLS MODAL
+========================= -->
+
+<div class="overlay" id="toolsModal">
+
+  <div class="modal">
+
+    <div class="modalHeader">
+      <h2>DeveshAI Tools</h2>
+      <button class="close" data-close="toolsModal">×</button>
+    </div>
+
+    <div class="quickPanel">
+
+      <div class="quickCard" data-tool="research">
+        <strong>✦ Deep Research</strong>
+        <span>Research a topic using connected web tools.</span>
+      </div>
+
+      <div class="quickCard" data-tool="image">
+        <strong>◇ Image Generation</strong>
+        <span>Create images through the AI backend.</span>
+      </div>
+
+      <div class="quickCard" data-tool="files">
+        <strong>▣ File Analysis</strong>
+        <span>Upload files and analyze their content.</span>
+      </div>
+
+      <div class="quickCard" data-tool="study">
+        <strong>◎ Study Mode</strong>
+        <span>Learn topics, revise and practice.</span>
+      </div>
+
+      <div class="quickCard" data-tool="code">
+        <strong>&lt;/&gt; Coding</strong>
+        <span>Build, debug and explain code.</span>
+      </div>
+
+      <div class="quickCard" data-tool="voice">
+        <strong>🎤 Voice</strong>
+        <span>Speak to DeveshAI using your microphone.</span>
       </div>
 
     </div>
@@ -1001,300 +1193,165 @@ textarea{
 
 </div>
 
-<input
-  type="file"
-  id="fileInput"
-  hidden
-  multiple
-  onchange="handleFiles(this.files)"
->
 
-<!-- ================= IMAGE PANEL ================= -->
+<!-- =========================
+     IMAGE MODAL
+========================= -->
 
-<div
-  class="overlay"
-  id="imageOverlay"
-  onclick="closePanels()"
-></div>
+<div class="overlay" id="imageModal">
 
-<div
-  class="panel"
-  id="imagePanel"
->
+  <div class="modal">
 
-  <div class="panelHeader">
-
-    <div class="panelTitle">
-      Image Generation
+    <div class="modalHeader">
+      <h2>Create Image</h2>
+      <button class="close" data-close="imageModal">×</button>
     </div>
 
+    <textarea
+      id="imagePrompt"
+      style="
+        width:100%;
+        min-height:120px;
+        background:#111;
+        border:1px solid #292929;
+        border-radius:10px;
+        padding:12px;
+        color:#fff;
+        resize:vertical;
+        outline:none;
+      "
+      placeholder="Describe the image you want..."
+    ></textarea>
+
     <button
-      class="closeBtn"
-      onclick="closePanels()"
+      id="generateImageBtn"
+      style="
+        width:100%;
+        height:43px;
+        margin-top:12px;
+        border:0;
+        border-radius:10px;
+        background:#fff;
+        color:#000;
+        font-weight:700;
+        cursor:pointer;
+      "
     >
-      ×
+      Generate Image
     </button>
 
+    <div id="imageResult" style="margin-top:15px;"></div>
+
   </div>
-
-  <div class="panelText">
-    Describe the image you want DeveshAI to generate.
-  </div>
-
-  <input
-    class="panelInput"
-    id="imagePrompt"
-    placeholder="Example: futuristic black and white city..."
-  >
-
-  <button
-    class="panelBtn"
-    onclick="generateImage()"
-  >
-    Generate Image
-  </button>
-
-  <div id="imageResult"></div>
 
 </div>
 
-<!-- ================= VIDEO PANEL ================= -->
 
-<div
-  class="panel"
-  id="videoPanel"
->
+<!-- =========================
+     TOAST
+========================= -->
 
-  <div class="panelHeader">
+<div class="toast" id="toast"></div>
 
-    <div class="panelTitle">
-      Video Generation
-    </div>
-
-    <button
-      class="closeBtn"
-      onclick="closePanels()"
-    >
-      ×
-    </button>
-
-  </div>
-
-  <div class="panelText">
-    Create a short AI video from a text prompt.
-  </div>
-
-  <input
-    class="panelInput"
-    id="videoPrompt"
-    placeholder="Describe your video..."
-  >
-
-  <button
-    class="panelBtn"
-    onclick="generateVideo()"
-  >
-    Generate Video
-  </button>
-
-  <div
-    class="progressBox"
-    id="videoProgress"
-    style="display:none"
-  >
-
-    <div
-      class="statusText"
-      id="videoStatus"
-    >
-      Starting...
-    </div>
-
-    <div class="progressBar">
-      <div
-        class="progressFill"
-        id="videoProgressFill"
-      ></div>
-    </div>
-
-  </div>
-
-  <div id="videoResult"></div>
-
-</div>
-
-<div
-  class="toast"
-  id="toast"
-></div>
 
 <script>
-
 /* =========================================================
-   STATE
+   DEVESHAI FRONTEND ENGINE
 ========================================================= */
 
-let chats = JSON.parse(
-  localStorage.getItem("deveshai_chats") || "[]"
-);
+const $ = id => document.getElementById(id);
 
-let currentChatId = null;
-let currentMode = "Ask";
-let attachedFiles = [];
-let generating = false;
-
-/* =========================================================
-   INIT
-========================================================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  renderHistory();
-
-  if(chats.length){
-    loadChat(chats[0].id);
-  }else{
-    createChat();
+const state = {
+  messages: [],
+  mode: "ask",
+  currentChatId: null,
+  generating: false,
+  controller: null,
+  files: [],
+  webEnabled: false,
+  settings: {
+    enter: true,
+    autovoice: false,
+    history: true
   }
+};
 
-  autoResize();
-
-});
 
 /* =========================================================
-   CHAT MANAGEMENT
+   LOCAL STORAGE
 ========================================================= */
 
-function createChat(){
+function loadChats(){
 
-  const chat = {
-    id: Date.now().toString(),
-    title:"New Chat",
-    pinned:false,
-    createdAt:Date.now(),
-    messages:[]
-  };
-
-  chats.unshift(chat);
-
-  currentChatId = chat.id;
-
-  saveChats();
-
-  renderHistory();
-
-  renderMessages();
-
-}
-
-function newChat(){
-
-  createChat();
-
-  document.getElementById("prompt").focus();
-
-  closeSidebarMobile();
-
-}
-
-function getCurrentChat(){
-
-  return chats.find(
-    c => c.id === currentChatId
-  );
+  try{
+    return JSON.parse(localStorage.getItem("deveshai_chats") || "[]");
+  }catch{
+    return [];
+  }
 
 }
 
 function saveChats(){
 
+  if(!state.settings.history) return;
+
+  const chats = loadChats();
+
+  if(!state.currentChatId) return;
+
+  const index = chats.findIndex(
+    x => x.id === state.currentChatId
+  );
+
+  const data = {
+    id:state.currentChatId,
+    title: $("chatTitle").textContent,
+    messages:state.messages,
+    updated:Date.now()
+  };
+
+  if(index >= 0){
+    chats[index] = data;
+  }else{
+    chats.unshift(data);
+  }
+
   localStorage.setItem(
     "deveshai_chats",
-    JSON.stringify(chats)
+    JSON.stringify(chats.slice(0,100))
   );
-
-}
-
-function loadChat(id){
-
-  const chat = chats.find(
-    c => c.id === id
-  );
-
-  if(!chat) return;
-
-  currentChatId = id;
 
   renderHistory();
-
-  renderMessages();
-
-  closeSidebarMobile();
-
 }
 
-function renderHistory(){
 
-  const box =
-    document.getElementById("history");
+function renderHistory(filter=""){
 
-  const search =
-    document.getElementById("historySearch")
-      .value
-      .toLowerCase();
+  const box = $("history");
 
   box.innerHTML = "";
 
-  const filtered = chats
-    .filter(chat =>
-      chat.title
-        .toLowerCase()
-        .includes(search)
-    )
-    .sort((a,b) =>
-      Number(b.pinned) - Number(a.pinned)
+  let chats = loadChats();
+
+  if(filter){
+    chats = chats.filter(c =>
+      (c.title || "").toLowerCase()
+      .includes(filter.toLowerCase())
     );
-
-  if(!filtered.length){
-
-    box.innerHTML =
-      `<div class="emptyHistory">No chats found</div>`;
-
-    return;
-
   }
 
-  filtered.forEach(chat => {
+  chats.forEach(chat => {
 
-    const item =
-      document.createElement("div");
+    const item = document.createElement("div");
 
-    item.className =
-      "chatItem " +
-      (chat.id === currentChatId
-        ? "active"
-        : "");
-
-    item.onclick = () =>
-      loadChat(chat.id);
+    item.className = "historyItem";
 
     item.innerHTML = `
-
-      <span class="pin">
-        ${chat.pinned ? "★" : ""}
-      </span>
-
-      <span class="chatTitle">
-        ${escapeHTML(chat.title)}
-      </span>
-
-      <button
-        class="chatMenu"
-        onclick="event.stopPropagation();chatOptions('${chat.id}')"
-      >
-        ⋯
-      </button>
-
+      <span>💬 ${escapeHtml(chat.title || "New Chat")}</span>
+      <span class="historyMore">⋯</span>
     `;
+
+    item.onclick = () => loadChat(chat.id);
 
     box.appendChild(item);
 
@@ -1302,239 +1359,67 @@ function renderHistory(){
 
 }
 
-function chatOptions(id){
-
-  const chat =
-    chats.find(c => c.id === id);
-
-  if(!chat) return;
-
-  const action =
-    prompt(
-      "Type: rename / pin / delete"
-    );
-
-  if(!action) return;
-
-  if(action === "rename"){
-
-    const name =
-      prompt("New chat name:",chat.title);
-
-    if(name){
-      chat.title = name.trim();
-    }
-
-  }
-
-  else if(action === "pin"){
-
-    chat.pinned = !chat.pinned;
-
-  }
-
-  else if(action === "delete"){
-
-    if(confirm("Delete this chat?")){
-
-      chats =
-        chats.filter(c => c.id !== id);
-
-      if(currentChatId === id){
-
-        if(chats.length){
-          currentChatId = chats[0].id;
-        }else{
-          createChat();
-          return;
-        }
-
-      }
-
-    }
-
-  }
-
-  saveChats();
-
-  renderHistory();
-
-  renderMessages();
-
-}
-
-function clearCurrentChat(){
-
-  const chat =
-    getCurrentChat();
-
-  if(!chat) return;
-
-  if(!confirm("Clear this chat?")) return;
-
-  chat.messages = [];
-
-  chat.title = "New Chat";
-
-  saveChats();
-
-  renderHistory();
-
-  renderMessages();
-
-}
 
 /* =========================================================
-   RENDER MESSAGES
+   NEW CHAT
 ========================================================= */
 
-function renderMessages(){
+function newChat(){
 
-  const container =
-    document.getElementById("chatContainer");
+  state.messages = [];
+  state.files = [];
+  state.currentChatId =
+    "chat_" + Date.now() + "_" + Math.random().toString(36).slice(2);
 
-  const chat =
-    getCurrentChat();
+  $("chatTitle").textContent = "New conversation";
+
+  $("chatInner").innerHTML = `
+    <div class="empty" id="emptyState">
+      <div class="emptyLogo">D</div>
+      <h1>What can I help you build?</h1>
+      <p>Ask, create, research, code, analyze or learn.</p>
+    </div>
+  `;
+
+  renderAttachments();
+  $("prompt").focus();
+}
+
+
+/* =========================================================
+   LOAD CHAT
+========================================================= */
+
+function loadChat(id){
+
+  const chats = loadChats();
+
+  const chat = chats.find(x => x.id === id);
 
   if(!chat) return;
 
-  container.innerHTML = "";
+  state.currentChatId = chat.id;
+  state.messages = chat.messages || [];
 
-  if(!chat.messages.length){
+  $("chatTitle").textContent =
+    chat.title || "Conversation";
 
-    container.innerHTML = `
+  $("chatInner").innerHTML = "";
 
-      <div class="welcome" id="welcome">
+  state.messages.forEach(msg => {
 
-        <h1>DeveshAI</h1>
+    renderMessage(
+      msg.role,
+      msg.content,
+      false
+    );
 
-        <p>
-          ${escapeHTML(currentMode)} mode
-        </p>
+  });
 
-        <div class="quickGrid">
-
-          <div
-            class="quickCard"
-            onclick="quickPrompt('Explain a difficult topic to me in very simple language.')"
-          >
-            <strong>Explain something</strong>
-            <span>Simple step-by-step explanation</span>
-          </div>
-
-          <div
-            class="quickCard"
-            onclick="quickPrompt('Help me write something professional.')"
-          >
-            <strong>Write</strong>
-            <span>Messages, emails and documents</span>
-          </div>
-
-          <div
-            class="quickCard"
-            onclick="quickPrompt('Help me debug this code.')"
-          >
-            <strong>Code</strong>
-            <span>Debug and build projects</span>
-          </div>
-
-          <div
-            class="quickCard"
-            onclick="openImagePanel()"
-          >
-            <strong>Create image</strong>
-            <span>Generate an image from a prompt</span>
-          </div>
-
-        </div>
-
-      </div>
-    `;
-
-    return;
-
-  }
-
-  chat.messages.forEach(
-    (message,index) => {
-
-      const div =
-        document.createElement("div");
-
-      div.className =
-        "message " +
-        message.role;
-
-      const label =
-        message.role === "user"
-          ? "YOU"
-          : "AI";
-
-      div.innerHTML = `
-
-        <div class="avatar">
-          ${label}
-        </div>
-
-        <div class="messageBody">
-
-          <div class="messageText">
-            ${escapeHTML(message.content)}
-          </div>
-
-          <div class="messageActions">
-
-            <button
-              class="smallBtn"
-              onclick="copyMessage(${index})"
-            >
-              Copy
-            </button>
-
-            ${
-              message.role === "assistant"
-              ? `
-                <button
-                  class="smallBtn"
-                  onclick="speakText(${index})"
-                >
-                  Speak
-                </button>
-              `
-              : ""
-            }
-
-            ${
-              message.role === "assistant"
-              ? `
-                <button
-                  class="smallBtn"
-                  onclick="regenerate(${index})"
-                >
-                  Regenerate
-                </button>
-              `
-              : ""
-            }
-
-          </div>
-
-        </div>
-
-      `;
-
-      container.appendChild(div);
-
-    }
-  );
-
-  const area =
-    document.getElementById("chatArea");
-
-  area.scrollTop =
-    area.scrollHeight;
+  scrollBottom();
 
 }
+
 
 /* =========================================================
    SEND MESSAGE
@@ -1542,248 +1427,436 @@ function renderMessages(){
 
 async function sendMessage(){
 
-  if(generating) return;
+  if(state.generating) return;
 
-  const textarea =
-    document.getElementById("prompt");
+  const prompt = $("prompt").value.trim();
 
-  const text =
-    textarea.value.trim();
+  if(!prompt && state.files.length === 0) return;
 
-  if(!text) return;
+  if(!state.currentChatId){
+    newChat();
+  }
 
-  const chat =
-    getCurrentChat();
+  let finalPrompt = prompt;
 
-  if(!chat) return;
+  if(state.mode !== "ask"){
 
-  chat.messages.push({
-    role:"user",
-    content:text
-  });
-
-  if(chat.title === "New Chat"){
-
-    chat.title =
-      text.slice(0,45) +
-      (text.length > 45 ? "..." : "");
+    finalPrompt =
+      `[Mode: ${state.mode.toUpperCase()}]\n\n${prompt}`;
 
   }
 
-  textarea.value = "";
+  if(state.webEnabled){
+
+    finalPrompt =
+      `[Web search requested]\n\n${finalPrompt}`;
+
+  }
+
+  if(state.files.length){
+
+    finalPrompt +=
+      `\n\nAttached files:\n${
+        state.files.map(f => f.name).join(", ")
+      }`;
+
+  }
+
+  $("prompt").value = "";
 
   autoResize();
 
+  renderAttachments();
+
+  renderMessage(
+    "user",
+    prompt || "Analyze my attached files.",
+    true
+  );
+
+  state.messages.push({
+    role:"user",
+    content:finalPrompt
+  });
+
   saveChats();
 
-  renderHistory();
+  const typing = renderTyping();
 
-  renderMessages();
+  state.generating = true;
 
-  generating = true;
+  $("sendBtn").textContent = "■";
+  $("sendBtn").classList.add("stop");
 
-  updateSendButton(true);
+  state.controller = new AbortController();
 
   try{
 
-    const response =
-      await fetch("/api/chat",{
-        method:"POST",
-        headers:{
-          "Content-Type":
-            "application/json"
-        },
-        body:JSON.stringify({
-          messages:chat.messages.map(
-            m => ({
-              role:m.role,
-              content:m.content
-            })
-          ),
-          mode:currentMode
-        })
-      });
+    const response = await fetch("/api/chat",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        messages:state.messages.slice(-30)
+      }),
+      signal:state.controller.signal
+    });
 
-    const data =
-      await response.json();
+    const data = await response.json();
+
+    typing.remove();
 
     if(!response.ok){
 
       throw new Error(
-        data.error ||
-        "Request failed"
+        data.error || "AI server error"
       );
 
     }
 
-    chat.messages.push({
+    const reply =
+      data.reply ||
+      "Sorry, I couldn't generate a response.";
+
+    renderMessage("ai",reply,true);
+
+    state.messages.push({
       role:"assistant",
-      content:
-        data.reply ||
-        "No response received."
+      content:reply
     });
+
+    if(
+      $("chatTitle").textContent ===
+      "New conversation"
+    ){
+
+      const title =
+        prompt.slice(0,40) ||
+        "New conversation";
+
+      $("chatTitle").textContent =
+        title;
+
+    }
 
     saveChats();
 
-    renderMessages();
+    if(state.settings.autovoice){
+
+      speak(reply);
+
+    }
 
   }catch(error){
 
-    chat.messages.push({
-      role:"assistant",
-      content:
-        "⚠️ " +
-        (error.message ||
-          "Something went wrong.")
-    });
+    typing.remove();
 
-    saveChats();
+    if(error.name === "AbortError"){
 
-    renderMessages();
+      renderMessage(
+        "ai",
+        "Generation stopped.",
+        true
+      );
+
+    }else{
+
+      renderMessage(
+        "ai",
+        "⚠️ " + error.message,
+        true
+      );
+
+    }
 
   }finally{
 
-    generating = false;
+    state.generating = false;
+    state.controller = null;
 
-    updateSendButton(false);
+    $("sendBtn").textContent = "↑";
+    $("sendBtn").classList.remove("stop");
 
   }
 
 }
+
+
+/* =========================================================
+   STOP
+========================================================= */
+
+function stopGeneration(){
+
+  if(state.controller){
+
+    state.controller.abort();
+
+  }
+
+}
+
+
+/* =========================================================
+   RENDER MESSAGE
+========================================================= */
+
+function renderMessage(
+  role,
+  content,
+  scroll=true
+){
+
+  $("emptyState")?.remove();
+
+  const wrapper =
+    document.createElement("div");
+
+  wrapper.className =
+    "message " + role;
+
+  if(role === "user"){
+
+    wrapper.innerHTML = `
+      <div class="bubble userText">
+        ${escapeHtml(content)}
+      </div>
+    `;
+
+  }else{
+
+    wrapper.innerHTML = `
+      <div class="msgAvatar">D</div>
+
+      <div class="bubble">
+
+        <div class="aiContent">
+          ${formatAI(content)}
+        </div>
+
+        <div class="messageActions">
+
+          <button
+            onclick="copyText(this)"
+            data-copy="${encodeURIComponent(content)}"
+          >📋</button>
+
+          <button
+            onclick="readMessage(this)"
+            data-text="${encodeURIComponent(content)}"
+          >🔊</button>
+
+          <button
+            onclick="regenerateLast()"
+          >↻</button>
+
+          <button
+            onclick="likeMessage(this)"
+          >👍</button>
+
+          <button
+            onclick="dislikeMessage(this)"
+          >👎</button>
+
+        </div>
+
+      </div>
+    `;
+
+  }
+
+  $("chatInner").appendChild(wrapper);
+
+  if(scroll) scrollBottom();
+
+  return wrapper;
+}
+
+
+/* =========================================================
+   AI FORMATTER
+========================================================= */
+
+function formatAI(text){
+
+  let safe = escapeHtml(text);
+
+  safe = safe.replace(
+    /```([\s\S]*?)```/g,
+    (_,code) => `
+      <div class="codeBlock">
+
+        <div class="codeHeader">
+          <span>CODE</span>
+          <button
+            onclick="navigator.clipboard.writeText(decodeURIComponent('${encodeURIComponent(code)}'))"
+            style="
+              border:0;
+              background:none;
+              color:#888;
+              cursor:pointer;
+            "
+          >
+            Copy
+          </button>
+        </div>
+
+        <pre class="codeBody">${code}</pre>
+
+      </div>
+    `
+  );
+
+  safe = safe.replace(
+    /\*\*(.*?)\*\*/g,
+    "<strong>$1</strong>"
+  );
+
+  safe = safe.replace(
+    /`([^`]+)`/g,
+    "<code>$1</code>"
+  );
+
+  return safe;
+}
+
+
+/* =========================================================
+   TYPING
+========================================================= */
+
+function renderTyping(){
+
+  const wrapper =
+    document.createElement("div");
+
+  wrapper.className =
+    "message ai";
+
+  wrapper.innerHTML = `
+    <div class="msgAvatar">D</div>
+
+    <div class="bubble">
+
+      <div class="typing">
+        <i></i>
+        <i></i>
+        <i></i>
+      </div>
+
+    </div>
+  `;
+
+  $("chatInner").appendChild(wrapper);
+
+  scrollBottom();
+
+  return wrapper;
+}
+
 
 /* =========================================================
    REGENERATE
 ========================================================= */
 
-async function regenerate(index){
+function regenerateLast(){
 
-  const chat =
-    getCurrentChat();
+  const assistantIndex =
+    state.messages.length - 1;
 
-  if(!chat) return;
+  if(
+    state.messages[assistantIndex]?.role ===
+    "assistant"
+  ){
 
-  if(chat.messages[index]?.role !== "assistant")
-    return;
-
-  const userMessage =
-    chat.messages
-      .slice(0,index)
-      .reverse()
-      .find(m => m.role === "user");
-
-  if(!userMessage) return;
-
-  chat.messages =
-    chat.messages.slice(0,index);
-
-  saveChats();
-
-  renderMessages();
-
-  generating = true;
-
-  updateSendButton(true);
-
-  try{
-
-    const response =
-      await fetch("/api/chat",{
-        method:"POST",
-        headers:{
-          "Content-Type":
-            "application/json"
-        },
-        body:JSON.stringify({
-          messages:
-            chat.messages
-        })
-      });
-
-    const data =
-      await response.json();
-
-    if(!response.ok)
-      throw new Error(
-        data.error ||
-        "Regeneration failed"
-      );
-
-    chat.messages.push({
-      role:"assistant",
-      content:data.reply
-    });
-
-    saveChats();
-
-    renderMessages();
-
-  }catch(error){
-
-    chat.messages.push({
-      role:"assistant",
-      content:
-        "⚠️ " +
-        error.message
-    });
-
-    saveChats();
-
-    renderMessages();
-
-  }finally{
-
-    generating = false;
-
-    updateSendButton(false);
+    state.messages.splice(
+      assistantIndex,
+      1
+    );
 
   }
 
+  const lastUser =
+    [...state.messages]
+      .reverse()
+      .find(x => x.role === "user");
+
+  if(!lastUser) return;
+
+  const promptText =
+    lastUser.content
+      .replace(/^\[Mode:.*?\]\n\n/s,"")
+      .replace(/^\[Web search requested\]\n\n/,"");
+
+  const allMessages =
+    [...document.querySelectorAll(".message")];
+
+  const lastAI =
+    [...allMessages]
+      .reverse()
+      .find(x => x.classList.contains("ai"));
+
+  lastAI?.remove();
+
+  $("prompt").value = promptText;
+
+  sendMessage();
+
 }
+
 
 /* =========================================================
    COPY
 ========================================================= */
 
-async function copyMessage(index){
+async function copyText(button){
 
-  const chat =
-    getCurrentChat();
+  const text =
+    decodeURIComponent(
+      button.dataset.copy
+    );
 
-  const message =
-    chat?.messages[index];
+  await navigator.clipboard.writeText(text);
 
-  if(!message) return;
-
-  await navigator.clipboard.writeText(
-    message.content
-  );
-
-  showToast("Copied");
+  toast("Copied");
 
 }
 
+
 /* =========================================================
-   SPEECH
+   READ ALOUD
 ========================================================= */
 
-function speakText(index){
+function readMessage(button){
 
-  const chat =
-    getCurrentChat();
+  const text =
+    decodeURIComponent(
+      button.dataset.text
+    );
 
-  const message =
-    chat?.messages[index];
+  speak(text);
 
-  if(!message) return;
+}
+
+
+function speak(text){
+
+  if(!("speechSynthesis" in window)){
+
+    toast("Voice playback is not supported");
+
+    return;
+
+  }
 
   speechSynthesis.cancel();
 
   const utterance =
-    new SpeechSynthesisUtterance(
-      message.content
-    );
+    new SpeechSynthesisUtterance(text);
 
-  utterance.rate = .95;
+  utterance.rate = 1;
+  utterance.pitch = 1;
 
   speechSynthesis.speak(
     utterance
@@ -1791,37 +1864,14 @@ function speakText(index){
 
 }
 
-function speakLast(){
-
-  const chat =
-    getCurrentChat();
-
-  if(!chat) return;
-
-  const last =
-    [...chat.messages]
-      .reverse()
-      .find(m =>
-        m.role === "assistant"
-      );
-
-  if(!last) return;
-
-  speechSynthesis.cancel();
-
-  speechSynthesis.speak(
-    new SpeechSynthesisUtterance(
-      last.content
-    )
-  );
-
-}
 
 /* =========================================================
    VOICE INPUT
 ========================================================= */
 
-function startVoiceInput(){
+let recognition = null;
+
+function startVoice(){
 
   const SpeechRecognition =
     window.SpeechRecognition ||
@@ -1829,88 +1879,160 @@ function startVoiceInput(){
 
   if(!SpeechRecognition){
 
-    showToast(
-      "Voice input is not supported in this browser."
-    );
+    toast("Voice input isn't supported in this browser");
 
     return;
 
   }
 
-  const recognition =
+  recognition =
     new SpeechRecognition();
 
   recognition.lang = "en-IN";
+  recognition.continuous = false;
+  recognition.interimResults = true;
 
-  recognition.interimResults = false;
+  recognition.onstart = () => {
 
-  recognition.maxAlternatives = 1;
+    $("voiceBtn").textContent =
+      "🔴 Listening";
 
-  recognition.onstart = () =>
-    showToast("Listening...");
+  };
 
   recognition.onresult = event => {
 
-    const text =
-      event.results[0][0].transcript;
+    let text = "";
 
-    const textarea =
-      document.getElementById("prompt");
+    for(
+      let i = event.resultIndex;
+      i < event.results.length;
+      i++
+    ){
 
-    textarea.value +=
-      (textarea.value ? " " : "") +
-      text;
+      text +=
+        event.results[i][0].transcript;
+
+    }
+
+    $("prompt").value = text;
 
     autoResize();
 
   };
 
-  recognition.onerror = () =>
-    showToast("Voice input failed.");
+  recognition.onerror = () => {
+
+    toast("Voice input error");
+
+  };
+
+  recognition.onend = () => {
+
+    $("voiceBtn").textContent =
+      "🎤 Voice";
+
+  };
 
   recognition.start();
 
 }
 
+
 /* =========================================================
-   IMAGE
+   FILES
 ========================================================= */
 
-function openImagePanel(){
+function handleFiles(files){
 
-  document
-    .getElementById("imagePanel")
-    .classList.add("show");
+  state.files = [
+    ...state.files,
+    ...Array.from(files)
+  ];
 
-  document
-    .getElementById("imageOverlay")
-    .classList.add("show");
+  renderAttachments();
 
 }
 
-async function generateImage(){
 
-  const prompt =
-    document
-      .getElementById("imagePrompt")
-      .value
-      .trim();
+function renderAttachments(){
 
-  if(!prompt){
+  const box =
+    $("attachments");
 
-    showToast(
-      "Write an image prompt first."
-    );
+  box.innerHTML = "";
+
+  if(!state.files.length){
+
+    box.style.display = "none";
 
     return;
 
   }
 
-  const result =
-    document.getElementById("imageResult");
+  box.style.display = "flex";
 
-  result.innerHTML =
-    "<p class='panelText'>Generating...</p>";
+  state.files.forEach((file,index) => {
+
+    const chip =
+      document.createElement("div");
+
+    chip.className = "fileChip";
+
+    chip.innerHTML = `
+      ${escapeHtml(file.name)}
+      <button
+        onclick="removeFile(${index})"
+        style="
+          border:0;
+          background:none;
+          color:#777;
+          cursor:pointer;
+          margin-left:5px;
+        "
+      >×</button>
+    `;
+
+    box.appendChild(chip);
+
+  });
+
+}
+
+
+function removeFile(index){
+
+  state.files.splice(index,1);
+
+  renderAttachments();
+
+}
+
+
+/* =========================================================
+   IMAGE GENERATION
+========================================================= */
+
+async function generateImage(){
+
+  const prompt =
+    $("imagePrompt").value.trim();
+
+  if(!prompt){
+
+    toast("Describe the image first");
+
+    return;
+
+  }
+
+  $("generateImageBtn").disabled = true;
+  $("generateImageBtn").textContent =
+    "Generating...";
+
+  $("imageResult").innerHTML =
+    `<div style="color:#777;font-size:12px">
+      Creating image...
+    </div>`;
 
   try{
 
@@ -1918,8 +2040,7 @@ async function generateImage(){
       await fetch("/api/image",{
         method:"POST",
         headers:{
-          "Content-Type":
-            "application/json"
+          "Content-Type":"application/json"
         },
         body:JSON.stringify({
           prompt
@@ -1929,402 +2050,200 @@ async function generateImage(){
     const data =
       await response.json();
 
-    if(!response.ok)
-      throw new Error(
-        data.error ||
-        "Image generation failed."
-      );
-
-    if(data.image_base64){
-
-      result.innerHTML = `
-
-        <img
-          src="data:image/png;base64,${data.image_base64}"
-          style="
-            width:100%;
-            margin-top:20px;
-            border-radius:12px;
-            border:1px solid #333;
-          "
-        >
-
-        <a
-          href="data:image/png;base64,${data.image_base64}"
-          download="deveshai-image.png"
-          class="panelBtn"
-          style="
-            display:inline-block;
-            text-decoration:none;
-          "
-        >
-          Download Image
-        </a>
-
-      `;
-
-    }else if(data.image_url){
-
-      result.innerHTML = `
-
-        <img
-          src="${data.image_url}"
-          style="
-            width:100%;
-            margin-top:20px;
-            border-radius:12px;
-          "
-        >
-
-      `;
-
-    }else{
-
-      throw new Error(
-        "No image returned."
-      );
-
-    }
-
-  }catch(error){
-
-    result.innerHTML = `
-
-      <p
-        class="panelText"
-        style="color:#aaa"
-      >
-        ${escapeHTML(error.message)}
-      </p>
-
-    `;
-
-  }
-
-}
-
-/* =========================================================
-   VIDEO
-========================================================= */
-
-function openVideoPanel(){
-
-  document
-    .getElementById("videoPanel")
-    .classList.add("show");
-
-  document
-    .getElementById("imageOverlay")
-    .classList.add("show");
-
-}
-
-async function generateVideo(){
-
-  const prompt =
-    document
-      .getElementById("videoPrompt")
-      .value
-      .trim();
-
-  if(!prompt){
-
-    showToast(
-      "Write a video prompt first."
-    );
-
-    return;
-
-  }
-
-  const progressBox =
-    document.getElementById(
-      "videoProgress"
-    );
-
-  const status =
-    document.getElementById(
-      "videoStatus"
-    );
-
-  const fill =
-    document.getElementById(
-      "videoProgressFill"
-    );
-
-  const result =
-    document.getElementById(
-      "videoResult"
-    );
-
-  progressBox.style.display =
-    "block";
-
-  result.innerHTML = "";
-
-  status.textContent =
-    "Starting video generation...";
-
-  fill.style.width = "0%";
-
-  try{
-
-    const response =
-      await fetch("/api/video",{
-        method:"POST",
-        headers:{
-          "Content-Type":
-            "application/json"
-        },
-        body:JSON.stringify({
-          prompt,
-          model:"sora-2",
-          seconds:"4",
-          size:"1280x720"
-        })
-      });
-
-    const data =
-      await response.json();
-
     if(!response.ok){
 
       throw new Error(
         data.error ||
-        "Video generation failed."
+        "Image generation failed"
       );
 
     }
 
-    const id = data.id;
-
-    status.textContent =
-      "Video is being generated...";
-
-    await pollVideo(
-      id,
-      status,
-      fill,
-      result
-    );
-
-  }catch(error){
-
-    status.textContent =
-      "Generation failed";
-
-    result.innerHTML = `
-
-      <p
-        class="panelText"
-        style="margin-top:12px"
-      >
-        ${escapeHTML(error.message)}
-      </p>
-
-    `;
-
-  }
-
-}
-
-async function pollVideo(
-  id,
-  status,
-  fill,
-  result
-){
-
-  let attempts = 0;
-
-  const maxAttempts = 120;
-
-  while(attempts < maxAttempts){
-
-    await new Promise(
-      resolve =>
-        setTimeout(resolve,5000)
-    );
-
-    attempts++;
-
-    const response =
-      await fetch(
-        `/api/video/${id}`
-      );
-
-    const data =
-      await response.json();
-
-    if(!response.ok){
-
-      throw new Error(
-        data.error ||
-        "Could not check video."
-      );
-
-    }
-
-    const progress =
-      Number(data.progress || 0);
-
-    fill.style.width =
-      Math.max(
-        0,
-        Math.min(
-          100,
-          progress
-        )
-      ) + "%";
-
-    status.textContent =
-      `${data.status || "processing"} — ${progress}%`;
-
-    if(data.status === "completed"){
-
-      fill.style.width = "100%";
-
-      status.textContent =
-        "Video completed.";
-
-      result.innerHTML = `
-
-        <video
-          controls
-          style="
-            width:100%;
-            margin-top:18px;
-            border-radius:12px;
-            border:1px solid #333;
-          "
-        >
-          <source
-            src="/api/video/${id}/content"
-            type="video/mp4"
-          >
-        </video>
-
-        <a
-          href="/api/video/${id}/content"
-          download="deveshai-video.mp4"
-          class="panelBtn"
-          style="
-            display:inline-block;
-            text-decoration:none;
-          "
-        >
-          Download Video
-        </a>
-
-      `;
-
-      return;
-
-    }
+    let imageUrl =
+      data.image_url ||
+      data.url ||
+      data.image;
 
     if(
-      data.status === "failed" ||
-      data.status === "error"
+      !imageUrl &&
+      data.data &&
+      data.data[0]
     ){
 
+      imageUrl =
+        data.data[0].url ||
+        (
+          data.data[0].b64_json
+          ? `data:image/png;base64,${data.data[0].b64_json}`
+          : ""
+        );
+
+    }
+
+    if(!imageUrl){
+
       throw new Error(
-        data.error ||
-        "Video generation failed."
+        "No image was returned."
       );
 
     }
 
-  }
+    $("imageResult").innerHTML = `
+      <img
+        src="${imageUrl}"
+        style="
+          width:100%;
+          border-radius:12px;
+          display:block;
+        "
+      >
 
-  throw new Error(
-    "Video generation is taking too long."
-  );
+      <a
+        href="${imageUrl}"
+        download="deveshai-image.png"
+        style="
+          display:block;
+          margin-top:10px;
+          text-align:center;
+          background:#fff;
+          color:#000;
+          padding:11px;
+          border-radius:9px;
+          text-decoration:none;
+          font-size:12px;
+          font-weight:700;
+        "
+      >
+        Download Image
+      </a>
+    `;
 
-}
+  }catch(error){
 
-/* =========================================================
-   FILES
-========================================================= */
+    $("imageResult").innerHTML =
+      `<div style="color:#ff7777;font-size:12px">
+        ${escapeHtml(error.message)}
+      </div>`;
 
-function handleFiles(files){
+  }finally{
 
-  attachedFiles =
-    Array.from(files);
+    $("generateImageBtn").disabled = false;
 
-  const box =
-    document.getElementById(
-      "attachments"
-    );
-
-  box.innerHTML = "";
-
-  attachedFiles.forEach(
-    file => {
-
-      const item =
-        document.createElement("div");
-
-      item.className =
-        "attachment";
-
-      item.textContent =
-        file.name;
-
-      box.appendChild(item);
-
-    }
-  );
-
-}
-
-/* =========================================================
-   MODES
-========================================================= */
-
-function setMode(mode,button){
-
-  currentMode = mode;
-
-  document
-    .querySelectorAll(".modeBtn")
-    .forEach(btn =>
-      btn.classList.remove("active")
-    );
-
-  button.classList.add("active");
-
-  const welcome =
-    document.getElementById(
-      "welcomeText"
-    );
-
-  if(welcome){
-
-    welcome.textContent =
-      mode + " mode";
+    $("generateImageBtn").textContent =
+      "Generate Image";
 
   }
 
 }
 
+
 /* =========================================================
-   QUICK PROMPT
+   WEB MODE
 ========================================================= */
 
-function quickPrompt(text){
+function toggleWeb(){
 
-  const textarea =
-    document.getElementById(
-      "prompt"
-    );
+  state.webEnabled =
+    !state.webEnabled;
 
-  textarea.value = text;
+  $("webBtn").style.color =
+    state.webEnabled
+      ? "#fff"
+      : "#777";
 
-  autoResize();
+  $("webBtn").style.background =
+    state.webEnabled
+      ? "#1b1b1b"
+      : "transparent";
 
-  textarea.focus();
+  toast(
+    state.webEnabled
+      ? "Web mode enabled"
+      : "Web mode disabled"
+  );
 
 }
+
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+function openModal(id){
+
+  $(id).classList.add("show");
+
+}
+
+function closeModal(id){
+
+  $(id).classList.remove("show");
+
+}
+
+
+/* =========================================================
+   RENAME
+========================================================= */
+
+function renameChat(){
+
+  const current =
+    $("chatTitle").textContent;
+
+  const name =
+    prompt(
+      "Enter new chat name:",
+      current
+    );
+
+  if(!name || !name.trim()) return;
+
+  $("chatTitle").textContent =
+    name.trim();
+
+  saveChats();
+
+}
+
+
+/* =========================================================
+   SHARE
+========================================================= */
+
+async function shareChat(){
+
+  const title =
+    $("chatTitle").textContent;
+
+  const text =
+    state.messages
+      .map(m =>
+        `${m.role.toUpperCase()}:\n${m.content}`
+      )
+      .join("\n\n");
+
+  if(navigator.share){
+
+    try{
+
+      await navigator.share({
+        title,
+        text
+      });
+
+    }catch{}
+
+  }else{
+
+    await navigator.clipboard.writeText(text);
+
+    toast("Conversation copied");
+
+  }
+
+}
+
 
 /* =========================================================
    EXPORT
@@ -2332,43 +2251,17 @@ function quickPrompt(text){
 
 function exportChat(){
 
-  const chat =
-    getCurrentChat();
-
-  if(!chat || !chat.messages.length){
-
-    showToast(
-      "Nothing to export."
-    );
-
-    return;
-
-  }
-
-  let output =
-    `DeveshAI — ${chat.title}\n`;
-
-  output +=
-    "================================\n\n";
-
-  chat.messages.forEach(
-    message => {
-
-      output +=
-        `${message.role.toUpperCase()}:\n`;
-
-      output +=
-        `${message.content}\n\n`;
-
-    }
-  );
+  const text =
+    state.messages
+      .map(m =>
+        `${m.role.toUpperCase()}\n${m.content}`
+      )
+      .join("\n\n----------------\n\n");
 
   const blob =
     new Blob(
-      [output],
-      {
-        type:"text/plain"
-      }
+      [text],
+      {type:"text/plain"}
     );
 
   const url =
@@ -2386,125 +2279,42 @@ function exportChat(){
 
   URL.revokeObjectURL(url);
 
-  showToast("Chat exported");
-
 }
+
 
 /* =========================================================
-   KEYBOARD
+   TOAST
 ========================================================= */
 
-function handleKey(event){
+let toastTimer;
 
-  if(
-    event.key === "Enter" &&
-    !event.shiftKey
-  ){
+function toast(message){
 
-    event.preventDefault();
+  const box = $("toast");
 
-    sendMessage();
+  box.textContent = message;
 
-  }
+  box.classList.add("show");
 
-  setTimeout(
-    autoResize,
-    0
-  );
+  clearTimeout(toastTimer);
 
-}
+  toastTimer =
+    setTimeout(() => {
 
-function autoResize(){
+      box.classList.remove("show");
 
-  const textarea =
-    document.getElementById(
-      "prompt"
-    );
-
-  textarea.style.height =
-    "auto";
-
-  textarea.style.height =
-    Math.min(
-      textarea.scrollHeight,
-      180
-    ) + "px";
+    },2200);
 
 }
+
 
 /* =========================================================
-   UI HELPERS
+   HELPERS
 ========================================================= */
 
-function updateSendButton(active){
+function escapeHtml(value){
 
-  const btn =
-    document.getElementById(
-      "sendBtn"
-    );
-
-  btn.classList.toggle(
-    "stop",
-    active
-  );
-
-  btn.textContent =
-    active ? "…" : "↑";
-
-}
-
-function closePanels(){
-
-  document
-    .querySelectorAll(".panel")
-    .forEach(
-      p => p.classList.remove("show")
-    );
-
-  document
-    .getElementById("imageOverlay")
-    .classList.remove("show");
-
-}
-
-function toggleSidebar(){
-
-  document
-    .getElementById("sidebar")
-    .classList.toggle("open");
-
-}
-
-function closeSidebarMobile(){
-
-  document
-    .getElementById("sidebar")
-    .classList.remove("open");
-
-}
-
-function showToast(text){
-
-  const toast =
-    document.getElementById(
-      "toast"
-    );
-
-  toast.textContent = text;
-
-  toast.classList.add("show");
-
-  setTimeout(
-    () =>
-      toast.classList.remove("show"),
-    1800
-  );
-
-}
-
-function escapeHTML(text){
-
-  return String(text)
+  return String(value)
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
@@ -2513,182 +2323,398 @@ function escapeHTML(text){
 
 }
 
-/* =========================================================
-   ANIMATED BACKGROUND
-========================================================= */
 
-const canvas =
-  document.getElementById(
-    "bgCanvas"
-  );
+function scrollBottom(){
 
-const ctx =
-  canvas.getContext("2d");
+  requestAnimationFrame(() => {
 
-let particles = [];
+    const chat =
+      $("chat");
 
-function resizeCanvas(){
-
-  canvas.width =
-    window.innerWidth *
-    devicePixelRatio;
-
-  canvas.height =
-    window.innerHeight *
-    devicePixelRatio;
-
-  ctx.scale(
-    devicePixelRatio,
-    devicePixelRatio
-  );
-
-  particles = [];
-
-  const count =
-    Math.min(
-      80,
-      Math.floor(
-        window.innerWidth / 15
-      )
-    );
-
-  for(let i=0;i<count;i++){
-
-    particles.push({
-
-      x:Math.random() *
-        window.innerWidth,
-
-      y:Math.random() *
-        window.innerHeight,
-
-      vx:(Math.random()-.5)*.25,
-
-      vy:(Math.random()-.5)*.25,
-
-      r:Math.random()*1.4+.3
-
-    });
-
-  }
-
-}
-
-function animate(){
-
-  ctx.clearRect(
-    0,
-    0,
-    window.innerWidth,
-    window.innerHeight
-  );
-
-  particles.forEach(p => {
-
-    p.x += p.vx;
-
-    p.y += p.vy;
-
-    if(
-      p.x < 0 ||
-      p.x > window.innerWidth
-    )
-      p.vx *= -1;
-
-    if(
-      p.y < 0 ||
-      p.y > window.innerHeight
-    )
-      p.vy *= -1;
-
-    ctx.beginPath();
-
-    ctx.arc(
-      p.x,
-      p.y,
-      p.r,
-      0,
-      Math.PI*2
-    );
-
-    ctx.fillStyle =
-      "rgba(255,255,255,.45)";
-
-    ctx.fill();
+    chat.scrollTop =
+      chat.scrollHeight;
 
   });
 
-  for(
-    let i=0;
-    i<particles.length;
-    i++
-  ){
+}
 
-    for(
-      let j=i+1;
-      j<particles.length;
-      j++
+
+function autoResize(){
+
+  const textarea =
+    $("prompt");
+
+  textarea.style.height =
+    "auto";
+
+  textarea.style.height =
+    Math.min(
+      textarea.scrollHeight,
+      160
+    ) + "px";
+
+}
+
+
+/* =========================================================
+   EVENT LISTENERS
+========================================================= */
+
+$("newChat").onclick =
+  newChat;
+
+
+$("sendBtn").onclick = () => {
+
+  if(state.generating){
+
+    stopGeneration();
+
+  }else{
+
+    sendMessage();
+
+  }
+
+};
+
+
+$("prompt").addEventListener(
+  "input",
+  autoResize
+);
+
+
+$("prompt").addEventListener(
+  "keydown",
+  event => {
+
+    if(
+      event.key === "Enter" &&
+      !event.shiftKey &&
+      state.settings.enter
     ){
 
-      const a =
-        particles[i];
+      event.preventDefault();
 
-      const b =
-        particles[j];
-
-      const dx =
-        a.x-b.x;
-
-      const dy =
-        a.y-b.y;
-
-      const distance =
-        Math.sqrt(
-          dx*dx +
-          dy*dy
-        );
-
-      if(distance < 120){
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-          a.x,
-          a.y
-        );
-
-        ctx.lineTo(
-          b.x,
-          b.y
-        );
-
-        ctx.strokeStyle =
-          `rgba(255,255,255,${
-            (1-distance/120)*.08
-          })`;
-
-        ctx.stroke();
-
-      }
+      sendMessage();
 
     }
 
   }
+);
 
-  requestAnimationFrame(
-    animate
+
+$("attachBtn").onclick =
+  () => $("fileInput").click();
+
+
+$("fileInput").addEventListener(
+  "change",
+  event => {
+
+    handleFiles(
+      event.target.files
+    );
+
+    event.target.value = "";
+
+  }
+);
+
+
+$("voiceBtn").onclick =
+  startVoice;
+
+
+$("webBtn").onclick =
+  toggleWeb;
+
+
+$("imageBtn").onclick =
+  () => openModal("imageModal");
+
+
+$("quickBtn").onclick =
+  () => openModal("toolsModal");
+
+
+$("generateImageBtn").onclick =
+  generateImage;
+
+
+$("settingsBtn").onclick =
+  () => openModal("settingsModal");
+
+
+$("renameBtn").onclick =
+  renameChat;
+
+
+$("shareBtn").onclick =
+  shareChat;
+
+
+$("mobileMenu").onclick =
+  () => $("sidebar").classList.toggle("open");
+
+
+$("searchInput").addEventListener(
+  "input",
+  event => {
+
+    renderHistory(
+      event.target.value
+    );
+
+  }
+);
+
+
+/* MODE BUTTONS */
+
+document.querySelectorAll(".mode")
+.forEach(button => {
+
+  button.onclick = () => {
+
+    document
+      .querySelectorAll(".mode")
+      .forEach(x =>
+        x.classList.remove("active")
+      );
+
+    button.classList.add("active");
+
+    state.mode =
+      button.dataset.mode;
+
+    toast(
+      `${button.textContent.trim()} mode selected`
+    );
+
+  };
+
+});
+
+
+/* CLOSE BUTTONS */
+
+document.querySelectorAll("[data-close]")
+.forEach(button => {
+
+  button.onclick = () => {
+
+    closeModal(
+      button.dataset.close
+    );
+
+  };
+
+});
+
+
+/* CLOSE WHEN CLICKING OUTSIDE */
+
+document.querySelectorAll(".overlay")
+.forEach(overlay => {
+
+  overlay.addEventListener(
+    "click",
+    event => {
+
+      if(event.target === overlay){
+
+        overlay.classList.remove("show");
+
+      }
+
+    }
   );
+
+});
+
+
+/* TOOLS */
+
+document.querySelectorAll(".quickCard")
+.forEach(card => {
+
+  card.onclick = () => {
+
+    const tool =
+      card.dataset.tool;
+
+    closeModal("toolsModal");
+
+    if(tool === "image"){
+
+      openModal("imageModal");
+
+    }else if(tool === "voice"){
+
+      startVoice();
+
+    }else if(tool === "files"){
+
+      $("fileInput").click();
+
+    }else if(tool === "study"){
+
+      state.mode = "study";
+      toast("Study mode selected");
+
+    }else if(tool === "code"){
+
+      state.mode = "code";
+      toast("Code mode selected");
+
+    }else if(tool === "research"){
+
+      state.webEnabled = true;
+      toast("Research mode enabled");
+
+    }
+
+  };
+
+});
+
+
+/* SETTINGS */
+
+document.querySelectorAll(".switch")
+.forEach(sw => {
+
+  sw.onclick = () => {
+
+    sw.classList.toggle("on");
+
+    const key =
+      sw.dataset.setting;
+
+    if(key){
+
+      state.settings[key] =
+        sw.classList.contains("on");
+
+    }
+
+  };
+
+});
+
+
+/* NAVIGATION */
+
+document.querySelectorAll(".navBtn")
+.forEach(button => {
+
+  button.onclick = () => {
+
+    const action =
+      button.dataset.action;
+
+    if(action === "history"){
+
+      toast("Chat history is in the sidebar");
+
+    }else if(action === "memory"){
+
+      toast("Memory settings opened");
+
+    }else if(action === "projects"){
+
+      toast("Projects workspace");
+
+    }else if(action === "custom"){
+
+      toast("Custom AI workspace");
+
+    }else if(action === "apps"){
+
+      toast("Connected Apps workspace");
+
+    }
+
+  };
+
+});
+
+
+/* MORE MENU */
+
+$("moreBtn").onclick = () => {
+
+  const action =
+    prompt(
+      "Type: export, delete, or cancel"
+    );
+
+  if(!action) return;
+
+  if(
+    action.toLowerCase() ===
+    "export"
+  ){
+
+    exportChat();
+
+  }else if(
+    action.toLowerCase() ===
+    "delete"
+  ){
+
+    const chats =
+      loadChats()
+        .filter(
+          c =>
+            c.id !==
+            state.currentChatId
+        );
+
+    localStorage.setItem(
+      "deveshai_chats",
+      JSON.stringify(chats)
+    );
+
+    newChat();
+    renderHistory();
+
+  }
+
+};
+
+
+/* =========================================================
+   LIKE / DISLIKE
+========================================================= */
+
+function likeMessage(button){
+
+  button.textContent = "👍✓";
+
+  toast("Thanks for the feedback");
 
 }
 
-window.addEventListener(
-  "resize",
-  resizeCanvas
-);
 
-resizeCanvas();
+function dislikeMessage(button){
 
-animate();
+  button.textContent = "👎✓";
+
+  toast("Feedback recorded");
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+renderHistory();
+
+newChat();
 
 </script>
 
