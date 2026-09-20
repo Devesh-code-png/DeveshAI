@@ -1,3 +1,4 @@
+````html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,7 +55,9 @@ button{
   display:flex;
 }
 
-/* SIDEBAR */
+/* =========================
+   SIDEBAR
+========================= */
 
 .sidebar{
   width:var(--sidebar);
@@ -219,7 +222,9 @@ button{
   margin-top:2px;
 }
 
-/* MAIN */
+/* =========================
+   MAIN
+========================= */
 
 .main{
   flex:1;
@@ -291,7 +296,9 @@ button{
   cursor:pointer;
 }
 
-/* CHAT */
+/* =========================
+   CHAT
+========================= */
 
 .chat{
   flex:1;
@@ -373,7 +380,9 @@ button{
   font-size:11px;
 }
 
-/* MESSAGES */
+/* =========================
+   MESSAGES
+========================= */
 
 .message{
   display:flex;
@@ -383,8 +392,14 @@ button{
 }
 
 @keyframes messageIn{
-  from{opacity:0;transform:translateY(7px)}
-  to{opacity:1;transform:translateY(0)}
+  from{
+    opacity:0;
+    transform:translateY(7px)
+  }
+  to{
+    opacity:1;
+    transform:translateY(0)
+  }
 }
 
 .message.user{
@@ -469,13 +484,26 @@ button{
   animation:blink 1s infinite;
 }
 
-.typing i:nth-child(2){animation-delay:.15s}
-.typing i:nth-child(3){animation-delay:.3s}
+.typing i:nth-child(2){
+  animation-delay:.15s
+}
+
+.typing i:nth-child(3){
+  animation-delay:.3s
+}
 
 @keyframes blink{
-  0%,100%{opacity:.2}
-  50%{opacity:1}
+  0%,100%{
+    opacity:.2
+  }
+  50%{
+    opacity:1
+  }
 }
+
+/* =========================
+   CODE
+========================= */
 
 .code-block{
   margin-top:10px;
@@ -513,7 +541,9 @@ button{
   line-height:1.6;
 }
 
-/* COMPOSER */
+/* =========================
+   COMPOSER
+========================= */
 
 .composer-wrap{
   position:absolute;
@@ -608,7 +638,9 @@ button{
   color:#fff;
 }
 
-/* MODE BAR */
+/* =========================
+   MODE BAR
+========================= */
 
 .modebar{
   max-width:920px;
@@ -640,7 +672,9 @@ button{
   background:#151515;
 }
 
-/* DROPDOWN */
+/* =========================
+   DROPDOWN
+========================= */
 
 .dropdown{
   position:absolute;
@@ -662,8 +696,14 @@ button{
 }
 
 @keyframes drop{
-  from{opacity:0;transform:translateY(-5px)}
-  to{opacity:1;transform:translateY(0)}
+  from{
+    opacity:0;
+    transform:translateY(-5px)
+  }
+  to{
+    opacity:1;
+    transform:translateY(0)
+  }
 }
 
 .drop-item{
@@ -689,7 +729,9 @@ button{
   margin:5px;
 }
 
-/* MODALS */
+/* =========================
+   MODALS
+========================= */
 
 .overlay{
   position:fixed;
@@ -756,7 +798,9 @@ button{
   padding:17px;
 }
 
-/* SETTINGS */
+/* =========================
+   SETTINGS
+========================= */
 
 .settings-layout{
   display:grid;
@@ -875,7 +919,9 @@ button{
   font-size:11px;
 }
 
-/* TOOL GRID */
+/* =========================
+   TOOL GRID
+========================= */
 
 .tool-grid{
   display:grid;
@@ -916,7 +962,9 @@ button{
   margin-top:4px;
 }
 
-/* FILE PREVIEW */
+/* =========================
+   FILE PREVIEW
+========================= */
 
 .attach-list{
   display:flex;
@@ -944,7 +992,9 @@ button{
   cursor:pointer;
 }
 
-/* TOAST */
+/* =========================
+   TOAST
+========================= */
 
 .toast{
   position:fixed;
@@ -968,7 +1018,9 @@ button{
   transform:translateX(-50%) translateY(0);
 }
 
-/* SEARCH */
+/* =========================
+   SEARCH
+========================= */
 
 .search-box{
   display:flex;
@@ -1011,7 +1063,9 @@ button{
   font-size:10px;
 }
 
-/* RESPONSIVE */
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media(max-width:800px){
 
@@ -1100,7 +1154,9 @@ button{
 
 <div class="app">
 
-<!-- SIDEBAR -->
+<!-- =========================
+     SIDEBAR
+========================= -->
 
 <aside class="sidebar" id="sidebar">
 
@@ -1148,19 +1204,26 @@ button{
   <div class="sidebar-bottom">
 
     <div class="profile" onclick="openSettings('account')">
+
       <div class="avatar">D</div>
+
       <div class="profile-info">
         <div class="profile-name">Devesh</div>
         <div class="profile-sub">DeveshAI account</div>
       </div>
+
       <span style="color:#666">⋯</span>
+
     </div>
 
   </div>
 
 </aside>
 
-<!-- MAIN -->
+
+<!-- =========================
+     MAIN
+========================= -->
 
 <main class="main">
 
@@ -1168,57 +1231,140 @@ button{
 
     <div class="top-left">
 
-      <button class="top-btn mobile-menu" onclick="toggleSidebar()">☰</button>
+      <button
+        class="top-btn mobile-menu"
+        onclick="toggleSidebar()"
+      >☰</button>
 
-      <div class="chat-name" id="chatTitle">New Chat</div>
+      <div class="chat-name" id="chatTitle">
+        New Chat
+      </div>
 
-      <button class="top-btn" onclick="renameCurrentChat()" title="Rename">✎</button>
+      <button
+        class="top-btn"
+        onclick="renameCurrentChat()"
+        title="Rename"
+      >✎</button>
 
     </div>
 
-    <select class="model-select" id="modelSelect" onchange="changeModel()">
+    <select
+      class="model-select"
+      id="modelSelect"
+      onchange="changeModel()"
+    >
       <option value="default">DeveshAI</option>
       <option value="fast">Fast</option>
       <option value="reasoning">Reasoning</option>
       <option value="creative">Creative</option>
     </select>
 
-    <button class="top-btn hide-mobile" onclick="shareChat()" title="Share">↗</button>
+    <button
+      class="top-btn hide-mobile"
+      onclick="shareChat()"
+      title="Share"
+    >↗</button>
 
-    <button class="top-btn" onclick="openMore()">⋯</button>
+    <button
+      class="top-btn"
+      onclick="openMore()"
+    >⋯</button>
 
-    <div class="dropdown" id="moreDropdown">
+    <div
+      class="dropdown"
+      id="moreDropdown"
+    >
 
-      <button class="drop-item" onclick="renameCurrentChat()">✎ Rename chat</button>
-      <button class="drop-item" onclick="pinCurrentChat()">📌 Pin chat</button>
-      <button class="drop-item" onclick="archiveCurrentChat()">📁 Archive chat</button>
-      <button class="drop-item" onclick="exportChat()">⇩ Export conversation</button>
-      <button class="drop-item" onclick="shareChat()">↗ Share conversation</button>
+      <button
+        class="drop-item"
+        onclick="renameCurrentChat()"
+      >
+        ✎ Rename chat
+      </button>
+
+      <button
+        class="drop-item"
+        onclick="pinCurrentChat()"
+      >
+        📌 Pin chat
+      </button>
+
+      <button
+        class="drop-item"
+        onclick="archiveCurrentChat()"
+      >
+        📁 Archive chat
+      </button>
+
+      <button
+        class="drop-item"
+        onclick="exportChat()"
+      >
+        ⇩ Export conversation
+      </button>
+
+      <button
+        class="drop-item"
+        onclick="shareChat()"
+      >
+        ↗ Share conversation
+      </button>
 
       <div class="drop-sep"></div>
 
-      <button class="drop-item" onclick="openSettings()">⚙ Settings</button>
-      <button class="drop-item" onclick="showHelp()">?</button>
+      <button
+        class="drop-item"
+        onclick="openSettings()"
+      >
+        ⚙ Settings
+      </button>
+
+      <button
+        class="drop-item"
+        onclick="showHelp()"
+      >
+        ?
+      </button>
 
       <div class="drop-sep"></div>
 
-      <button class="drop-item" style="color:#ff6666" onclick="deleteCurrentChat()">🗑 Delete chat</button>
+      <button
+        class="drop-item"
+        style="color:#ff6666"
+        onclick="deleteCurrentChat()"
+      >
+        🗑 Delete chat
+      </button>
 
     </div>
 
   </header>
 
+
   <!-- CHAT -->
 
-  <section class="chat" id="chat">
+  <section
+    class="chat"
+    id="chat"
+  >
 
-    <div class="chat-inner" id="chatInner">
+    <div
+      class="chat-inner"
+      id="chatInner"
+    >
 
-      <div class="welcome" id="welcome">
+      <div
+        class="welcome"
+        id="welcome"
+      >
 
-        <div class="welcome-logo">D</div>
+        <div class="welcome-logo">
+          D
+        </div>
 
-        <h1>What can I help you with?</h1>
+        <h1>
+          What can I help you with?
+        </h1>
 
         <p>
           DeveshAI — chat, think, study, code, create and analyze from one workspace.
@@ -1226,22 +1372,34 @@ button{
 
         <div class="quick-grid">
 
-          <button class="quick-card" onclick="quickPrompt('Explain this topic to me in very simple language.')">
+          <button
+            class="quick-card"
+            onclick="quickPrompt('Explain this topic to me in very simple language.')"
+          >
             <b>▣ Explain</b>
             <span>Learn something step-by-step</span>
           </button>
 
-          <button class="quick-card" onclick="quickPrompt('Help me solve this problem step by step.')">
+          <button
+            class="quick-card"
+            onclick="quickPrompt('Help me solve this problem step by step.')"
+          >
             <b>⌁ Solve</b>
             <span>Work through a difficult problem</span>
           </button>
 
-          <button class="quick-card" onclick="quickPrompt('Help me write clean and professional code.')">
+          <button
+            class="quick-card"
+            onclick="quickPrompt('Help me write clean and professional code.')"
+          >
             <b>&lt;/&gt; Code</b>
             <span>Build or debug software</span>
           </button>
 
-          <button class="quick-card" onclick="quickPrompt('Help me research this topic and organize the important information.')">
+          <button
+            class="quick-card"
+            onclick="quickPrompt('Help me research this topic and organize the important information.')"
+          >
             <b>⌕ Research</b>
             <span>Explore a topic</span>
           </button>
@@ -1254,25 +1412,78 @@ button{
 
   </section>
 
+
   <!-- COMPOSER -->
 
   <div class="composer-wrap">
 
     <div class="modebar">
 
-      <button class="mode active" data-mode="Ask" onclick="setMode(this)">Ask</button>
-      <button class="mode" data-mode="Think" onclick="setMode(this)">Think</button>
-      <button class="mode" data-mode="Study" onclick="setMode(this)">Study</button>
-      <button class="mode" data-mode="Code" onclick="setMode(this)">Code</button>
-      <button class="mode" data-mode="Create" onclick="setMode(this)">Create</button>
-      <button class="mode" data-mode="Analyze" onclick="setMode(this)">Analyze</button>
-      <button class="mode" data-mode="Research" onclick="setMode(this)">Research</button>
+      <button
+        class="mode active"
+        data-mode="Ask"
+        onclick="setMode(this)"
+      >
+        Ask
+      </button>
+
+      <button
+        class="mode"
+        data-mode="Think"
+        onclick="setMode(this)"
+      >
+        Think
+      </button>
+
+      <button
+        class="mode"
+        data-mode="Study"
+        onclick="setMode(this)"
+      >
+        Study
+      </button>
+
+      <button
+        class="mode"
+        data-mode="Code"
+        onclick="setMode(this)"
+      >
+        Code
+      </button>
+
+      <button
+        class="mode"
+        data-mode="Create"
+        onclick="setMode(this)"
+      >
+        Create
+      </button>
+
+      <button
+        class="mode"
+        data-mode="Analyze"
+        onclick="setMode(this)"
+      >
+        Analyze
+      </button>
+
+      <button
+        class="mode"
+        data-mode="Research"
+        onclick="setMode(this)"
+      >
+        Research
+      </button>
 
     </div>
 
+
     <div class="composer">
 
-      <div class="attach-list" id="attachList"></div>
+      <div
+        class="attach-list"
+        id="attachList"
+      ></div>
 
       <textarea
         id="prompt"
@@ -1286,29 +1497,51 @@ button{
 
         <div class="composer-left">
 
-          <button class="tool-btn" onclick="openAttachMenu()">
+          <button
+            class="tool-btn"
+            onclick="openAttachMenu()"
+          >
             ＋ <span class="label">Attach</span>
           </button>
 
-          <button class="tool-btn" id="webBtn" onclick="toggleWeb()">
+          <button
+            class="tool-btn"
+            id="webBtn"
+            onclick="toggleWeb()"
+          >
             ◉ <span class="label">Web</span>
           </button>
 
-          <button class="tool-btn" onclick="startVoice()">
+          <button
+            class="tool-btn"
+            onclick="startVoice()"
+          >
             🎙 <span class="label">Voice</span>
           </button>
 
-          <button class="tool-btn" onclick="openTools()">
+          <button
+            class="tool-btn"
+            onclick="openTools()"
+          >
             ✦ <span class="label">Tools</span>
           </button>
 
-          <button class="tool-btn" onclick="openImageCreator()">
+          <button
+            class="tool-btn"
+            onclick="openImageCreator()"
+          >
             ▧ <span class="label">Create</span>
           </button>
 
         </div>
 
-        <button class="send-btn" id="sendBtn" onclick="sendMessage()">↑</button>
+        <button
+          class="send-btn"
+          id="sendBtn"
+          onclick="sendMessage()"
+        >
+          ↑
+        </button>
 
       </div>
 
@@ -1321,58 +1554,90 @@ button{
 </div>
 
 
-<!-- ATTACH MODAL -->
+<!-- =========================
+     ATTACH MODAL
+========================= -->
 
-<div class="overlay" id="attachModal">
+<div
+  class="overlay"
+  id="attachModal"
+>
 
   <div class="modal small">
 
     <div class="modal-head">
+
       <h2>Attach</h2>
-      <button class="close" onclick="closeModal('attachModal')">×</button>
+
+      <button
+        class="close"
+        onclick="closeModal('attachModal')"
+      >
+        ×
+      </button>
+
     </div>
 
     <div class="modal-body">
 
       <div class="tool-grid">
 
-        <button class="big-tool" onclick="pickFiles('image/*')">
+        <button
+          class="big-tool"
+          onclick="pickFiles('image/*')"
+        >
           <div class="big-tool-icon">▧</div>
           <b>Images</b>
-          <span>Upload images for analysis</span>
+          <span>Image upload UI</span>
         </button>
 
-        <button class="big-tool" onclick="pickFiles('.pdf')">
+        <button
+          class="big-tool"
+          onclick="pickFiles('.pdf')"
+        >
           <div class="big-tool-icon">▤</div>
           <b>PDF</b>
-          <span>Attach PDF documents</span>
+          <span>Analyze PDF files</span>
         </button>
 
-        <button class="big-tool" onclick="pickFiles('.doc,.docx,.txt')">
+        <button
+          class="big-tool"
+          onclick="pickFiles('.doc,.docx,.txt')"
+        >
           <div class="big-tool-icon">▥</div>
           <b>Documents</b>
-          <span>Text and document files</span>
+          <span>Analyze text documents</span>
         </button>
 
-        <button class="big-tool" onclick="pickFiles('.csv,.xlsx,.xls')">
+        <button
+          class="big-tool"
+          onclick="pickFiles('.csv,.xlsx,.xls')"
+        >
           <div class="big-tool-icon">▦</div>
           <b>Data</b>
-          <span>CSV and spreadsheet files</span>
+          <span>Analyze CSV and spreadsheets</span>
         </button>
 
-        <button class="big-tool" onclick="pickFiles('.ppt,.pptx')">
+        <button
+          class="big-tool"
+          onclick="pickFiles('.ppt,.pptx')"
+        >
           <div class="big-tool-icon">▧</div>
           <b>Slides</b>
-          <span>Presentation files</span>
+          <span>Upload UI available</span>
         </button>
 
-        <button class="big-tool" onclick="startCamera()">
+        <button
+          class="big-tool"
+          onclick="startCamera()"
+        >
           <div class="big-tool-icon">◉</div>
           <b>Camera</b>
           <span>Use your device camera</span>
         </button>
 
       </div>
+
 
       <input
         type="file"
@@ -1398,52 +1663,83 @@ button{
 </div>
 
 
-<!-- TOOLS MODAL -->
+<!-- =========================
+     TOOLS MODAL
+========================= -->
 
-<div class="overlay" id="toolsModal">
+<div
+  class="overlay"
+  id="toolsModal"
+>
 
   <div class="modal">
 
     <div class="modal-head">
+
       <h2>Tools</h2>
-      <button class="close" onclick="closeModal('toolsModal')">×</button>
+
+      <button
+        class="close"
+        onclick="closeModal('toolsModal')"
+      >
+        ×
+      </button>
+
     </div>
 
     <div class="modal-body">
 
       <div class="tool-grid">
 
-        <button class="big-tool" onclick="useTool('Think deeply')">
+        <button
+          class="big-tool"
+          onclick="useTool('Think deeply about my question and give a careful answer.')"
+        >
           <div class="big-tool-icon">🧠</div>
           <b>Think</b>
           <span>Use deeper reasoning</span>
         </button>
 
-        <button class="big-tool" onclick="useTool('Study this topic with me')">
+        <button
+          class="big-tool"
+          onclick="useTool('Study this topic with me step by step.')"
+        >
           <div class="big-tool-icon">▣</div>
           <b>Study</b>
           <span>Learn step-by-step</span>
         </button>
 
-        <button class="big-tool" onclick="useTool('Help me write code')">
+        <button
+          class="big-tool"
+          onclick="useTool('Help me write, debug or improve this code.')"
+        >
           <div class="big-tool-icon">&lt;/&gt;</div>
           <b>Code</b>
           <span>Build and debug code</span>
         </button>
 
-        <button class="big-tool" onclick="openImageCreator()">
+        <button
+          class="big-tool"
+          onclick="openImageCreator()"
+        >
           <div class="big-tool-icon">▧</div>
           <b>Create Image</b>
           <span>Open image creation</span>
         </button>
 
-        <button class="big-tool" onclick="useTool('Analyze the attached file or information')">
+        <button
+          class="big-tool"
+          onclick="useTool('Analyze the attached file or information carefully.')"
+        >
           <div class="big-tool-icon">⌁</div>
           <b>Analyze</b>
           <span>Analyze information</span>
         </button>
 
-        <button class="big-tool" onclick="useTool('Research this topic thoroughly')">
+        <button
+          class="big-tool"
+          onclick="useTool('Research this topic thoroughly and organize the important information.')"
+        >
           <div class="big-tool-icon">⌕</div>
           <b>Research</b>
           <span>Research mode</span>
@@ -1458,15 +1754,28 @@ button{
 </div>
 
 
-<!-- IMAGE CREATOR -->
+<!-- =========================
+     IMAGE CREATOR
+========================= -->
 
-<div class="overlay" id="imageModal">
+<div
+  class="overlay"
+  id="imageModal"
+>
 
   <div class="modal small">
 
     <div class="modal-head">
+
       <h2>Create Image</h2>
-      <button class="close" onclick="closeModal('imageModal')">×</button>
+
+      <button
+        class="close"
+        onclick="closeModal('imageModal')"
+      >
+        ×
+      </button>
+
     </div>
 
     <div class="modal-body">
@@ -1484,7 +1793,10 @@ button{
         Generate
       </button>
 
-      <div id="imageResult" style="margin-top:12px;color:#777;font-size:11px"></div>
+      <div
+        id="imageResult"
+        style="margin-top:12px;color:#777;font-size:11px"
+      ></div>
 
     </div>
 
@@ -1493,226 +1805,551 @@ button{
 </div>
 
 
-<!-- SETTINGS -->
+<!-- =========================
+     SETTINGS
+========================= -->
 
-<div class="overlay" id="settingsModal">
+<div
+  class="overlay"
+  id="settingsModal"
+>
 
   <div class="modal">
 
     <div class="modal-head">
+
       <h2>Settings</h2>
-      <button class="close" onclick="closeModal('settingsModal')">×</button>
+
+      <button
+        class="close"
+        onclick="closeModal('settingsModal')"
+      >
+        ×
+      </button>
+
     </div>
 
     <div class="settings-layout">
 
       <nav class="settings-nav">
 
-        <button class="active" onclick="settingsPage(this,'general')">General</button>
-        <button onclick="settingsPage(this,'appearance')">Appearance</button>
-        <button onclick="settingsPage(this,'voice')">Voice</button>
-        <button onclick="settingsPage(this,'personalization')">Personalization</button>
-        <button onclick="settingsPage(this,'memory')">Memory</button>
-        <button onclick="settingsPage(this,'data')">Data Controls</button>
-        <button onclick="settingsPage(this,'notifications')">Notifications</button>
-        <button onclick="settingsPage(this,'apps')">Connected Apps</button>
-        <button onclick="settingsPage(this,'account')">Account</button>
-        <button onclick="settingsPage(this,'security')">Security</button>
-        <button onclick="settingsPage(this,'help')">Help</button>
+        <button
+          class="active"
+          onclick="settingsPage(this,'general')"
+        >
+          General
+        </button>
+
+        <button
+          onclick="settingsPage(this,'appearance')"
+        >
+          Appearance
+        </button>
+
+        <button
+          onclick="settingsPage(this,'voice')"
+        >
+          Voice
+        </button>
+
+        <button
+          onclick="settingsPage(this,'personalization')"
+        >
+          Personalization
+        </button>
+
+        <button
+          onclick="settingsPage(this,'memory')"
+        >
+          Memory
+        </button>
+
+        <button
+          onclick="settingsPage(this,'data')"
+        >
+          Data Controls
+        </button>
+
+        <button
+          onclick="settingsPage(this,'notifications')"
+        >
+          Notifications
+        </button>
+
+        <button
+          onclick="settingsPage(this,'apps')"
+        >
+          Connected Apps
+        </button>
+
+        <button
+          onclick="settingsPage(this,'account')"
+        >
+          Account
+        </button>
+
+        <button
+          onclick="settingsPage(this,'security')"
+        >
+          Security
+        </button>
+
+        <button
+          onclick="settingsPage(this,'help')"
+        >
+          Help
+        </button>
 
       </nav>
 
+
       <div class="settings-content">
 
-        <div class="settings-page active" id="settings-general">
+        <div
+          class="settings-page active"
+          id="settings-general"
+        >
+
           <h3>General</h3>
           <p>Basic DeveshAI preferences.</p>
 
           <div class="setting-row">
-            <div><b>Language</b><span>Choose interface language</span></div>
-            <select class="setting-select" onchange="saveSetting('language',this.value)">
+
+            <div>
+              <b>Language</b>
+              <span>Choose interface language</span>
+            </div>
+
+            <select
+              class="setting-select"
+              onchange="saveSetting('language',this.value)"
+            >
               <option>English</option>
               <option>Hindi</option>
             </select>
+
           </div>
 
-          <div class="setting-row">
-            <div><b>Enter to send</b><span>Press Enter to send messages</span></div>
-            <div class="toggle on" data-setting="enterSend" onclick="toggleSetting(this)"></div>
-          </div>
 
           <div class="setting-row">
-            <div><b>Compact interface</b><span>Reduce interface spacing</span></div>
-            <div class="toggle" data-setting="compact" onclick="toggleSetting(this)"></div>
+
+            <div>
+              <b>Enter to send</b>
+              <span>Press Enter to send messages</span>
+            </div>
+
+            <div
+              class="toggle on"
+              data-setting="enterSend"
+              onclick="toggleSetting(this)"
+            ></div>
+
           </div>
+
+
+          <div class="setting-row">
+
+            <div>
+              <b>Compact interface</b>
+              <span>Reduce interface spacing</span>
+            </div>
+
+            <div
+              class="toggle"
+              data-setting="compact"
+              onclick="toggleSetting(this)"
+            ></div>
+
+          </div>
+
         </div>
 
 
-        <div class="settings-page" id="settings-appearance">
+        <div
+          class="settings-page"
+          id="settings-appearance"
+        >
+
           <h3>Appearance</h3>
           <p>Customize how DeveshAI looks.</p>
 
           <div class="setting-row">
-            <div><b>Theme</b><span>Current interface theme</span></div>
-            <select class="setting-select" onchange="setTheme(this.value)">
+
+            <div>
+              <b>Theme</b>
+              <span>Current interface theme</span>
+            </div>
+
+            <select
+              class="setting-select"
+              onchange="setTheme(this.value)"
+            >
               <option value="dark">Dark</option>
               <option value="black">Black</option>
             </select>
+
           </div>
 
+
           <div class="setting-row">
-            <div><b>Animations</b><span>Interface motion effects</span></div>
-            <div class="toggle on" data-setting="animations" onclick="toggleSetting(this)"></div>
+
+            <div>
+              <b>Animations</b>
+              <span>Interface motion effects</span>
+            </div>
+
+            <div
+              class="toggle on"
+              data-setting="animations"
+              onclick="toggleSetting(this)"
+            ></div>
+
           </div>
+
         </div>
 
 
-        <div class="settings-page" id="settings-voice">
+        <div
+          class="settings-page"
+          id="settings-voice"
+        >
+
           <h3>Voice</h3>
           <p>Browser voice controls.</p>
 
           <div class="setting-row">
-            <div><b>Read responses aloud</b><span>Use your browser's speech engine</span></div>
-            <div class="toggle" data-setting="voice" onclick="toggleSetting(this)"></div>
+
+            <div>
+              <b>Read responses aloud</b>
+              <span>Use your browser's speech engine</span>
+            </div>
+
+            <div
+              class="toggle"
+              data-setting="voice"
+              onclick="toggleSetting(this)"
+            ></div>
+
           </div>
 
           <div class="setting-row">
-            <div><b>Voice</b><span>Browser-supported voice</span></div>
-            <select class="setting-select" id="voiceSelect"></select>
+
+            <div>
+              <b>Voice</b>
+              <span>Browser-supported voice</span>
+            </div>
+
+            <select
+              class="setting-select"
+              id="voiceSelect"
+            ></select>
+
           </div>
 
-          <button class="drop-item" style="border:1px solid #292929;margin-top:15px" onclick="testVoice()">
+          <button
+            class="drop-item"
+            style="border:1px solid #292929;margin-top:15px"
+            onclick="testVoice()"
+          >
             ▶ Test voice
           </button>
+
         </div>
 
 
-        <div class="settings-page" id="settings-personalization">
+        <div
+          class="settings-page"
+          id="settings-personalization"
+        >
+
           <h3>Personalization</h3>
           <p>Tell DeveshAI how you prefer responses.</p>
 
           <div class="setting-row">
-            <div><b>Friendly responses</b><span>Use a relaxed conversational style</span></div>
-            <div class="toggle on" data-setting="friendly" onclick="toggleSetting(this)"></div>
+
+            <div>
+              <b>Friendly responses</b>
+              <span>Use a relaxed conversational style</span>
+            </div>
+
+            <div
+              class="toggle on"
+              data-setting="friendly"
+              onclick="toggleSetting(this)"
+            ></div>
+
           </div>
 
           <div style="margin-top:16px">
+
             <textarea
               id="customInstruction"
               style="width:100%;height:120px;background:#111;border:1px solid #292929;border-radius:9px;color:#fff;padding:10px;resize:none;outline:0"
               placeholder="How should DeveshAI respond to you?"
             ></textarea>
-            <button class="drop-item" style="border:1px solid #292929;margin-top:7px" onclick="saveInstructions()">
+
+            <button
+              class="drop-item"
+              style="border:1px solid #292929;margin-top:7px"
+              onclick="saveInstructions()"
+            >
               Save instructions
             </button>
+
           </div>
+
         </div>
 
 
-        <div class="settings-page" id="settings-memory">
+        <div
+          class="settings-page"
+          id="settings-memory"
+        >
+
           <h3>Memory</h3>
           <p>Manage information stored locally by this browser.</p>
 
           <div class="setting-row">
-            <div><b>Memory</b><span>Use saved preferences in this browser</span></div>
-            <div class="toggle on" data-setting="memory" onclick="toggleSetting(this)"></div>
+
+            <div>
+              <b>Memory</b>
+              <span>Use saved preferences in this browser</span>
+            </div>
+
+            <div
+              class="toggle on"
+              data-setting="memory"
+              onclick="toggleSetting(this)"
+            ></div>
+
           </div>
 
-          <button class="drop-item" style="border:1px solid #292929;margin-top:15px" onclick="clearMemory()">
+          <button
+            class="drop-item"
+            style="border:1px solid #292929;margin-top:15px"
+            onclick="clearMemory()"
+          >
             Clear local memory
           </button>
+
         </div>
 
 
-        <div class="settings-page" id="settings-data">
+        <div
+          class="settings-page"
+          id="settings-data"
+        >
+
           <h3>Data Controls</h3>
           <p>Control local conversation data.</p>
 
-          <button class="drop-item" style="border:1px solid #292929" onclick="exportAllData()">
+          <button
+            class="drop-item"
+            style="border:1px solid #292929"
+            onclick="exportAllData()"
+          >
             ⇩ Export local data
           </button>
 
-          <button class="drop-item" style="border:1px solid #292929;margin-top:8px;color:#ff6666" onclick="clearAllChats()">
+          <button
+            class="drop-item"
+            style="border:1px solid #292929;margin-top:8px;color:#ff6666"
+            onclick="clearAllChats()"
+          >
             Delete all local chats
           </button>
+
         </div>
 
 
-        <div class="settings-page" id="settings-notifications">
+        <div
+          class="settings-page"
+          id="settings-notifications"
+        >
+
           <h3>Notifications</h3>
           <p>Browser notification preferences.</p>
 
           <div class="setting-row">
-            <div><b>Notifications</b><span>Allow browser notifications</span></div>
-            <div class="toggle" onclick="requestNotifications(this)"></div>
+
+            <div>
+              <b>Notifications</b>
+              <span>Allow browser notifications</span>
+            </div>
+
+            <div
+              class="toggle"
+              onclick="requestNotifications(this)"
+            ></div>
+
           </div>
+
         </div>
 
 
-        <div class="settings-page" id="settings-apps">
+        <div
+          class="settings-page"
+          id="settings-apps"
+        >
+
           <h3>Connected Apps</h3>
-          <p>External integrations can be connected through the backend later.</p>
+
+          <p>
+            External integrations can be connected through the backend later.
+          </p>
 
           <div class="setting-row">
-            <div><b>GitHub</b><span>Repository and development workflows</span></div>
-            <button class="drop-item" style="width:auto;border:1px solid #292929" onclick="toast('GitHub connection will be handled by the backend.')">Connect</button>
+
+            <div>
+              <b>GitHub</b>
+              <span>Repository and development workflows</span>
+            </div>
+
+            <button
+              class="drop-item"
+              style="width:auto;border:1px solid #292929"
+              onclick="toast('GitHub connection will be handled by the backend.')"
+            >
+              Connect
+            </button>
+
           </div>
 
-          <div class="setting-row">
-            <div><b>Google Drive</b><span>Files and documents</span></div>
-            <button class="drop-item" style="width:auto;border:1px solid #292929" onclick="toast('Drive connection will be handled by the backend.')">Connect</button>
-          </div>
 
           <div class="setting-row">
-            <div><b>Calendar</b><span>Calendar workflows</span></div>
-            <button class="drop-item" style="width:auto;border:1px solid #292929" onclick="toast('Calendar connection will be handled by the backend.')">Connect</button>
+
+            <div>
+              <b>Google Drive</b>
+              <span>Files and documents</span>
+            </div>
+
+            <button
+              class="drop-item"
+              style="width:auto;border:1px solid #292929"
+              onclick="toast('Drive connection will be handled by the backend.')"
+            >
+              Connect
+            </button>
+
           </div>
+
+
+          <div class="setting-row">
+
+            <div>
+              <b>Calendar</b>
+              <span>Calendar workflows</span>
+            </div>
+
+            <button
+              class="drop-item"
+              style="width:auto;border:1px solid #292929"
+              onclick="toast('Calendar connection will be handled by the backend.')"
+            >
+              Connect
+            </button>
+
+          </div>
+
         </div>
 
 
-        <div class="settings-page" id="settings-account">
+        <div
+          class="settings-page"
+          id="settings-account"
+        >
+
           <h3>Account</h3>
           <p>Your DeveshAI profile.</p>
 
           <div class="setting-row">
-            <div><b>Name</b><span>Current local profile</span></div>
+
+            <div>
+              <b>Name</b>
+              <span>Current local profile</span>
+            </div>
+
             <b>Devesh</b>
+
           </div>
 
+
           <div class="setting-row">
-            <div><b>Plan</b><span>Current application plan</span></div>
+
+            <div>
+              <b>Plan</b>
+              <span>Current application plan</span>
+            </div>
+
             <b>Free</b>
+
           </div>
+
         </div>
 
 
-        <div class="settings-page" id="settings-security">
+        <div
+          class="settings-page"
+          id="settings-security"
+        >
+
           <h3>Security</h3>
           <p>Browser-side security information.</p>
 
           <div class="setting-row">
-            <div><b>API key</b><span>Never stored in this frontend</span></div>
-            <b style="color:#aaa">Protected</b>
+
+            <div>
+              <b>API key</b>
+              <span>Never stored in this frontend</span>
+            </div>
+
+            <b style="color:#aaa">
+              Protected
+            </b>
+
           </div>
 
+
           <div class="setting-row">
-            <div><b>Server API</b><span>Requests go through /api/chat</span></div>
-            <b style="color:#aaa">Enabled</b>
+
+            <div>
+              <b>Server API</b>
+              <span>Requests go through /api/chat</span>
+            </div>
+
+            <b style="color:#aaa">
+              Enabled
+            </b>
+
           </div>
+
         </div>
 
 
-        <div class="settings-page" id="settings-help">
+        <div
+          class="settings-page"
+          id="settings-help"
+        >
+
           <h3>Help</h3>
           <p>DeveshAI help and diagnostics.</p>
 
-          <button class="drop-item" style="border:1px solid #292929" onclick="checkHealth()">
+          <button
+            class="drop-item"
+            style="border:1px solid #292929"
+            onclick="checkHealth()"
+          >
             Check server status
           </button>
 
-          <button class="drop-item" style="border:1px solid #292929;margin-top:8px" onclick="showAbout()">
+          <button
+            class="drop-item"
+            style="border:1px solid #292929;margin-top:8px"
+            onclick="showAbout()"
+          >
             About DeveshAI
           </button>
+
         </div>
 
       </div>
@@ -1724,24 +2361,46 @@ button{
 </div>
 
 
-<!-- SEARCH MODAL -->
+<!-- =========================
+     SEARCH MODAL
+========================= -->
 
-<div class="overlay" id="searchModal">
+<div
+  class="overlay"
+  id="searchModal"
+>
 
   <div class="modal small">
 
     <div class="modal-head">
+
       <h2>Search chats</h2>
-      <button class="close" onclick="closeModal('searchModal')">×</button>
+
+      <button
+        class="close"
+        onclick="closeModal('searchModal')"
+      >
+        ×
+      </button>
+
     </div>
 
     <div class="modal-body">
 
       <div class="search-box">
-        <input id="searchInput" placeholder="Search your conversations..." oninput="searchChats()">
+
+        <input
+          id="searchInput"
+          placeholder="Search your conversations..."
+          oninput="searchChats()"
+        >
+
       </div>
 
-      <div class="search-results" id="searchResults"></div>
+      <div
+        class="search-results"
+        id="searchResults"
+      ></div>
 
     </div>
 
@@ -1750,25 +2409,46 @@ button{
 </div>
 
 
-<!-- GENERIC INFO -->
+<!-- =========================
+     GENERIC INFO
+========================= -->
 
-<div class="overlay" id="infoModal">
+<div
+  class="overlay"
+  id="infoModal"
+>
 
   <div class="modal small">
 
     <div class="modal-head">
-      <h2 id="infoTitle">DeveshAI</h2>
-      <button class="close" onclick="closeModal('infoModal')">×</button>
+
+      <h2 id="infoTitle">
+        DeveshAI
+      </h2>
+
+      <button
+        class="close"
+        onclick="closeModal('infoModal')"
+      >
+        ×
+      </button>
+
     </div>
 
-    <div class="modal-body" id="infoBody"></div>
+    <div
+      class="modal-body"
+      id="infoBody"
+    ></div>
 
   </div>
 
 </div>
 
 
-<div class="toast" id="toast"></div>
+<div
+  class="toast"
+  id="toast"
+></div>
 
 
 <script>
@@ -1777,206 +2457,443 @@ button{
 ========================================================= */
 
 const state = {
-  chats: JSON.parse(localStorage.getItem("deveshai_chats") || "[]"),
-  currentId: null,
-  mode: "Ask",
-  model: "default",
-  web: false,
-  files: [],
-  controller: null,
-  generating: false
+
+  chats:
+    JSON.parse(
+      localStorage.getItem("deveshai_chats") || "[]"
+    ),
+
+  currentId:null,
+
+  mode:"Ask",
+
+  model:"default",
+
+  web:false,
+
+  files:[],
+
+  controller:null,
+
+  generating:false
+
 };
 
-const $ = id => document.getElementById(id);
+
+/* =========================
+   HELPERS
+========================= */
+
+const $ = id =>
+  document.getElementById(id);
+
 
 function uid(){
-  return Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+
+  return (
+    Date.now().toString(36) +
+    Math.random().toString(36).slice(2,8)
+  );
+
 }
+
 
 function saveChats(){
-  localStorage.setItem("deveshai_chats", JSON.stringify(state.chats));
+
+  localStorage.setItem(
+    "deveshai_chats",
+    JSON.stringify(state.chats)
+  );
+
   renderHistory();
+
 }
+
 
 function currentChat(){
-  return state.chats.find(c => c.id === state.currentId);
+
+  return state.chats.find(
+    c => c.id === state.currentId
+  );
+
 }
 
+
 function createChat(){
+
   const chat = {
+
     id:uid(),
+
     title:"New Chat",
+
     created:Date.now(),
+
     pinned:false,
+
     archived:false,
+
     messages:[]
+
   };
 
   state.chats.unshift(chat);
+
   state.currentId = chat.id;
+
   saveChats();
 
   return chat;
+
 }
 
+
+/* =========================
+   NEW CHAT
+========================= */
+
 function newChat(){
-  if(state.generating) stopGeneration();
+
+  if(state.generating){
+    stopGeneration();
+  }
+
+  state.files = [];
+
+  renderAttachments();
 
   const chat = createChat();
 
-  $("chatTitle").textContent = chat.title;
+  $("chatTitle").textContent =
+    chat.title;
 
   $("chatInner").innerHTML = `
+
     <div class="welcome" id="welcome">
+
       <div class="welcome-logo">D</div>
+
       <h1>What can I help you with?</h1>
-      <p>DeveshAI — chat, think, study, code, create and analyze from one workspace.</p>
+
+      <p>
+        DeveshAI — chat, think, study, code, create and analyze from one workspace.
+      </p>
 
       <div class="quick-grid">
 
-        <button class="quick-card" onclick="quickPrompt('Explain this topic to me in very simple language.')">
+        <button
+          class="quick-card"
+          onclick="quickPrompt('Explain this topic to me in very simple language.')"
+        >
           <b>▣ Explain</b>
           <span>Learn something step-by-step</span>
         </button>
 
-        <button class="quick-card" onclick="quickPrompt('Help me solve this problem step by step.')">
+        <button
+          class="quick-card"
+          onclick="quickPrompt('Help me solve this problem step by step.')"
+        >
           <b>⌁ Solve</b>
           <span>Work through a difficult problem</span>
         </button>
 
-        <button class="quick-card" onclick="quickPrompt('Help me write clean and professional code.')">
+        <button
+          class="quick-card"
+          onclick="quickPrompt('Help me write clean and professional code.')"
+        >
           <b>&lt;/&gt; Code</b>
           <span>Build or debug software</span>
         </button>
 
-        <button class="quick-card" onclick="quickPrompt('Help me research this topic and organize the important information.')">
+        <button
+          class="quick-card"
+          onclick="quickPrompt('Help me research this topic and organize the important information.')"
+        >
           <b>⌕ Research</b>
           <span>Explore a topic</span>
         </button>
 
       </div>
+
     </div>
+
   `;
 
   closeAllDropdowns();
-  if(window.innerWidth <= 800) $("sidebar").classList.remove("open");
+
+  if(window.innerWidth <= 800){
+    $("sidebar").classList.remove("open");
+  }
+
 }
 
+
+/* =========================
+   LOAD CHAT
+========================= */
+
 function loadChat(id){
-  const chat = state.chats.find(c => c.id === id);
+
+  const chat =
+    state.chats.find(
+      c => c.id === id
+    );
+
   if(!chat) return;
 
   state.currentId = id;
-  $("chatTitle").textContent = chat.title;
 
-  const inner = $("chatInner");
+  $("chatTitle").textContent =
+    chat.title;
+
+  const inner =
+    $("chatInner");
+
   inner.innerHTML = "";
 
   if(chat.messages.length === 0){
+
     newChatVisualOnly();
+
   }else{
-    chat.messages.forEach((m,i) => renderMessage(m.role,m.content,i));
+
+    chat.messages.forEach(
+      (m,i) =>
+        renderMessage(
+          m.role,
+          m.content,
+          i
+        )
+    );
+
   }
 
-  if(window.innerWidth <= 800) $("sidebar").classList.remove("open");
+  if(window.innerWidth <= 800){
+    $("sidebar").classList.remove("open");
+  }
+
 }
+
 
 function newChatVisualOnly(){
+
   $("chatInner").innerHTML = `
+
     <div class="welcome">
+
       <div class="welcome-logo">D</div>
+
       <h1>What can I help you with?</h1>
-      <p>Start a new conversation with DeveshAI.</p>
+
+      <p>
+        Start a new conversation with DeveshAI.
+      </p>
+
     </div>
+
   `;
+
 }
 
+
+/* =========================
+   HISTORY
+========================= */
+
 function renderHistory(){
-  const box = $("chatHistory");
+
+  const box =
+    $("chatHistory");
+
   box.innerHTML = "";
 
-  const chats = [...state.chats]
-    .filter(c => !c.archived)
-    .sort((a,b) => Number(b.pinned)-Number(a.pinned) || b.created-a.created)
-    .slice(0,30);
+  const chats =
+    [...state.chats]
+      .filter(c => !c.archived)
+      .sort(
+        (a,b) =>
+          Number(b.pinned) -
+          Number(a.pinned) ||
+          b.created -
+          a.created
+      )
+      .slice(0,30);
 
   chats.forEach(chat => {
 
-    const btn = document.createElement("button");
-    btn.className = "chat-item";
+    const btn =
+      document.createElement("button");
+
+    btn.className =
+      "chat-item";
 
     btn.innerHTML = `
-      <span class="icon">${chat.pinned ? "📌" : "💬"}</span>
-      <span class="chat-title-small">${escapeHTML(chat.title)}</span>
+
+      <span class="icon">
+        ${chat.pinned ? "📌" : "💬"}
+      </span>
+
+      <span class="chat-title-small">
+        ${escapeHTML(chat.title)}
+      </span>
+
     `;
 
-    btn.onclick = () => loadChat(chat.id);
+    btn.onclick =
+      () => loadChat(chat.id);
 
     box.appendChild(btn);
+
   });
+
 }
+
 
 function escapeHTML(str){
+
   return String(str)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
 }
 
 
-/* MESSAGE RENDER */
+/* =========================
+   MESSAGE RENDER
+========================= */
 
-function renderMessage(role,content,index){
-  const welcome = $("welcome");
-  if(welcome) welcome.remove();
+function renderMessage(
+  role,
+  content,
+  index
+){
 
-  const wrap = document.createElement("div");
+  const welcome =
+    $("welcome");
 
-  wrap.className = `message ${role}`;
+  if(welcome){
+    welcome.remove();
+  }
 
-  const avatar = role === "user" ? "D" : "AI";
+  const wrap =
+    document.createElement("div");
+
+  wrap.className =
+    `message ${role}`;
+
+  const avatar =
+    role === "user"
+      ? "D"
+      : "AI";
 
   wrap.innerHTML = `
-    <div class="msg-avatar">${avatar}</div>
+
+    <div class="msg-avatar">
+      ${avatar}
+    </div>
 
     <div class="msg-content">
 
-      <div class="msg-text">${formatMessage(content)}</div>
+      <div class="msg-text">
+        ${formatMessage(content)}
+      </div>
 
       ${
         role === "assistant"
+
         ?
+
         `<div class="msg-actions">
 
-          <button onclick="copyText(this)">Copy</button>
-          <button onclick="readText(this)">Read aloud</button>
-          <button onclick="regenerateMessage(${index})">Regenerate</button>
-          <button onclick="likeMessage(this)">👍</button>
-          <button onclick="dislikeMessage(this)">👎</button>
-          <button onclick="reportMessage(this)">Report</button>
+          <button onclick="copyText(this)">
+            Copy
+          </button>
+
+          <button onclick="readText(this)">
+            Read aloud
+          </button>
+
+          <button onclick="regenerateMessage(${index})">
+            Regenerate
+          </button>
+
+          <button onclick="likeMessage(this)">
+            👍
+          </button>
+
+          <button onclick="dislikeMessage(this)">
+            👎
+          </button>
+
+          <button onclick="reportMessage(this)">
+            Report
+          </button>
 
         </div>`
+
         :
+
         `<div class="msg-actions">
-          <button onclick="editUserMessage(${index})">Edit</button>
-          <button onclick="copyText(this)">Copy</button>
+
+          <button onclick="editUserMessage(${index})">
+            Edit
+          </button>
+
+          <button onclick="copyText(this)">
+            Copy
+          </button>
+
         </div>`
+
       }
 
     </div>
+
   `;
 
-  $("chatInner").appendChild(wrap);
-  $("chat").scrollTop = $("chat").scrollHeight;
+  $("chatInner")
+    .appendChild(wrap);
+
+  $("chat").scrollTop =
+    $("chat").scrollHeight;
+
 }
+
+
+/* =========================
+   FORMAT MESSAGE
+========================= */
 
 function formatMessage(text){
 
-  const escaped = escapeHTML(text);
+  const escaped =
+    escapeHTML(text);
 
-  const parts = escaped.split(/```/);
+  const parts =
+    escaped.split(/```/);
 
   if(parts.length === 1){
     return escaped;
@@ -1984,576 +2901,1601 @@ function formatMessage(text){
 
   let output = "";
 
-  parts.forEach((part,i) => {
+  parts.forEach(
+    (part,i) => {
 
-    if(i % 2 === 0){
-      output += part;
-    }else{
+      if(i % 2 === 0){
 
-      let code = part;
+        output += part;
 
-      const firstNewLine = code.indexOf("\n");
+      }else{
 
-      let language = "code";
+        let code = part;
 
-      if(firstNewLine > -1){
-        const possible = code.slice(0,firstNewLine).trim();
+        const firstNewLine =
+          code.indexOf("\n");
 
-        if(/^[a-zA-Z0-9+#.-]{1,15}$/.test(possible)){
-          language = possible;
-          code = code.slice(firstNewLine+1);
+        let language =
+          "code";
+
+        if(firstNewLine > -1){
+
+          const possible =
+            code
+              .slice(
+                0,
+                firstNewLine
+              )
+              .trim();
+
+          if(
+            /^[a-zA-Z0-9+#.-]{1,15}$/
+              .test(possible)
+          ){
+
+            language =
+              possible;
+
+            code =
+              code.slice(
+                firstNewLine + 1
+              );
+
+          }
+
         }
-      }
 
-      output += `
-        <div class="code-block">
+        output += `
 
-          <div class="code-head">
-            <span>${language}</span>
-            <button class="code-copy" onclick="copyCode(this)">Copy</button>
+          <div class="code-block">
+
+            <div class="code-head">
+
+              <span>
+                ${escapeHTML(language)}
+              </span>
+
+              <button
+                class="code-copy"
+                onclick="copyCode(this)"
+              >
+                Copy
+              </button>
+
+            </div>
+
+            <pre>${code}</pre>
+
           </div>
 
-          <pre>${code}</pre>
+        `;
 
-        </div>
-      `;
+      }
+
     }
-
-  });
+  );
 
   return output;
+
 }
 
 
-/* SEND */
+/* =========================================================
+   SEND
+========================================================= */
 
 async function sendMessage(){
 
   if(state.generating){
+
     stopGeneration();
+
     return;
+
   }
 
-  const prompt = $("prompt").value.trim();
+  const prompt =
+    $("prompt").value.trim();
 
-  if(!prompt && state.files.length === 0) return;
+  if(
+    !prompt &&
+    state.files.length === 0
+  ){
+    return;
+  }
 
   if(!state.currentId){
     createChat();
   }
 
-  const chat = currentChat();
+  const chat =
+    currentChat();
 
-  let finalPrompt = prompt;
+  /*
+    Save file references before clearing
+    the attachment UI.
+  */
 
-  if(state.files.length){
-    finalPrompt += "\n\nAttached files:\n" +
-      state.files.map(f => "- " + f.name).join("\n");
+  const filesToAnalyze =
+    [...state.files];
+
+  const supportedFiles =
+    filesToAnalyze.filter(
+      item =>
+        isSupportedAnalysisFile(
+          item.file
+        )
+    );
+
+  const unsupportedFiles =
+    filesToAnalyze.filter(
+      item =>
+        !isSupportedAnalysisFile(
+          item.file
+        )
+    );
+
+
+  let finalPrompt =
+    prompt;
+
+
+  if(filesToAnalyze.length){
+
+    finalPrompt +=
+      (
+        finalPrompt
+          ? "\n\n"
+          : ""
+      ) +
+      "Attached files:\n" +
+      filesToAnalyze
+        .map(
+          f => "- " + f.name
+        )
+        .join("\n");
+
   }
+
 
   if(state.mode !== "Ask"){
+
     finalPrompt =
-      `[Mode: ${state.mode}]\n\n` + finalPrompt;
+      `[Mode: ${state.mode}]\n\n` +
+      finalPrompt;
+
   }
+
 
   if(state.web){
+
     finalPrompt =
-      `[Web/Search requested]\n\n` + finalPrompt;
+      `[Web/Search requested]\n\n` +
+      finalPrompt;
+
   }
+
 
   const userMessage = {
+
     role:"user",
-    content:finalPrompt
+
+    content:
+      finalPrompt ||
+      "Analyze the attached files."
+
   };
 
-  chat.messages.push(userMessage);
+
+  chat.messages.push(
+    userMessage
+  );
+
 
   if(chat.messages.length === 1){
-    chat.title = prompt.slice(0,45) || "New Chat";
-    $("chatTitle").textContent = chat.title;
+
+    chat.title =
+      prompt.slice(0,45) ||
+      (
+        filesToAnalyze[0]
+          ? filesToAnalyze[0].name
+          : "New Chat"
+      );
+
+    $("chatTitle").textContent =
+      chat.title;
+
   }
+
 
   saveChats();
 
+
   $("prompt").value = "";
-  autoResize($("prompt"));
+
+  autoResize(
+    $("prompt")
+  );
+
 
   state.files = [];
+
   renderAttachments();
 
-  renderMessage("user",finalPrompt,chat.messages.length-1);
+
+  renderMessage(
+    "user",
+    userMessage.content,
+    chat.messages.length - 1
+  );
+
 
   setGenerating(true);
 
-  const typing = document.createElement("div");
-  typing.className = "message assistant";
-  typing.id = "typing";
 
-  typing.innerHTML = `
-    <div class="msg-avatar">AI</div>
-    <div class="msg-content">
-      <div class="typing">
-        <i></i><i></i><i></i>
-      </div>
-    </div>
-  `;
+  addTyping();
 
-  $("chatInner").appendChild(typing);
-  $("chat").scrollTop = $("chat").scrollHeight;
 
   try{
 
-    state.controller = new AbortController();
+    /*
+      Create a fresh controller BEFORE
+      any backend request.
 
-    const response = await fetch("/api/chat",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      signal:state.controller.signal,
-      body:JSON.stringify({
-        messages:chat.messages.slice(-30),
-        mode:state.mode,
-        model:state.model
-      })
-    });
+      This makes Stop work for both
+      normal AI chat and file analysis.
+    */
 
-    const data = await response.json();
+    state.controller =
+      new AbortController();
 
-    if(!response.ok){
-      throw new Error(data.error || "Server error");
+
+    /*
+      FILE ANALYSIS
+    */
+
+    if(filesToAnalyze.length){
+
+      if(supportedFiles.length === 0){
+
+        removeTyping();
+
+        const msg =
+          "The selected file type is not supported by the current file-analysis backend.\n\n" +
+          "Currently supported: PDF, DOCX, TXT, CSV, XLSX and XLS.";
+
+        chat.messages.push({
+          role:"assistant",
+          content:msg
+        });
+
+        saveChats();
+
+        renderMessage(
+          "assistant",
+          msg,
+          chat.messages.length - 1
+        );
+
+        return;
+
+      }
+
+
+      for(
+        const fileItem
+        of supportedFiles
+      ){
+
+        const formData =
+          new FormData();
+
+        formData.append(
+          "file",
+          fileItem.file
+        );
+
+        formData.append(
+          "question",
+          prompt ||
+          "Analyze this file and give me a clear summary of the important information."
+        );
+
+        formData.append(
+          "mode",
+          state.mode
+        );
+
+
+        /*
+          Replace typing message with
+          a file-specific status.
+        */
+
+        updateTyping(
+          `Analyzing ${fileItem.name}...`
+        );
+
+
+        const response =
+          await fetch(
+            "/api/files/analyze",
+            {
+              method:"POST",
+
+              body:formData,
+
+              signal:
+                state.controller.signal
+            }
+          );
+
+
+        const data =
+          await response.json();
+
+
+        if(!response.ok){
+
+          throw new Error(
+            data.error ||
+            `File analysis failed for ${fileItem.name}`
+          );
+
+        }
+
+
+        const reply =
+          data.reply ||
+          "The file was analyzed successfully, but no response was returned.";
+
+
+        chat.messages.push({
+
+          role:"assistant",
+
+          content:
+            `File: ${fileItem.name}\n\n${reply}`
+
+        });
+
+
+        saveChats();
+
+        removeTyping();
+
+        renderMessage(
+          "assistant",
+          `File: ${fileItem.name}\n\n${reply}`,
+          chat.messages.length - 1
+        );
+
+
+        /*
+          Add typing again if another file
+          is still waiting.
+        */
+
+        if(
+          supportedFiles.indexOf(fileItem) <
+          supportedFiles.length - 1
+        ){
+
+          addTyping();
+
+        }
+
+      }
+
+
+      /*
+        Tell the user if they selected
+        unsupported files together with
+        supported files.
+      */
+
+      if(unsupportedFiles.length){
+
+        const unsupportedNames =
+          unsupportedFiles
+            .map(
+              f => f.name
+            )
+            .join(", ");
+
+        const warning =
+          "These files were not analyzed because their current backend support is not enabled: " +
+          unsupportedNames;
+
+        chat.messages.push({
+          role:"assistant",
+          content:warning
+        });
+
+        saveChats();
+
+        renderMessage(
+          "assistant",
+          warning,
+          chat.messages.length - 1
+        );
+
+      }
+
+
+      return;
+
     }
 
-    $("typing")?.remove();
 
-    const reply = data.reply || "Sorry, I couldn't generate a response.";
+    /*
+      NORMAL AI CHAT
+    */
+
+    updateTyping(
+      "Thinking..."
+    );
+
+
+    const response =
+      await fetch(
+        "/api/chat",
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          signal:
+            state.controller.signal,
+
+          body:
+            JSON.stringify({
+
+              messages:
+                chat.messages.slice(-30),
+
+              mode:
+                state.mode,
+
+              model:
+                state.model
+
+            })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data.error ||
+        "Server error"
+      );
+
+    }
+
+
+    removeTyping();
+
+
+    const reply =
+      data.reply ||
+      "Sorry, I couldn't generate a response.";
+
 
     chat.messages.push({
+
       role:"assistant",
+
       content:reply
+
     });
+
 
     saveChats();
 
-    renderMessage("assistant",reply,chat.messages.length-1);
+
+    renderMessage(
+      "assistant",
+      reply,
+      chat.messages.length - 1
+    );
+
 
   }catch(error){
 
-    $("typing")?.remove();
+    removeTyping();
 
-    if(error.name === "AbortError"){
+
+    if(
+      error &&
+      error.name === "AbortError"
+    ){
+
+      /*
+        Do not create another fake
+        AI answer when user presses Stop.
+      */
+
+      const stoppedMessage =
+        "Generation stopped.";
+
       chat.messages.push({
+
         role:"assistant",
-        content:"Generation stopped."
+
+        content:
+          stoppedMessage
+
       });
 
       saveChats();
-      renderMessage("assistant","Generation stopped.",chat.messages.length-1);
+
+      renderMessage(
+        "assistant",
+        stoppedMessage,
+        chat.messages.length - 1
+      );
 
     }else{
 
       const msg =
         "I couldn't connect to the AI server.\n\n" +
-        error.message;
+        (
+          error?.message ||
+          "Unknown error"
+        );
+
 
       chat.messages.push({
+
         role:"assistant",
+
         content:msg
+
       });
 
+
       saveChats();
-      renderMessage("assistant",msg,chat.messages.length-1);
+
+
+      renderMessage(
+        "assistant",
+        msg,
+        chat.messages.length - 1
+      );
+
     }
 
   }finally{
 
-    state.controller = null;
+    state.controller =
+      null;
+
     setGenerating(false);
 
   }
+
 }
+
+
+/* =========================
+   TYPING UI
+========================= */
+
+function addTyping(){
+
+  removeTyping();
+
+  const typing =
+    document.createElement("div");
+
+  typing.className =
+    "message assistant";
+
+  typing.id =
+    "typing";
+
+  typing.innerHTML = `
+
+    <div class="msg-avatar">
+      AI
+    </div>
+
+    <div class="msg-content">
+
+      <div class="typing">
+
+        <i></i>
+        <i></i>
+        <i></i>
+
+      </div>
+
+    </div>
+
+  `;
+
+  $("chatInner")
+    .appendChild(typing);
+
+  $("chat").scrollTop =
+    $("chat").scrollHeight;
+
+}
+
+
+function updateTyping(text){
+
+  const typing =
+    $("typing");
+
+  if(!typing){
+
+    addTyping();
+
+  }
+
+  const current =
+    $("typing");
+
+  if(current){
+
+    const content =
+      current.querySelector(
+        ".msg-content"
+      );
+
+    if(content){
+
+      content.innerHTML = `
+
+        <div
+          style="
+            color:#777;
+            font-size:11px;
+            padding:8px 0;
+          "
+        >
+          ${escapeHTML(text)}
+        </div>
+
+      `;
+
+    }
+
+  }
+
+}
+
+
+function removeTyping(){
+
+  $("typing")?.remove();
+
+}
+
+
+/* =========================
+   GENERATING STATE
+========================= */
 
 function setGenerating(value){
 
-  state.generating = value;
+  state.generating =
+    value;
 
-  const btn = $("sendBtn");
+  const btn =
+    $("sendBtn");
 
   if(value){
+
     btn.classList.add("stop");
-    btn.textContent = "■";
+
+    btn.textContent =
+      "■";
+
   }else{
+
     btn.classList.remove("stop");
-    btn.textContent = "↑";
+
+    btn.textContent =
+      "↑";
+
   }
+
 }
+
 
 function stopGeneration(){
 
   if(state.controller){
+
     state.controller.abort();
+
+  }else{
+
+    setGenerating(false);
+
   }
+
 }
 
 
-/* PROMPT */
+/* =========================================================
+   FILE ANALYSIS
+========================================================= */
+
+function isSupportedAnalysisFile(file){
+
+  if(!file){
+    return false;
+  }
+
+  const name =
+    file.name.toLowerCase();
+
+  const supported =
+    [
+      ".txt",
+      ".csv",
+      ".pdf",
+      ".docx",
+      ".xlsx",
+      ".xls"
+    ];
+
+  return supported.some(
+    extension =>
+      name.endsWith(extension)
+  );
+
+}
+
+
+/* =========================================================
+   PROMPT
+========================================================= */
 
 function handlePromptKey(e){
 
   const enterSend =
-    localStorage.getItem("deveshai_enterSend") !== "false";
+    localStorage.getItem(
+      "deveshai_enterSend"
+    ) !== "false";
 
-  if(e.key === "Enter" && !e.shiftKey && enterSend){
+
+  if(
+    e.key === "Enter" &&
+    !e.shiftKey &&
+    enterSend
+  ){
+
     e.preventDefault();
+
     sendMessage();
+
   }
+
 }
+
 
 function autoResize(el){
-  el.style.height = "auto";
-  el.style.height = Math.min(el.scrollHeight,190) + "px";
+
+  el.style.height =
+    "auto";
+
+  el.style.height =
+    Math.min(
+      el.scrollHeight,
+      190
+    ) + "px";
+
 }
+
 
 function quickPrompt(text){
-  $("prompt").value = text;
-  autoResize($("prompt"));
+
+  $("prompt").value =
+    text;
+
+  autoResize(
+    $("prompt")
+  );
+
   $("prompt").focus();
+
 }
 
+
 function useTool(text){
-  closeModal("toolsModal");
-  $("prompt").value = text;
-  autoResize($("prompt"));
+
+  closeModal(
+    "toolsModal"
+  );
+
+  $("prompt").value =
+    text;
+
+  autoResize(
+    $("prompt")
+  );
+
   $("prompt").focus();
+
 }
+
 
 function setMode(btn){
 
-  document.querySelectorAll(".mode")
-    .forEach(x => x.classList.remove("active"));
+  document
+    .querySelectorAll(".mode")
+    .forEach(
+      x =>
+        x.classList.remove(
+          "active"
+        )
+    );
 
-  btn.classList.add("active");
+  btn.classList.add(
+    "active"
+  );
 
-  state.mode = btn.dataset.mode;
+  state.mode =
+    btn.dataset.mode;
 
-  toast(state.mode + " mode selected");
+  toast(
+    state.mode +
+    " mode selected"
+  );
+
 }
 
 
-/* ATTACHMENTS */
+/* =========================================================
+   ATTACHMENTS
+========================================================= */
 
 function openAttachMenu(){
-  openModal("attachModal");
+
+  openModal(
+    "attachModal"
+  );
+
 }
+
 
 function pickFiles(accept){
 
-  const input = $("fileInput");
+  const input =
+    $("fileInput");
 
-  input.accept = accept;
+  input.accept =
+    accept;
+
+  /*
+    Reset value so selecting the
+    same file again still triggers
+    onchange.
+  */
+
+  input.value = "";
+
   input.click();
 
-  closeModal("attachModal");
+  closeModal(
+    "attachModal"
+  );
+
 }
 
+
 function startCamera(){
-  closeModal("attachModal");
+
+  closeModal(
+    "attachModal"
+  );
+
+  $("cameraInput").value =
+    "";
+
   $("cameraInput").click();
+
 }
+
 
 function handleFiles(files){
 
-  state.files = Array.from(files).map(file => ({
-    name:file.name,
-    type:file.type,
-    size:file.size
-  }));
+  const incoming =
+    Array.from(files || []);
+
+
+  /*
+    Keep the actual File object.
+
+    This is important because the
+    backend needs the file bytes,
+    not just its filename.
+  */
+
+  incoming.forEach(file => {
+
+    const exists =
+      state.files.some(
+        existing =>
+          existing.name === file.name &&
+          existing.size === file.size &&
+          existing.file?.lastModified ===
+            file.lastModified
+      );
+
+    if(!exists){
+
+      state.files.push({
+
+        name:file.name,
+
+        type:file.type,
+
+        size:file.size,
+
+        file:file
+
+      });
+
+    }
+
+  });
+
 
   renderAttachments();
 
-  if(state.files.length){
-    toast(state.files.length + " file(s) attached");
+
+  if(incoming.length){
+
+    toast(
+      incoming.length +
+      " file(s) attached"
+    );
+
   }
+
 }
+
 
 function renderAttachments(){
 
-  $("attachList").innerHTML = "";
+  const list =
+    $("attachList");
 
-  state.files.forEach((file,index) => {
+  list.innerHTML =
+    "";
 
-    const chip = document.createElement("div");
 
-    chip.className = "file-chip";
+  state.files.forEach(
+    (file,index) => {
 
-    chip.innerHTML = `
-      <span>📎 ${escapeHTML(file.name)}</span>
-      <button onclick="removeFile(${index})">×</button>
-    `;
+      const chip =
+        document.createElement(
+          "div"
+        );
 
-    $("attachList").appendChild(chip);
-  });
+      chip.className =
+        "file-chip";
+
+      chip.innerHTML = `
+
+        <span>
+          📎 ${escapeHTML(file.name)}
+        </span>
+
+        <button
+          onclick="removeFile(${index})"
+          title="Remove"
+        >
+          ×
+        </button>
+
+      `;
+
+      list.appendChild(
+        chip
+      );
+
+    }
+  );
+
 }
+
 
 function removeFile(index){
-  state.files.splice(index,1);
+
+  state.files.splice(
+    index,
+    1
+  );
+
   renderAttachments();
+
 }
 
 
-/* WEB */
+/* =========================================================
+   WEB
+========================================================= */
 
 function toggleWeb(){
 
-  state.web = !state.web;
+  state.web =
+    !state.web;
 
-  $("webBtn").classList.toggle("active",state.web);
+  $("webBtn")
+    .classList.toggle(
+      "active",
+      state.web
+    );
 
-  toast(state.web ? "Web mode enabled" : "Web mode disabled");
+  toast(
+    state.web
+      ? "Web mode enabled"
+      : "Web mode disabled"
+  );
+
 }
 
 
-/* CHAT ACTIONS */
+/* =========================================================
+   CHAT ACTIONS
+========================================================= */
 
 function renameCurrentChat(){
 
-  const chat = currentChat();
+  closeAllDropdowns();
+
+  const chat =
+    currentChat();
 
   if(!chat){
-    toast("No chat selected");
+
+    toast(
+      "No chat selected"
+    );
+
     return;
+
   }
 
-  const name = prompt("New chat name:",chat.title);
 
-  if(name && name.trim()){
+  const name =
+    prompt(
+      "New chat name:",
+      chat.title
+    );
 
-    chat.title = name.trim();
 
-    $("chatTitle").textContent = chat.title;
+  if(
+    name &&
+    name.trim()
+  ){
+
+    chat.title =
+      name.trim();
+
+    $("chatTitle").textContent =
+      chat.title;
 
     saveChats();
+
   }
+
 }
+
 
 function deleteCurrentChat(){
 
-  const chat = currentChat();
+  const chat =
+    currentChat();
 
-  if(!chat) return;
+  if(!chat){
+    return;
+  }
 
-  if(!confirm("Delete this chat?")) return;
+
+  if(
+    !confirm(
+      "Delete this chat?"
+    )
+  ){
+
+    return;
+
+  }
+
 
   state.chats =
-    state.chats.filter(c => c.id !== chat.id);
+    state.chats.filter(
+      c =>
+        c.id !== chat.id
+    );
 
-  state.currentId = null;
+
+  state.currentId =
+    null;
+
 
   saveChats();
 
   newChat();
 
-  toast("Chat deleted");
+  toast(
+    "Chat deleted"
+  );
+
 }
+
 
 function archiveCurrentChat(){
 
-  const chat = currentChat();
+  const chat =
+    currentChat();
 
-  if(!chat) return;
+  if(!chat){
+    return;
+  }
 
-  chat.archived = true;
+
+  chat.archived =
+    true;
 
   saveChats();
 
   newChat();
 
-  toast("Chat archived");
+  toast(
+    "Chat archived"
+  );
+
 }
+
 
 function pinCurrentChat(){
 
-  const chat = currentChat();
+  const chat =
+    currentChat();
 
-  if(!chat) return;
+  if(!chat){
+    return;
+  }
 
-  chat.pinned = !chat.pinned;
+
+  chat.pinned =
+    !chat.pinned;
 
   saveChats();
 
-  toast(chat.pinned ? "Chat pinned" : "Chat unpinned");
+
+  toast(
+    chat.pinned
+      ? "Chat pinned"
+      : "Chat unpinned"
+  );
+
 }
+
 
 function exportChat(){
 
-  const chat = currentChat();
+  const chat =
+    currentChat();
 
-  if(!chat) return;
+  if(!chat){
+    return;
+  }
+
 
   const text =
     `DeveshAI - ${chat.title}\n\n` +
     chat.messages
-      .map(m => `${m.role.toUpperCase()}:\n${m.content}`)
+      .map(
+        m =>
+          `${m.role.toUpperCase()}:\n${m.content}`
+      )
       .join("\n\n");
+
 
   downloadFile(
     `${safeFilename(chat.title)}.txt`,
     text,
     "text/plain"
   );
+
 }
+
 
 function shareChat(){
 
-  const chat = currentChat();
+  const chat =
+    currentChat();
 
-  if(!chat) return;
+  if(!chat){
+    return;
+  }
+
 
   const text =
     chat.messages
-      .map(m => `${m.role}: ${m.content}`)
+      .map(
+        m =>
+          `${m.role}: ${m.content}`
+      )
       .join("\n\n");
+
 
   if(navigator.share){
 
     navigator.share({
-      title:chat.title,
-      text:text
-    }).catch(()=>{});
+
+      title:
+        chat.title,
+
+      text:
+        text
+
+    }).catch(
+      () => {}
+    );
 
   }else{
 
-    navigator.clipboard.writeText(text)
-      .then(()=>toast("Conversation copied for sharing"));
+    if(
+      navigator.clipboard
+    ){
+
+      navigator.clipboard
+        .writeText(text)
+        .then(
+          () =>
+            toast(
+              "Conversation copied for sharing"
+            )
+        );
+
+    }else{
+
+      toast(
+        "Sharing is not supported"
+      );
+
+    }
 
   }
+
 }
+
 
 function editUserMessage(index){
 
-  const chat = currentChat();
+  const chat =
+    currentChat();
 
-  if(!chat) return;
+  if(!chat){
+    return;
+  }
 
-  const message = chat.messages[index];
 
-  if(!message || message.role !== "user") return;
+  const message =
+    chat.messages[index];
 
-  const edited = prompt("Edit your message:",message.content);
 
-  if(edited === null) return;
+  if(
+    !message ||
+    message.role !== "user"
+  ){
 
-  message.content = edited.trim();
+    return;
 
-  chat.messages = chat.messages.slice(0,index+1);
+  }
+
+
+  const edited =
+    prompt(
+      "Edit your message:",
+      message.content
+    );
+
+
+  if(edited === null){
+    return;
+  }
+
+
+  message.content =
+    edited.trim();
+
+
+  chat.messages =
+    chat.messages.slice(
+      0,
+      index + 1
+    );
+
 
   saveChats();
 
-  loadChat(chat.id);
+  loadChat(
+    chat.id
+  );
 
-  toast("Message edited");
 
-  setTimeout(() => sendMessage(),100);
+  toast(
+    "Message edited"
+  );
+
+
+  setTimeout(
+    () => {
+
+      /*
+        Send the edited message
+        directly instead of putting
+        another copy into the prompt.
+      */
+
+      $("prompt").value =
+        message.content;
+
+      sendMessage();
+
+    },
+    100
+  );
+
 }
+
 
 async function regenerateMessage(index){
 
-  const chat = currentChat();
+  const chat =
+    currentChat();
 
-  if(!chat) return;
+  if(!chat){
+    return;
+  }
 
-  if(index < 1) return;
 
-  if(chat.messages[index].role !== "assistant") return;
+  if(index < 1){
+    return;
+  }
 
-  chat.messages.splice(index,1);
+
+  if(
+    chat.messages[index].role !==
+    "assistant"
+  ){
+
+    return;
+
+  }
+
+
+  const lastUser =
+    [...chat.messages]
+      .slice(0,index)
+      .reverse()
+      .find(
+        m =>
+          m.role === "user"
+      );
+
+
+  if(!lastUser){
+    return;
+  }
+
+
+  /*
+    Remove the selected assistant
+    response and everything after it.
+  */
+
+  chat.messages =
+    chat.messages.slice(
+      0,
+      index
+    );
+
 
   saveChats();
 
-  loadChat(chat.id);
+  loadChat(
+    chat.id
+  );
 
-  const lastUser =
-    [...chat.messages].reverse()
-      .find(m => m.role === "user");
 
-  if(!lastUser) return;
+  /*
+    Restore the user text into the
+    composer and send a new request.
+  */
 
-  $("prompt").value = lastUser.content;
+  $("prompt").value =
+    lastUser.content;
+
+
+  autoResize(
+    $("prompt")
+  );
+
+
+  /*
+    Remove the old user message
+    temporarily because sendMessage()
+    will create the request again.
+  */
 
   chat.messages.pop();
 
   saveChats();
 
-  $("prompt").value = lastUser.content;
-
   sendMessage();
+
 }
+
 
 function likeMessage(btn){
-  btn.textContent = "✓ Liked";
-  toast("Feedback saved");
+
+  btn.textContent =
+    "✓ Liked";
+
+  toast(
+    "Feedback saved"
+  );
+
 }
+
 
 function dislikeMessage(btn){
-  btn.textContent = "✓";
-  toast("Feedback saved");
+
+  btn.textContent =
+    "✓";
+
+  toast(
+    "Feedback saved"
+  );
+
 }
 
+
 function reportMessage(){
-  toast("Report option selected");
+
+  toast(
+    "Report option selected"
+  );
+
 }
+
 
 function copyText(btn){
 
   const text =
-    btn.closest(".msg-content")
+    btn
+      .closest(".msg-content")
       .querySelector(".msg-text")
       .innerText;
 
-  navigator.clipboard.writeText(text)
-    .then(()=>toast("Copied"));
+
+  if(
+    navigator.clipboard
+  ){
+
+    navigator.clipboard
+      .writeText(text)
+      .then(
+        () =>
+          toast("Copied")
+      );
+
+  }
+
 }
+
 
 function copyCode(btn){
 
   const code =
-    btn.closest(".code-block")
+    btn
+      .closest(".code-block")
       .querySelector("pre")
       .innerText;
 
-  navigator.clipboard.writeText(code)
-    .then(()=>toast("Code copied"));
+
+  if(
+    navigator.clipboard
+  ){
+
+    navigator.clipboard
+      .writeText(code)
+      .then(
+        () =>
+          toast("Code copied")
+      );
+
+  }
+
 }
+
 
 function readText(btn){
 
   const text =
-    btn.closest(".msg-content")
+    btn
+      .closest(".msg-content")
       .querySelector(".msg-text")
       .innerText;
 
-  if(!("speechSynthesis" in window)){
-    toast("Speech is not supported in this browser");
+
+  if(
+    !("speechSynthesis" in window)
+  ){
+
+    toast(
+      "Speech is not supported in this browser"
+    );
+
     return;
+
   }
+
 
   speechSynthesis.cancel();
 
-  const utterance = new SpeechSynthesisUtterance(text);
 
-  const selected = $("voiceSelect").value;
+  const utterance =
+    new SpeechSynthesisUtterance(
+      text
+    );
 
-  const voices = speechSynthesis.getVoices();
 
-  const voice = voices.find(v => v.name === selected);
+  const selected =
+    $("voiceSelect").value;
 
-  if(voice) utterance.voice = voice;
 
-  speechSynthesis.speak(utterance);
+  const voices =
+    speechSynthesis.getVoices();
+
+
+  const voice =
+    voices.find(
+      v =>
+        v.name === selected
+    );
+
+
+  if(voice){
+
+    utterance.voice =
+      voice;
+
+  }
+
+
+  speechSynthesis.speak(
+    utterance
+  );
+
 }
 
 
-/* VOICE INPUT */
+/* =========================================================
+   VOICE INPUT
+========================================================= */
 
 function startVoice(){
 
@@ -2561,174 +4503,382 @@ function startVoice(){
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
 
+
   if(!Recognition){
-    toast("Voice input is not supported in this browser");
+
+    toast(
+      "Voice input is not supported in this browser"
+    );
+
     return;
+
   }
 
-  const recognition = new Recognition();
 
-  recognition.lang = "en-IN";
-  recognition.interimResults = true;
+  const recognition =
+    new Recognition();
 
-  recognition.onstart = () => toast("Listening...");
 
-  recognition.onresult = event => {
+  recognition.lang =
+    "en-IN";
 
-    let text = "";
+  recognition.interimResults =
+    true;
 
-    for(let i=0;i<event.results.length;i++){
-      text += event.results[i][0].transcript;
-    }
 
-    $("prompt").value = text;
-    autoResize($("prompt"));
-  };
+  recognition.onstart =
+    () =>
+      toast(
+        "Listening..."
+      );
 
-  recognition.onerror = () => toast("Voice input stopped");
 
-  recognition.onend = () => toast("Voice input finished");
+  recognition.onresult =
+    event => {
+
+      let text = "";
+
+      for(
+        let i = 0;
+        i < event.results.length;
+        i++
+      ){
+
+        text +=
+          event.results[i][0]
+            .transcript;
+
+      }
+
+
+      $("prompt").value =
+        text;
+
+
+      autoResize(
+        $("prompt")
+      );
+
+    };
+
+
+  recognition.onerror =
+    () =>
+      toast(
+        "Voice input stopped"
+      );
+
+
+  recognition.onend =
+    () =>
+      toast(
+        "Voice input finished"
+      );
+
 
   recognition.start();
+
 }
 
 
-/* IMAGE */
+/* =========================================================
+   IMAGE
+========================================================= */
 
 function openImageCreator(){
 
-  closeModal("toolsModal");
-  openModal("imageModal");
+  closeModal(
+    "toolsModal"
+  );
+
+  openModal(
+    "imageModal"
+  );
 
 }
+
 
 async function requestImage(){
 
-  const promptText = $("imagePrompt").value.trim();
+  const promptText =
+    $("imagePrompt")
+      .value
+      .trim();
+
 
   if(!promptText){
-    toast("Describe the image first");
+
+    toast(
+      "Describe the image first"
+    );
+
     return;
+
   }
 
-  $("imageResult").textContent =
-    "Connecting to image generation...";
+
+  $("imageResult")
+    .textContent =
+      "Connecting to image generation...";
+
 
   try{
 
-    const response = await fetch("/api/image",{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-        prompt:promptText
-      })
-    });
+    const response =
+      await fetch(
+        "/api/image",
+        {
+          method:"POST",
 
-    const data = await response.json();
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              prompt:
+                promptText
+            })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
 
     if(!response.ok){
-      throw new Error(data.error || "Image API error");
+
+      throw new Error(
+        data.error ||
+        "Image API error"
+      );
+
     }
+
 
     if(data.url){
 
-      $("imageResult").innerHTML = `
-        <img
-          src="${escapeHTML(data.url)}"
-          style="width:100%;border-radius:10px;margin-top:8px"
-        >
-      `;
+      $("imageResult")
+        .innerHTML = `
+
+          <img
+            src="${escapeHTML(data.url)}"
+            style="
+              width:100%;
+              border-radius:10px;
+              margin-top:8px
+            "
+          >
+
+        `;
 
     }else{
 
-      $("imageResult").textContent =
-        "Image response received.";
+      $("imageResult")
+        .textContent =
+          "Image response received.";
+
     }
+
 
   }catch(error){
 
-    $("imageResult").textContent =
-      "Image generation is not connected yet: " +
-      error.message;
+    $("imageResult")
+      .textContent =
+        "Image generation is not connected yet: " +
+        (
+          error.message ||
+          "Unknown error"
+        );
+
   }
+
 }
 
 
-/* SETTINGS */
+/* =========================================================
+   SETTINGS
+========================================================= */
 
 function openSettings(page="general"){
 
   closeAllDropdowns();
 
-  openModal("settingsModal");
+  openModal(
+    "settingsModal"
+  );
+
 
   const button =
-    [...document.querySelectorAll(".settings-nav button")]
-      .find(b => b.textContent.toLowerCase().replaceAll(" ","").includes(page));
+    [
+      ...document.querySelectorAll(
+        ".settings-nav button"
+      )
+    ]
+    .find(
+      b =>
+        b.textContent
+          .toLowerCase()
+          .replaceAll(" ","")
+          .includes(page)
+    );
+
 
   if(button){
-    settingsPage(button,page);
+
+    settingsPage(
+      button,
+      page
+    );
+
   }
+
 }
 
-function settingsPage(button,page){
 
-  document.querySelectorAll(".settings-nav button")
-    .forEach(b => b.classList.remove("active"));
+function settingsPage(
+  button,
+  page
+){
 
-  button.classList.add("active");
+  document
+    .querySelectorAll(
+      ".settings-nav button"
+    )
+    .forEach(
+      b =>
+        b.classList.remove(
+          "active"
+        )
+    );
 
-  document.querySelectorAll(".settings-page")
-    .forEach(p => p.classList.remove("active"));
 
-  const pageEl = $("settings-"+page);
+  button.classList.add(
+    "active"
+  );
 
-  if(pageEl) pageEl.classList.add("active");
+
+  document
+    .querySelectorAll(
+      ".settings-page"
+    )
+    .forEach(
+      p =>
+        p.classList.remove(
+          "active"
+        )
+    );
+
+
+  const pageEl =
+    $("settings-" + page);
+
+
+  if(pageEl){
+
+    pageEl.classList.add(
+      "active"
+    );
+
+  }
+
 }
+
 
 function toggleSetting(el){
 
-  el.classList.toggle("on");
+  el.classList.toggle(
+    "on"
+  );
 
-  const key = el.dataset.setting;
+
+  const key =
+    el.dataset.setting;
+
 
   localStorage.setItem(
-    "deveshai_"+key,
+    "deveshai_" + key,
     el.classList.contains("on")
   );
 
+
   if(key === "enterSend"){
+
     localStorage.setItem(
       "deveshai_enterSend",
       el.classList.contains("on")
     );
+
   }
 
 }
 
-function saveSetting(key,value){
-  localStorage.setItem("deveshai_"+key,value);
-  toast("Setting saved");
+
+function saveSetting(
+  key,
+  value
+){
+
+  localStorage.setItem(
+    "deveshai_" + key,
+    value
+  );
+
+
+  toast(
+    "Setting saved"
+  );
+
 }
+
 
 function setTheme(theme){
 
   if(theme === "black"){
 
-    document.documentElement.style.setProperty("--bg","#000");
-    document.documentElement.style.setProperty("--panel","#050505");
+    document.documentElement
+      .style
+      .setProperty(
+        "--bg",
+        "#000"
+      );
+
+    document.documentElement
+      .style
+      .setProperty(
+        "--panel",
+        "#050505"
+      );
 
   }else{
 
-    document.documentElement.style.setProperty("--bg","#050505");
-    document.documentElement.style.setProperty("--panel","#0b0b0b");
+    document.documentElement
+      .style
+      .setProperty(
+        "--bg",
+        "#050505"
+      );
+
+    document.documentElement
+      .style
+      .setProperty(
+        "--panel",
+        "#0b0b0b"
+      );
 
   }
 
-  localStorage.setItem("deveshai_theme",theme);
+
+  localStorage.setItem(
+    "deveshai_theme",
+    theme
+  );
+
 }
+
 
 function saveInstructions(){
 
@@ -2737,500 +4887,1117 @@ function saveInstructions(){
     $("customInstruction").value
   );
 
-  toast("Personalization saved");
+
+  toast(
+    "Personalization saved"
+  );
+
 }
+
 
 function clearMemory(){
 
-  localStorage.removeItem("deveshai_instructions");
+  localStorage.removeItem(
+    "deveshai_instructions"
+  );
 
-  toast("Local memory cleared");
+
+  $("customInstruction").value =
+    "";
+
+
+  toast(
+    "Local memory cleared"
+  );
+
 }
+
 
 function clearAllChats(){
 
-  if(!confirm("Delete all locally stored chats?")) return;
+  if(
+    !confirm(
+      "Delete all locally stored chats?"
+    )
+  ){
+
+    return;
+
+  }
+
 
   state.chats = [];
-  state.currentId = null;
+
+  state.currentId =
+    null;
 
   saveChats();
+
   newChat();
 
-  toast("All local chats deleted");
+  toast(
+    "All local chats deleted"
+  );
+
 }
+
 
 function exportAllData(){
 
   const data = {
-    chats:state.chats,
-    settings:{...localStorage}
+
+    chats:
+      state.chats,
+
+    settings:
+      Object.fromEntries(
+        Object.entries(
+          localStorage
+        )
+      )
+
   };
+
 
   downloadFile(
     "deveshai-data.json",
-    JSON.stringify(data,null,2),
+    JSON.stringify(
+      data,
+      null,
+      2
+    ),
     "application/json"
   );
+
 }
+
 
 function requestNotifications(el){
 
-  if(!("Notification" in window)){
-    toast("Notifications are not supported");
+  if(
+    !("Notification" in window)
+  ){
+
+    toast(
+      "Notifications are not supported"
+    );
+
     return;
+
   }
 
+
   Notification.requestPermission()
-    .then(permission => {
+    .then(
+      permission => {
 
-      if(permission === "granted"){
-        el.classList.add("on");
-        toast("Notifications enabled");
-      }else{
-        toast("Notification permission denied");
+        if(
+          permission === "granted"
+        ){
+
+          el.classList.add(
+            "on"
+          );
+
+          toast(
+            "Notifications enabled"
+          );
+
+        }else{
+
+          toast(
+            "Notification permission denied"
+          );
+
+        }
+
       }
+    );
 
-    });
 }
 
 
-/* VOICE SETTINGS */
+/* =========================================================
+   VOICE SETTINGS
+========================================================= */
 
 function loadVoices(){
 
-  const select = $("voiceSelect");
+  const select =
+    $("voiceSelect");
 
-  if(!select) return;
 
-  select.innerHTML = "";
-
-  const voices = speechSynthesis.getVoices();
-
-  voices.forEach(voice => {
-
-    const option = document.createElement("option");
-
-    option.value = voice.name;
-    option.textContent =
-      `${voice.name} (${voice.lang})`;
-
-    select.appendChild(option);
-  });
-}
-
-function testVoice(){
-
-  if(!("speechSynthesis" in window)){
-    toast("Speech is not supported");
+  if(!select){
     return;
   }
 
+
+  select.innerHTML =
+    "";
+
+
+  if(
+    !("speechSynthesis" in window)
+  ){
+    return;
+  }
+
+
+  const voices =
+    speechSynthesis
+      .getVoices();
+
+
+  voices.forEach(
+    voice => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+
+      option.value =
+        voice.name;
+
+
+      option.textContent =
+        `${voice.name} (${voice.lang})`;
+
+
+      select.appendChild(
+        option
+      );
+
+    }
+  );
+
+}
+
+
+function testVoice(){
+
+  if(
+    !("speechSynthesis" in window)
+  ){
+
+    toast(
+      "Speech is not supported"
+    );
+
+    return;
+
+  }
+
+
   speechSynthesis.cancel();
+
 
   const u =
     new SpeechSynthesisUtterance(
       "Hello, this is DeveshAI."
     );
 
-  const selected = $("voiceSelect").value;
+
+  const selected =
+    $("voiceSelect").value;
+
 
   const voice =
-    speechSynthesis.getVoices()
-      .find(v => v.name === selected);
+    speechSynthesis
+      .getVoices()
+      .find(
+        v =>
+          v.name === selected
+      );
 
-  if(voice) u.voice = voice;
 
-  speechSynthesis.speak(u);
+  if(voice){
+
+    u.voice =
+      voice;
+
+  }
+
+
+  speechSynthesis.speak(
+    u
+  );
+
 }
 
-if("speechSynthesis" in window){
-  speechSynthesis.onvoiceschanged = loadVoices;
+
+if(
+  "speechSynthesis" in window
+){
+
+  speechSynthesis.onvoiceschanged =
+    loadVoices;
+
 }
 
 
-/* SEARCH */
+/* =========================================================
+   SEARCH
+========================================================= */
 
 function openSearch(){
 
-  openModal("searchModal");
+  openModal(
+    "searchModal"
+  );
 
-  $("searchInput").value = "";
+
+  $("searchInput").value =
+    "";
+
 
   searchChats();
 
-  setTimeout(()=>$("searchInput").focus(),100);
+
+  setTimeout(
+    () =>
+      $("searchInput")
+        .focus(),
+    100
+  );
+
 }
+
 
 function searchChats(){
 
   const q =
-    $("searchInput").value
+    $("searchInput")
+      .value
       .toLowerCase()
       .trim();
 
-  const results = $("searchResults");
 
-  results.innerHTML = "";
+  const results =
+    $("searchResults");
 
-  const matches = [];
 
-  state.chats.forEach(chat => {
+  results.innerHTML =
+    "";
 
-    const titleMatch =
-      chat.title.toLowerCase().includes(q);
 
-    const messageMatch =
-      chat.messages.some(m =>
-        m.content.toLowerCase().includes(q)
-      );
+  const matches =
+    [];
 
-    if(!q || titleMatch || messageMatch){
-      matches.push(chat);
+
+  state.chats.forEach(
+    chat => {
+
+      const titleMatch =
+        chat.title
+          .toLowerCase()
+          .includes(q);
+
+
+      const messageMatch =
+        chat.messages.some(
+          m =>
+            m.content
+              .toLowerCase()
+              .includes(q)
+        );
+
+
+      if(
+        !q ||
+        titleMatch ||
+        messageMatch
+      ){
+
+        matches.push(
+          chat
+        );
+
+      }
+
     }
+  );
 
-  });
 
-  matches.slice(0,50).forEach(chat => {
+  matches
+    .slice(0,50)
+    .forEach(
+      chat => {
 
-    const item = document.createElement("div");
+        const item =
+          document.createElement(
+            "div"
+          );
 
-    item.className = "search-result";
 
-    item.innerHTML = `
-      <b>${escapeHTML(chat.title)}</b>
-      <span>${chat.messages.length} messages</span>
-    `;
+        item.className =
+          "search-result";
 
-    item.onclick = () => {
-      closeModal("searchModal");
-      loadChat(chat.id);
-    };
 
-    results.appendChild(item);
+        item.innerHTML = `
 
-  });
+          <b>
+            ${escapeHTML(chat.title)}
+          </b>
+
+          <span>
+            ${chat.messages.length}
+            messages
+          </span>
+
+        `;
+
+
+        item.onclick =
+          () => {
+
+            closeModal(
+              "searchModal"
+            );
+
+            loadChat(
+              chat.id
+            );
+
+          };
+
+
+        results.appendChild(
+          item
+        );
+
+      }
+    );
+
 
   if(!matches.length){
 
     results.innerHTML =
-      `<div style="color:#666;padding:15px;font-size:11px">No chats found.</div>`;
+      `
+        <div
+          style="
+            color:#666;
+            padding:15px;
+            font-size:11px
+          "
+        >
+          No chats found.
+        </div>
+      `;
+
   }
+
 }
 
 
-/* PROJECTS / MEMORY / CUSTOM AI / APPS */
+/* =========================================================
+   PROJECTS / MEMORY / CUSTOM AI / APPS
+========================================================= */
 
 function showProjects(){
 
   openInfo(
+
     "Projects",
+
     `
-      <p style="color:#777;line-height:1.7">
+
+      <p
+        style="
+          color:#777;
+          line-height:1.7
+        "
+      >
         Projects workspace is ready for backend integration.
       </p>
 
       <button
         class="drop-item"
-        style="border:1px solid #292929;margin-top:15px"
-        onclick="toast('Project creation will be connected in server.js')"
+        style="
+          border:1px solid #292929;
+          margin-top:15px
+        "
+        onclick="
+          toast(
+            'Project creation will be connected in server.js.'
+          )
+        "
       >
         ＋ Create Project
       </button>
+
     `
+
   );
+
 }
+
 
 function showMemory(){
 
   openInfo(
+
     "Memory",
+
     `
-      <p style="color:#777;line-height:1.7">
+
+      <p
+        style="
+          color:#777;
+          line-height:1.7
+        "
+      >
         DeveshAI can store local preferences in this browser.
       </p>
 
       <button
         class="drop-item"
-        style="border:1px solid #292929;margin-top:15px"
-        onclick="openSettings('memory');closeModal('infoModal')"
+        style="
+          border:1px solid #292929;
+          margin-top:15px
+        "
+        onclick="
+          openSettings('memory');
+          closeModal('infoModal')
+        "
       >
         Open Memory Settings
       </button>
+
     `
+
   );
+
 }
+
 
 function showCustomAI(){
 
   openInfo(
+
     "Custom AI",
+
     `
-      <p style="color:#777;line-height:1.7">
+
+      <p
+        style="
+          color:#777;
+          line-height:1.7
+        "
+      >
         Create specialized AI personalities and instructions.
         Backend persistence will be connected later.
       </p>
 
       <button
         class="drop-item"
-        style="border:1px solid #292929;margin-top:15px"
-        onclick="openSettings('personalization');closeModal('infoModal')"
+        style="
+          border:1px solid #292929;
+          margin-top:15px
+        "
+        onclick="
+          openSettings('personalization');
+          closeModal('infoModal')
+        "
       >
         Configure AI Instructions
       </button>
+
     `
+
   );
+
 }
+
 
 function showApps(){
 
   openInfo(
+
     "Apps",
+
     `
-      <p style="color:#777;line-height:1.7">
+
+      <p
+        style="
+          color:#777;
+          line-height:1.7
+        "
+      >
         Connect external services through secure backend integrations.
       </p>
 
       <button
         class="drop-item"
-        style="border:1px solid #292929;margin-top:15px"
-        onclick="openSettings('apps');closeModal('infoModal')"
+        style="
+          border:1px solid #292929;
+          margin-top:15px
+        "
+        onclick="
+          openSettings('apps');
+          closeModal('infoModal')
+        "
       >
         Connected Apps
       </button>
+
     `
+
   );
+
 }
 
 
-/* MODEL */
+/* =========================================================
+   MODEL
+========================================================= */
 
 function changeModel(){
 
-  state.model = $("modelSelect").value;
+  state.model =
+    $("modelSelect")
+      .value;
 
-  toast("Model mode changed");
+
+  toast(
+    "Model mode changed"
+  );
+
 }
 
 
-/* DROPDOWN */
+/* =========================================================
+   DROPDOWN
+========================================================= */
 
 function openMore(){
 
-  $("moreDropdown").classList.toggle("show");
+  $("moreDropdown")
+    .classList.toggle(
+      "show"
+    );
+
 }
+
 
 function closeAllDropdowns(){
 
-  $("moreDropdown").classList.remove("show");
+  $("moreDropdown")
+    .classList.remove(
+      "show"
+    );
+
 }
 
-document.addEventListener("click",event => {
 
-  if(
-    !event.target.closest(".topbar") &&
-    !event.target.closest(".dropdown")
-  ){
-    closeAllDropdowns();
+document.addEventListener(
+  "click",
+  event => {
+
+    if(
+      !event.target.closest(
+        ".topbar"
+      ) &&
+      !event.target.closest(
+        ".dropdown"
+      )
+    ){
+
+      closeAllDropdowns();
+
+    }
+
   }
+);
 
-});
 
-
-/* MODALS */
+/* =========================================================
+   MODALS
+========================================================= */
 
 function openModal(id){
-  $(id).classList.add("show");
+
+  $(id)
+    .classList.add(
+      "show"
+    );
+
 }
 
+
 function closeModal(id){
-  $(id).classList.remove("show");
+
+  $(id)
+    .classList.remove(
+      "show"
+    );
+
 }
+
 
 function closeAllModals(){
 
-  document.querySelectorAll(".overlay")
-    .forEach(x => x.classList.remove("show"));
+  document
+    .querySelectorAll(
+      ".overlay"
+    )
+    .forEach(
+      x =>
+        x.classList.remove(
+          "show"
+        )
+    );
+
 }
 
-document.querySelectorAll(".overlay")
-.forEach(overlay => {
 
-  overlay.addEventListener("click",event => {
+document
+  .querySelectorAll(
+    ".overlay"
+  )
+  .forEach(
+    overlay => {
 
-    if(event.target === overlay){
-      overlay.classList.remove("show");
+      overlay.addEventListener(
+        "click",
+        event => {
+
+          if(
+            event.target ===
+            overlay
+          ){
+
+            overlay.classList.remove(
+              "show"
+            );
+
+          }
+
+        }
+      );
+
     }
-
-  });
-
-});
+  );
 
 
-/* INFO */
+/* =========================================================
+   INFO
+========================================================= */
 
-function openInfo(title,body){
+function openInfo(
+  title,
+  body
+){
 
-  $("infoTitle").textContent = title;
-  $("infoBody").innerHTML = body;
+  $("infoTitle")
+    .textContent =
+      title;
 
-  openModal("infoModal");
+
+  $("infoBody")
+    .innerHTML =
+      body;
+
+
+  openModal(
+    "infoModal"
+  );
+
 }
+
 
 function showHelp(){
 
   openInfo(
+
     "DeveshAI Help",
+
     `
-      <p style="color:#777;line-height:1.8">
+
+      <p
+        style="
+          color:#777;
+          line-height:1.8
+        "
+      >
         Use New Chat to start a conversation.
         Attach files with the Attach button.
+        PDF, DOCX, TXT, CSV, XLSX and XLS files
+        can be analyzed through the connected backend.
         Choose a mode such as Study, Code or Think.
         Voice input uses your browser's speech recognition.
         Settings contains local personalization and data controls.
       </p>
+
     `
+
   );
+
 }
+
 
 function showAbout(){
 
   openInfo(
+
     "About DeveshAI",
+
     `
-      <p style="color:#777;line-height:1.8">
+
+      <p
+        style="
+          color:#777;
+          line-height:1.8
+        "
+      >
         DeveshAI is an AI workspace designed for chat,
         learning, coding, research and creation.
       </p>
-      <p style="color:#555;margin-top:10px;font-size:11px">
-        Frontend version 1.0
+
+      <p
+        style="
+          color:#555;
+          margin-top:10px;
+          font-size:11px
+        "
+      >
+        Frontend version 2.0
       </p>
+
     `
+
   );
+
 }
 
 
-/* SERVER HEALTH */
+/* =========================================================
+   SERVER HEALTH
+========================================================= */
 
 async function checkHealth(){
 
   try{
 
-    const response = await fetch("/health");
+    const response =
+      await fetch(
+        "/health"
+      );
 
-    const data = await response.json();
+
+    const data =
+      await response.json();
+
 
     openInfo(
+
       "Server Status",
-      `<p style="color:#aaa">✓ ${escapeHTML(data.status || "Server is running")}</p>`
+
+      `
+
+        <p
+          style="
+            color:#aaa
+          "
+        >
+          ✓
+          ${escapeHTML(
+            data.status ||
+            "Server is running"
+          )}
+        </p>
+
+        <p
+          style="
+            color:#666;
+            margin-top:8px;
+            font-size:11px
+          "
+        >
+          AI:
+          ${data.ai ? "Configured" : "Not configured"}
+        </p>
+
+        <p
+          style="
+            color:#666;
+            margin-top:5px;
+            font-size:11px
+          "
+        >
+          Model:
+          ${escapeHTML(
+            data.model ||
+            "Unknown"
+          )}
+        </p>
+
+      `
+
     );
+
 
   }catch(error){
 
     openInfo(
+
       "Server Status",
-      `<p style="color:#ff6666">✕ Server could not be reached.</p>`
+
+      `
+
+        <p
+          style="
+            color:#ff6666
+          "
+        >
+          ✕ Server could not be reached.
+        </p>
+
+      `
+
     );
+
   }
+
 }
 
 
-/* DOWNLOAD */
+/* =========================================================
+   DOWNLOAD
+========================================================= */
 
-function downloadFile(name,content,type){
+function downloadFile(
+  name,
+  content,
+  type
+){
 
   const blob =
-    new Blob([content],{type});
+    new Blob(
+      [content],
+      {type}
+    );
+
 
   const url =
-    URL.createObjectURL(blob);
+    URL.createObjectURL(
+      blob
+    );
+
 
   const a =
-    document.createElement("a");
+    document.createElement(
+      "a"
+    );
 
-  a.href = url;
-  a.download = name;
 
-  document.body.appendChild(a);
+  a.href =
+    url;
+
+  a.download =
+    name;
+
+
+  document.body.appendChild(
+    a
+  );
+
+
   a.click();
+
   a.remove();
 
-  URL.revokeObjectURL(url);
+
+  URL.revokeObjectURL(
+    url
+  );
+
 }
+
 
 function safeFilename(name){
 
   return name
-    .replace(/[^a-z0-9-_ ]/gi,"")
+
+    .replace(
+      /[^a-z0-9-_ ]/gi,
+      ""
+    )
+
     .trim()
-    .replaceAll(" ","-")
-    .slice(0,60) || "deveshai-chat";
+
+    .replaceAll(
+      " ",
+      "-"
+    )
+
+    .slice(
+      0,
+      60
+    )
+
+    ||
+    "deveshai-chat";
+
 }
 
 
-/* SIDEBAR */
+/* =========================================================
+   SIDEBAR
+========================================================= */
 
 function toggleSidebar(){
-  $("sidebar").classList.toggle("open");
+
+  $("sidebar")
+    .classList.toggle(
+      "open"
+    );
+
 }
 
 
-/* TOAST */
+/* =========================================================
+   TOAST
+========================================================= */
 
 let toastTimer;
 
+
 function toast(message){
 
-  const el = $("toast");
+  const el =
+    $("toast");
 
-  el.textContent = message;
 
-  el.classList.add("show");
+  el.textContent =
+    message;
 
-  clearTimeout(toastTimer);
+
+  el.classList.add(
+    "show"
+  );
+
+
+  clearTimeout(
+    toastTimer
+  );
+
 
   toastTimer =
     setTimeout(
-      ()=>el.classList.remove("show"),
+      () =>
+        el.classList.remove(
+          "show"
+        ),
       2200
     );
+
 }
 
 
-/* INITIALIZATION */
+/* =========================================================
+   INITIALIZATION
+========================================================= */
 
 function initialize(){
 
-  if(state.chats.length === 0){
+  if(
+    state.chats.length === 0
+  ){
+
     createChat();
+
   }else{
 
     state.currentId =
       state.chats[0].id;
 
-    $("chatTitle").textContent =
-      state.chats[0].title;
+    $("chatTitle")
+      .textContent =
+        state.chats[0].title;
+
   }
+
 
   renderHistory();
 
   loadVoices();
 
+
   const theme =
-    localStorage.getItem("deveshai_theme");
+    localStorage.getItem(
+      "deveshai_theme"
+    );
+
 
   if(theme){
-    setTheme(theme);
+
+    setTheme(
+      theme
+    );
+
   }
+
 
   const instructions =
-    localStorage.getItem("deveshai_instructions");
+    localStorage.getItem(
+      "deveshai_instructions"
+    );
+
 
   if(instructions){
-    $("customInstruction").value =
-      instructions;
+
+    $("customInstruction")
+      .value =
+        instructions;
+
   }
+
+
+  /*
+    Restore Web button state.
+  */
+
+  $("webBtn")
+    .classList.toggle(
+      "active",
+      state.web
+    );
+
+
+  /*
+    Make Enter-to-send setting
+    match saved browser state.
+  */
+
+  const enterSend =
+    localStorage.getItem(
+      "deveshai_enterSend"
+    );
+
+
+  if(
+    enterSend === "false"
+  ){
+
+    const toggle =
+      document.querySelector(
+        '[data-setting="enterSend"]'
+      );
+
+    if(toggle){
+
+      toggle.classList.remove(
+        "on"
+      );
+
+    }
+
+  }
+
 }
+
 
 initialize();
 
@@ -3238,3 +6005,4 @@ initialize();
 
 </body>
 </html>
+````
