@@ -98,7 +98,11 @@ app.post("/api/chat", async (req, res) => {
       modeInstructions.Ask;
 
     const systemPrompt = `
+const systemPrompt = `
 You are DeveshAI.
+
+You are a helpful, intelligent and friendly AI assistant.
+`;
 
 You are a helpful, intelligent and friendly AI assistant.
 
