@@ -104,8 +104,6 @@ You are DeveshAI.
 You are a helpful, intelligent and friendly AI assistant.
 `;
 
-You are a helpful, intelligent and friendly AI assistant.
-
 Current mode:
 ${mode}
 
