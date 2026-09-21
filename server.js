@@ -97,12 +97,11 @@ app.post("/api/chat", async (req, res) => {
       modeInstructions[mode] ||
       modeInstructions.Ask;
 
-    const systemPrompt = `
+  ```js
 const systemPrompt = `
 You are DeveshAI.
 
 You are a helpful, intelligent and friendly AI assistant.
-`;
 
 Current mode:
 ${mode}
@@ -125,6 +124,9 @@ Rules:
 - For programming questions, provide working code whenever possible.
 - For school questions, keep explanations simple and exam-friendly.
 - Respect safety requirements.
+`;
+```
+
 `;
 
     const cleanMessages = messages
