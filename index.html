@@ -1,230 +1,269 @@
-````html
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#050505">
 <title>DeveshAI</title>
 
 <style>
 *{
-  box-sizing:border-box;
   margin:0;
   padding:0;
+  box-sizing:border-box;
 }
 
 :root{
   --bg:#050505;
   --panel:#0b0b0b;
-  --panel2:#101010;
-  --panel3:#151515;
-  --border:#252525;
-  --border2:#333;
+  --panel2:#111;
+  --border:rgba(255,255,255,.09);
   --text:#f5f5f5;
-  --muted:#929292;
-  --muted2:#666;
+  --muted:#8b8b8b;
   --white:#fff;
-  --danger:#ff4d4d;
-  --radius:14px;
-  --sidebar:270px;
 }
 
-body{
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
   background:var(--bg);
   color:var(--text);
   font-family:Inter,Arial,Helvetica,sans-serif;
-  height:100vh;
+}
+
+body{
+  position:relative;
+}
+
+/* ================= BACKGROUND ================= */
+
+.background{
+  position:fixed;
+  inset:0;
   overflow:hidden;
+  pointer-events:none;
+  z-index:0;
+  background:
+    radial-gradient(circle at 50% 30%,rgba(255,255,255,.055),transparent 28%),
+    radial-gradient(circle at 15% 80%,rgba(255,255,255,.025),transparent 25%),
+    #050505;
 }
 
-button,
-input,
-textarea,
-select{
-  font:inherit;
+.grid{
+  position:absolute;
+  inset:-50%;
+  width:200%;
+  height:200%;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:55px 55px;
+  transform:perspective(600px) rotateX(65deg) translateY(0);
+  animation:gridMove 18s linear infinite;
+  mask-image:linear-gradient(to bottom,transparent,black 30%,black 70%,transparent);
 }
 
-button{
-  color:inherit;
+@keyframes gridMove{
+  from{transform:perspective(600px) rotateX(65deg) translateY(0)}
+  to{transform:perspective(600px) rotateX(65deg) translateY(55px)}
 }
+
+.particle{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:#fff;
+  border-radius:50%;
+  opacity:0;
+  animation:particleFloat linear infinite;
+}
+
+@keyframes particleFloat{
+  0%{transform:translateY(30px) scale(.4);opacity:0}
+  15%{opacity:.35}
+  70%{opacity:.15}
+  100%{transform:translateY(-100vh) scale(1.2);opacity:0}
+}
+
+/* ================= APP ================= */
 
 .app{
+  position:relative;
+  z-index:2;
   width:100%;
-  height:100vh;
+  height:100%;
   display:flex;
 }
 
-/* =========================
-   SIDEBAR
-========================= */
+/* ================= SIDEBAR ================= */
 
 .sidebar{
-  width:var(--sidebar);
+  width:260px;
   height:100%;
-  background:#080808;
+  background:rgba(7,7,7,.86);
+  backdrop-filter:blur(25px);
   border-right:1px solid var(--border);
   display:flex;
   flex-direction:column;
-  transition:.25s ease;
-  z-index:50;
+  padding:18px 14px;
+  transition:.35s cubic-bezier(.2,.8,.2,1);
+  z-index:20;
 }
 
-.brand{
-  height:70px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:0 18px;
-  border-bottom:1px solid var(--border);
-}
-
-.brand-mark{
-  width:34px;
-  height:34px;
-  border:1px solid #777;
-  border-radius:10px;
-  display:grid;
-  place-items:center;
-  font-weight:900;
-  font-size:15px;
-}
-
-.brand-name{
-  font-size:17px;
-  font-weight:800;
-  letter-spacing:-.4px;
-}
-
-.new-chat{
-  margin:14px;
-  width:calc(100% - 28px);
-  height:45px;
-  background:#fff;
-  color:#000;
-  border:0;
-  border-radius:11px;
-  cursor:pointer;
-  font-weight:800;
-  transition:.2s;
-}
-
-.new-chat:hover{
-  transform:translateY(-1px);
-  background:#ddd;
-}
-
-.sidebar-scroll{
-  flex:1;
-  overflow-y:auto;
-  padding:0 10px 10px;
-}
-
-.section-label{
-  color:#666;
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:1.5px;
-  padding:15px 10px 7px;
-  text-transform:uppercase;
-}
-
-.nav-btn,
-.chat-item{
-  width:100%;
-  min-height:42px;
-  border:0;
-  background:transparent;
-  color:#aaa;
-  border-radius:9px;
-  padding:9px 11px;
+.logo{
   display:flex;
   align-items:center;
   gap:11px;
+  padding:8px 10px 20px;
+  font-weight:800;
+  letter-spacing:-.5px;
+  font-size:20px;
+}
+
+.logoMark{
+  width:31px;
+  height:31px;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:10px;
+  position:relative;
+  overflow:hidden;
+  animation:logoPulse 3s ease-in-out infinite;
+}
+
+.logoMark:before,
+.logoMark:after{
+  content:"";
+  position:absolute;
+  background:#fff;
+}
+
+.logoMark:before{
+  width:18px;
+  height:2px;
+  top:14px;
+  left:6px;
+  transform:rotate(-45deg);
+}
+
+.logoMark:after{
+  width:2px;
+  height:18px;
+  top:6px;
+  left:14px;
+  transform:rotate(-45deg);
+}
+
+@keyframes logoPulse{
+  0%,100%{box-shadow:0 0 0 rgba(255,255,255,0)}
+  50%{box-shadow:0 0 25px rgba(255,255,255,.12)}
+}
+
+.newChat{
+  border:1px solid var(--border);
+  background:linear-gradient(135deg,#171717,#0c0c0c);
+  color:#fff;
+  border-radius:13px;
+  padding:13px;
   cursor:pointer;
+  font-size:14px;
   text-align:left;
-  transition:.18s;
-  margin-bottom:2px;
+  transition:.25s;
+  margin-bottom:12px;
 }
 
-.nav-btn:hover,
-.chat-item:hover{
-  background:#141414;
-  color:#fff;
+.newChat:hover{
+  transform:translateY(-2px);
+  border-color:rgba(255,255,255,.22);
+  box-shadow:0 12px 35px rgba(0,0,0,.35);
 }
 
-.nav-btn.active{
-  background:#171717;
-  color:#fff;
+.nav{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
 }
 
-.icon{
-  width:20px;
-  text-align:center;
-  flex:none;
-  font-size:15px;
-}
-
-.chat-item{
-  color:#858585;
+.nav button{
+  border:0;
+  background:transparent;
+  color:#aaa;
+  padding:11px 12px;
+  border-radius:10px;
+  text-align:left;
+  cursor:pointer;
+  transition:.2s;
   font-size:13px;
 }
 
-.chat-title-small{
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
+.nav button:hover,
+.nav button.active{
+  color:#fff;
+  background:rgba(255,255,255,.065);
+  transform:translateX(3px);
 }
 
-.sidebar-bottom{
-  border-top:1px solid var(--border);
-  padding:10px;
+.historyTitle{
+  margin:24px 10px 8px;
+  font-size:10px;
+  color:#555;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+}
+
+.history{
+  overflow:auto;
+  flex:1;
+}
+
+.historyItem{
+  padding:9px 10px;
+  color:#777;
+  font-size:12px;
+  border-radius:8px;
+  cursor:pointer;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  transition:.2s;
+}
+
+.historyItem:hover{
+  color:#ddd;
+  background:rgba(255,255,255,.04);
 }
 
 .profile{
+  border-top:1px solid var(--border);
+  padding:14px 8px 2px;
   display:flex;
   align-items:center;
   gap:10px;
-  padding:9px;
-  border-radius:10px;
-  cursor:pointer;
-}
-
-.profile:hover{
-  background:#141414;
 }
 
 .avatar{
   width:32px;
   height:32px;
   border-radius:50%;
-  background:#fff;
+  background:linear-gradient(135deg,#fff,#777);
   color:#000;
   display:grid;
   place-items:center;
-  font-weight:900;
+  font-weight:800;
   font-size:12px;
 }
 
-.profile-info{
-  flex:1;
-  min-width:0;
+.profileText{
+  font-size:12px;
 }
 
-.profile-name{
-  font-size:13px;
-  font-weight:700;
-}
-
-.profile-sub{
-  font-size:10px;
+.profileText small{
+  display:block;
   color:#666;
   margin-top:2px;
 }
 
-/* =========================
-   MAIN
-========================= */
+/* ================= MAIN ================= */
 
 .main{
   flex:1;
@@ -232,248 +271,274 @@ button{
   height:100%;
   display:flex;
   flex-direction:column;
-  position:relative;
 }
+
+/* ================= TOPBAR ================= */
 
 .topbar{
-  height:65px;
-  border-bottom:1px solid var(--border);
+  height:64px;
   display:flex;
   align-items:center;
-  padding:0 16px;
-  gap:10px;
-  background:rgba(5,5,5,.92);
-  backdrop-filter:blur(15px);
-  z-index:20;
+  justify-content:space-between;
+  padding:0 22px;
+  border-bottom:1px solid var(--border);
+  background:rgba(5,5,5,.68);
+  backdrop-filter:blur(22px);
+  position:relative;
+  z-index:10;
 }
 
-.top-left{
+.topLeft,
+.topRight{
   display:flex;
   align-items:center;
   gap:9px;
-  flex:1;
-  min-width:0;
 }
 
-.mobile-menu{
-  display:none;
-}
-
-.chat-name{
-  font-weight:750;
-  font-size:14px;
-  max-width:280px;
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-}
-
-.top-btn{
-  height:36px;
-  min-width:36px;
-  border:1px solid var(--border);
-  background:#0d0d0d;
-  border-radius:9px;
-  cursor:pointer;
-  display:grid;
-  place-items:center;
+.iconBtn{
+  width:38px;
+  height:38px;
+  border:1px solid transparent;
+  background:transparent;
   color:#aaa;
-}
-
-.top-btn:hover{
-  color:#fff;
-  background:#171717;
-}
-
-.model-select{
-  height:37px;
-  background:#0d0d0d;
-  border:1px solid var(--border);
-  border-radius:9px;
-  color:#ddd;
-  padding:0 10px;
-  outline:none;
-  cursor:pointer;
-}
-
-/* =========================
-   CHAT
-========================= */
-
-.chat{
-  flex:1;
-  overflow-y:auto;
-  scroll-behavior:smooth;
-}
-
-.chat-inner{
-  max-width:920px;
-  margin:auto;
-  padding:35px 22px 180px;
-}
-
-.welcome{
-  min-height:55vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  flex-direction:column;
-  gap:16px;
-}
-
-.welcome-logo{
-  width:72px;
-  height:72px;
-  border:1px solid #555;
-  border-radius:22px;
-  display:grid;
-  place-items:center;
-  font-size:25px;
-  font-weight:900;
-  box-shadow:0 0 45px rgba(255,255,255,.06);
-}
-
-.welcome h1{
-  font-size:34px;
-  letter-spacing:-1.5px;
-}
-
-.welcome p{
-  color:#777;
-  max-width:520px;
-  line-height:1.6;
-}
-
-.quick-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
-  width:min(620px,100%);
-  margin-top:8px;
-}
-
-.quick-card{
-  border:1px solid var(--border);
-  background:#0b0b0b;
-  border-radius:12px;
-  padding:14px;
-  text-align:left;
+  border-radius:10px;
   cursor:pointer;
   transition:.2s;
 }
 
-.quick-card:hover{
-  background:#151515;
-  border-color:#444;
-  transform:translateY(-2px);
+.iconBtn:hover{
+  color:#fff;
+  background:rgba(255,255,255,.06);
+  border-color:var(--border);
 }
 
-.quick-card b{
-  display:block;
-  font-size:13px;
-  margin-bottom:5px;
+.chatTitle{
+  font-size:14px;
+  font-weight:600;
+  color:#ddd;
 }
 
-.quick-card span{
-  color:#666;
+.model{
+  padding:8px 12px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  background:#0b0b0b;
+  color:#bbb;
   font-size:11px;
 }
 
-/* =========================
-   MESSAGES
-========================= */
+/* ================= CHAT ================= */
+
+.chat{
+  flex:1;
+  overflow:auto;
+  scroll-behavior:smooth;
+}
+
+.welcome{
+  min-height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:50px 20px 150px;
+  text-align:center;
+}
+
+.heroLogo{
+  width:76px;
+  height:76px;
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:24px;
+  display:grid;
+  place-items:center;
+  margin-bottom:25px;
+  position:relative;
+  overflow:hidden;
+  animation:heroFloat 4s ease-in-out infinite;
+  box-shadow:
+    0 0 50px rgba(255,255,255,.04),
+    inset 0 0 25px rgba(255,255,255,.025);
+}
+
+.heroLogo:before{
+  content:"";
+  position:absolute;
+  width:150%;
+  height:2px;
+  background:#fff;
+  transform:rotate(-45deg);
+  animation:scan 2.7s linear infinite;
+  opacity:.35;
+}
+
+.heroLogo span{
+  font-size:26px;
+  font-weight:900;
+  position:relative;
+  z-index:2;
+}
+
+@keyframes heroFloat{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-9px) rotate(2deg)}
+}
+
+@keyframes scan{
+  from{transform:translate(-100px,-100px) rotate(-45deg)}
+  to{transform:translate(100px,100px) rotate(-45deg)}
+}
+
+.welcome h1{
+  font-size:clamp(34px,5vw,64px);
+  letter-spacing:-3px;
+  line-height:1;
+  margin-bottom:14px;
+  background:linear-gradient(90deg,#777,#fff,#777);
+  background-size:200%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation:textShine 4s linear infinite;
+}
+
+@keyframes textShine{
+  from{background-position:0}
+  to{background-position:200%}
+}
+
+.welcome p{
+  color:#707070;
+  font-size:14px;
+  max-width:550px;
+  line-height:1.7;
+}
+
+.quick{
+  margin-top:35px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  width:min(760px,100%);
+}
+
+.quick button{
+  min-height:82px;
+  border:1px solid var(--border);
+  background:rgba(15,15,15,.75);
+  color:#aaa;
+  border-radius:14px;
+  padding:13px;
+  cursor:pointer;
+  text-align:left;
+  transition:.3s cubic-bezier(.2,.8,.2,1);
+  position:relative;
+  overflow:hidden;
+}
+
+.quick button:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.06),transparent);
+  transform:translateX(-100%);
+  transition:.5s;
+}
+
+.quick button:hover:before{
+  transform:translateX(100%);
+}
+
+.quick button:hover{
+  color:#fff;
+  transform:translateY(-6px);
+  border-color:rgba(255,255,255,.2);
+  box-shadow:0 20px 50px rgba(0,0,0,.3);
+}
+
+.quick strong{
+  display:block;
+  color:#ddd;
+  margin-bottom:7px;
+  font-size:12px;
+}
+
+.quick span{
+  font-size:10px;
+  color:#666;
+}
+
+/* ================= MESSAGES ================= */
+
+.messages{
+  width:min(900px,100%);
+  margin:auto;
+  padding:35px 22px 170px;
+}
 
 .message{
   display:flex;
-  gap:14px;
-  margin:0 0 28px;
-  animation:messageIn .2s ease;
+  gap:12px;
+  margin:22px 0;
+  animation:messageIn .45s cubic-bezier(.2,.8,.2,1);
 }
 
 @keyframes messageIn{
   from{
     opacity:0;
-    transform:translateY(7px)
+    transform:translateY(15px) scale(.98);
   }
   to{
     opacity:1;
-    transform:translateY(0)
+    transform:translateY(0) scale(1);
   }
 }
 
 .message.user{
-  flex-direction:row-reverse;
+  justify-content:flex-end;
 }
 
-.msg-avatar{
-  width:32px;
-  height:32px;
-  border-radius:9px;
+.messageBubble{
+  max-width:78%;
+  padding:13px 16px;
+  border-radius:17px;
+  font-size:14px;
+  line-height:1.65;
+  white-space:pre-wrap;
+}
+
+.user .messageBubble{
+  background:#ededed;
+  color:#080808;
+  border-bottom-right-radius:5px;
+}
+
+.ai .messageBubble{
+  background:rgba(18,18,18,.85);
+  border:1px solid var(--border);
+  color:#ddd;
+  border-bottom-left-radius:5px;
+}
+
+.aiAvatar{
+  width:30px;
+  height:30px;
   flex:none;
+  border:1px solid var(--border);
+  border-radius:9px;
   display:grid;
   place-items:center;
-  font-size:11px;
-  font-weight:900;
-  border:1px solid var(--border2);
+  font-size:10px;
+  font-weight:800;
 }
 
-.user .msg-avatar{
-  background:#fff;
-  color:#000;
-}
-
-.assistant .msg-avatar{
-  background:#101010;
-  color:#fff;
-}
-
-.msg-content{
-  min-width:0;
-  max-width:calc(100% - 50px);
-}
-
-.user .msg-content{
-  background:#151515;
-  border:1px solid #222;
-  border-radius:15px;
-  padding:11px 14px;
-}
-
-.msg-text{
-  line-height:1.7;
-  font-size:14px;
-  white-space:pre-wrap;
-  word-break:break-word;
-}
-
-.msg-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:5px;
-  margin-top:8px;
-  opacity:.65;
-}
-
-.msg-actions button{
-  background:transparent;
-  border:0;
-  color:#777;
-  cursor:pointer;
-  font-size:11px;
-  padding:5px 6px;
-  border-radius:6px;
-}
-
-.msg-actions button:hover{
-  color:#fff;
-  background:#151515;
-}
+/* ================= TYPING ================= */
 
 .typing{
   display:flex;
-  gap:4px;
-  padding:8px 0;
+  gap:5px;
+  align-items:center;
+  padding:7px 2px;
 }
 
 .typing i{
@@ -481,928 +546,418 @@ button{
   height:5px;
   border-radius:50%;
   background:#aaa;
-  animation:blink 1s infinite;
+  animation:typing 1s infinite;
 }
 
-.typing i:nth-child(2){
-  animation-delay:.15s
+.typing i:nth-child(2){animation-delay:.15s}
+.typing i:nth-child(3){animation-delay:.3s}
+
+@keyframes typing{
+  0%,60%,100%{transform:translateY(0);opacity:.3}
+  30%{transform:translateY(-5px);opacity:1}
 }
 
-.typing i:nth-child(3){
-  animation-delay:.3s
-}
+/* ================= COMPOSER ================= */
 
-@keyframes blink{
-  0%,100%{
-    opacity:.2
-  }
-  50%{
-    opacity:1
-  }
-}
-
-/* =========================
-   CODE
-========================= */
-
-.code-block{
-  margin-top:10px;
-  background:#050505;
-  border:1px solid #292929;
-  border-radius:10px;
-  overflow:hidden;
-}
-
-.code-head{
-  height:32px;
-  background:#111;
-  border-bottom:1px solid #222;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 9px;
-  color:#666;
-  font-size:10px;
-}
-
-.code-copy{
-  border:0;
-  background:transparent;
-  color:#888;
-  cursor:pointer;
-  font-size:10px;
-}
-
-.code-block pre{
-  padding:14px;
-  overflow:auto;
-  font-family:Consolas,monospace;
-  font-size:12px;
-  line-height:1.6;
-}
-
-/* =========================
-   COMPOSER
-========================= */
-
-.composer-wrap{
+.composerWrap{
   position:absolute;
-  bottom:0;
-  left:0;
+  left:260px;
   right:0;
-  padding:15px 20px 20px;
-  background:linear-gradient(transparent,#050505 30%);
+  bottom:0;
+  padding:18px 22px 20px;
+  z-index:15;
+  background:linear-gradient(to top,#050505 55%,transparent);
 }
 
 .composer{
-  max-width:920px;
+  width:min(900px,100%);
   margin:auto;
-  background:#0c0c0c;
-  border:1px solid #292929;
-  border-radius:17px;
-  box-shadow:0 15px 50px rgba(0,0,0,.45);
-  overflow:hidden;
+  background:rgba(14,14,14,.92);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:19px;
+  padding:10px;
+  backdrop-filter:blur(25px);
+  box-shadow:
+    0 -10px 50px rgba(0,0,0,.3),
+    0 15px 60px rgba(0,0,0,.3);
+  transition:.3s;
 }
 
-.composer textarea{
-  width:100%;
-  min-height:58px;
-  max-height:190px;
+.composer:focus-within{
+  border-color:rgba(255,255,255,.25);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.04),
+    0 0 50px rgba(255,255,255,.04);
+}
+
+.inputRow{
+  display:flex;
+  align-items:flex-end;
+  gap:8px;
+}
+
+textarea{
+  flex:1;
+  min-height:45px;
+  max-height:170px;
   resize:none;
   border:0;
   outline:0;
   background:transparent;
-  color:#fff;
-  padding:16px 16px 8px;
+  color:#eee;
+  font:inherit;
+  font-size:14px;
+  padding:12px 5px;
   line-height:1.5;
 }
 
-.composer textarea::placeholder{
+textarea::placeholder{
   color:#555;
 }
 
-.composer-bottom{
-  min-height:48px;
-  display:flex;
-  align-items:center;
-  padding:5px 8px;
-  gap:5px;
-}
-
-.composer-left{
-  flex:1;
-  display:flex;
-  align-items:center;
-  gap:4px;
-}
-
-.tool-btn{
-  height:34px;
-  border:1px solid transparent;
-  background:transparent;
-  color:#888;
-  border-radius:8px;
-  padding:0 9px;
-  cursor:pointer;
-  font-size:12px;
-}
-
-.tool-btn:hover{
-  background:#181818;
-  color:#fff;
-  border-color:#252525;
-}
-
-.tool-btn.active{
-  background:#fff;
-  color:#000;
-}
-
-.send-btn{
-  width:37px;
-  height:37px;
+.send{
+  width:43px;
+  height:43px;
   border:0;
-  border-radius:10px;
+  border-radius:13px;
   background:#fff;
   color:#000;
   cursor:pointer;
   font-weight:900;
+  transition:.25s;
 }
 
-.send-btn:hover{
-  background:#ddd;
+.send:hover{
+  transform:scale(1.06);
+  box-shadow:0 0 30px rgba(255,255,255,.18);
 }
 
-.send-btn.stop{
-  background:#292929;
-  color:#fff;
+.send:active{
+  transform:scale(.94);
 }
 
-/* =========================
-   MODE BAR
-========================= */
-
-.modebar{
-  max-width:920px;
-  margin:0 auto 7px;
+.tools{
   display:flex;
+  align-items:center;
   gap:5px;
-  overflow-x:auto;
+  margin-top:4px;
 }
 
-.mode{
-  border:1px solid transparent;
-  background:#090909;
-  color:#666;
-  border-radius:8px;
-  padding:6px 10px;
-  cursor:pointer;
-  font-size:10px;
-  white-space:nowrap;
-}
-
-.mode:hover{
-  color:#ddd;
-  background:#111;
-}
-
-.mode.active{
-  color:#fff;
-  border-color:#333;
-  background:#151515;
-}
-
-/* =========================
-   DROPDOWN
-========================= */
-
-.dropdown{
-  position:absolute;
-  top:55px;
-  right:15px;
-  width:250px;
-  background:#0d0d0d;
-  border:1px solid #292929;
-  border-radius:13px;
-  box-shadow:0 20px 60px rgba(0,0,0,.6);
-  padding:7px;
-  display:none;
-  z-index:100;
-}
-
-.dropdown.show{
-  display:block;
-  animation:drop .15s ease;
-}
-
-@keyframes drop{
-  from{
-    opacity:0;
-    transform:translateY(-5px)
-  }
-  to{
-    opacity:1;
-    transform:translateY(0)
-  }
-}
-
-.drop-item{
-  width:100%;
-  background:transparent;
+.tool{
   border:0;
-  color:#aaa;
-  text-align:left;
+  background:transparent;
+  color:#666;
+  font-size:11px;
+  padding:7px 9px;
   border-radius:8px;
-  padding:10px;
   cursor:pointer;
-  font-size:12px;
+  transition:.2s;
 }
 
-.drop-item:hover{
-  background:#181818;
-  color:#fff;
+.tool:hover{
+  color:#ddd;
+  background:rgba(255,255,255,.05);
 }
 
-.drop-sep{
-  height:1px;
-  background:#222;
-  margin:5px;
+.status{
+  margin-left:auto;
+  color:#444;
+  font-size:10px;
 }
 
-/* =========================
-   MODALS
-========================= */
+/* ================= OVERLAY ================= */
 
 .overlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.7);
+  background:rgba(0,0,0,.62);
   backdrop-filter:blur(8px);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:200;
-  padding:18px;
+  z-index:30;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
 }
 
 .overlay.show{
-  display:flex;
+  opacity:1;
+  pointer-events:auto;
 }
 
 .modal{
-  width:min(760px,100%);
-  max-height:90vh;
-  overflow:auto;
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-45%) scale(.95);
+  width:min(520px,calc(100% - 30px));
   background:#0c0c0c;
-  border:1px solid #303030;
-  border-radius:17px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+  z-index:31;
+  opacity:0;
+  pointer-events:none;
+  transition:.35s cubic-bezier(.2,.8,.2,1);
   box-shadow:0 30px 100px rgba(0,0,0,.7);
 }
 
-.modal.small{
-  width:min(480px,100%);
+.modal.show{
+  opacity:1;
+  pointer-events:auto;
+  transform:translate(-50%,-50%) scale(1);
 }
 
-.modal-head{
-  height:58px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 17px;
-  border-bottom:1px solid #222;
-  position:sticky;
-  top:0;
-  background:#0c0c0c;
-  z-index:2;
+.modal h2{
+  font-size:17px;
+  margin-bottom:16px;
 }
 
-.modal-head h2{
-  font-size:15px;
-}
-
-.close{
-  width:31px;
-  height:31px;
-  border:0;
-  border-radius:8px;
-  background:#181818;
-  color:#aaa;
-  cursor:pointer;
-}
-
-.close:hover{
-  color:#fff;
-}
-
-.modal-body{
-  padding:17px;
-}
-
-/* =========================
-   SETTINGS
-========================= */
-
-.settings-layout{
-  display:grid;
-  grid-template-columns:170px 1fr;
-  min-height:510px;
-}
-
-.settings-nav{
-  border-right:1px solid #222;
-  padding:10px;
-}
-
-.settings-nav button{
-  width:100%;
-  text-align:left;
+.modalClose{
+  float:right;
   border:0;
   background:transparent;
   color:#777;
-  padding:9px;
-  border-radius:8px;
   cursor:pointer;
-  font-size:11px;
+  font-size:20px;
 }
 
-.settings-nav button:hover,
-.settings-nav button.active{
-  background:#171717;
-  color:#fff;
-}
-
-.settings-content{
-  padding:20px;
-}
-
-.settings-page{
-  display:none;
-}
-
-.settings-page.active{
-  display:block;
-}
-
-.settings-page h3{
-  font-size:16px;
-  margin-bottom:5px;
-}
-
-.settings-page>p{
-  color:#666;
-  font-size:11px;
-  margin-bottom:20px;
-}
-
-.setting-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  padding:14px 0;
-  border-bottom:1px solid #1c1c1c;
-}
-
-.setting-row b{
-  display:block;
-  font-size:12px;
-  margin-bottom:3px;
-}
-
-.setting-row span{
-  color:#666;
-  font-size:10px;
-}
-
-.setting-control{
-  flex:none;
-}
-
-.toggle{
-  width:39px;
-  height:22px;
-  border-radius:20px;
-  background:#292929;
-  border:1px solid #3b3b3b;
+.modalItem{
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  margin-top:8px;
+  color:#aaa;
   cursor:pointer;
-  position:relative;
-}
-
-.toggle:after{
-  content:"";
-  width:16px;
-  height:16px;
-  border-radius:50%;
-  background:#777;
-  position:absolute;
-  left:2px;
-  top:2px;
   transition:.2s;
 }
 
-.toggle.on{
-  background:#fff;
-}
-
-.toggle.on:after{
-  left:19px;
-  background:#000;
-}
-
-.setting-select{
-  background:#111;
-  border:1px solid #292929;
-  color:#ddd;
-  border-radius:7px;
-  padding:7px 8px;
-  outline:0;
-  font-size:11px;
-}
-
-/* =========================
-   TOOL GRID
-========================= */
-
-.tool-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-}
-
-.big-tool{
-  background:#101010;
-  border:1px solid #252525;
-  border-radius:11px;
-  padding:15px;
-  text-align:left;
-  cursor:pointer;
-  min-height:100px;
-}
-
-.big-tool:hover{
-  background:#171717;
-  border-color:#444;
-}
-
-.big-tool-icon{
-  font-size:20px;
-  margin-bottom:12px;
-}
-
-.big-tool b{
-  font-size:12px;
-  display:block;
-}
-
-.big-tool span{
-  display:block;
-  color:#666;
-  font-size:10px;
-  line-height:1.5;
-  margin-top:4px;
-}
-
-/* =========================
-   FILE PREVIEW
-========================= */
-
-.attach-list{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  padding:5px 8px 0;
-}
-
-.file-chip{
-  background:#171717;
-  border:1px solid #292929;
-  border-radius:8px;
-  padding:5px 8px;
-  color:#aaa;
-  font-size:10px;
-  display:flex;
-  align-items:center;
-  gap:5px;
-}
-
-.file-chip button{
-  border:0;
-  background:transparent;
-  color:#666;
-  cursor:pointer;
-}
-
-/* =========================
-   TOAST
-========================= */
-
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:25px;
-  transform:translateX(-50%) translateY(15px);
-  background:#fff;
-  color:#000;
-  padding:9px 15px;
-  border-radius:9px;
-  font-size:11px;
-  font-weight:700;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-  z-index:500;
-}
-
-.toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
-}
-
-/* =========================
-   SEARCH
-========================= */
-
-.search-box{
-  display:flex;
-  gap:7px;
-  margin-bottom:12px;
-}
-
-.search-box input{
-  flex:1;
-  background:#111;
+.modalItem:hover{
   color:#fff;
-  border:1px solid #292929;
-  border-radius:9px;
-  outline:none;
-  padding:10px;
+  background:rgba(255,255,255,.05);
+  transform:translateX(4px);
 }
 
-.search-results{
-  max-height:350px;
-  overflow:auto;
-}
+/* ================= MOBILE ================= */
 
-.search-result{
-  padding:10px;
-  border-bottom:1px solid #202020;
-  cursor:pointer;
+.mobileMenu{
+  display:none;
 }
-
-.search-result:hover{
-  background:#151515;
-}
-
-.search-result b{
-  display:block;
-  font-size:12px;
-}
-
-.search-result span{
-  color:#666;
-  font-size:10px;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
 
 @media(max-width:800px){
 
   .sidebar{
     position:fixed;
-    left:-280px;
+    left:0;
     top:0;
-    bottom:0;
+    transform:translateX(-100%);
+    box-shadow:20px 0 70px rgba(0,0,0,.6);
   }
 
   .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .mobileMenu{
+    display:block;
+  }
+
+  .composerWrap{
     left:0;
+    padding:10px 10px 12px;
   }
 
-  .mobile-menu{
-    display:grid;
-  }
-
-  .chat-inner{
-    padding-left:13px;
-    padding-right:13px;
-  }
-
-  .composer-wrap{
-    padding:10px;
-  }
-
-  .tool-btn{
-    padding:0 7px;
-  }
-
-  .tool-btn .label{
-    display:none;
-  }
-
-  .settings-layout{
-    grid-template-columns:1fr;
-  }
-
-  .settings-nav{
-    border-right:0;
-    border-bottom:1px solid #222;
-    display:flex;
-    overflow:auto;
-  }
-
-  .settings-nav button{
-    min-width:max-content;
-  }
-
-  .tool-grid{
+  .quick{
     grid-template-columns:repeat(2,1fr);
   }
 
+  .welcome{
+    padding-bottom:170px;
+  }
+
   .welcome h1{
-    font-size:27px;
+    letter-spacing:-2px;
+  }
+
+  .messages{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  .messageBubble{
+    max-width:88%;
+  }
+
+  .topbar{
+    padding:0 10px;
+  }
+
+  .model{
+    display:none;
   }
 }
 
-@media(max-width:480px){
+/* ================= SCROLLBAR ================= */
 
-  .model-select{
-    display:none;
-  }
+::-webkit-scrollbar{
+  width:5px;
+  height:5px;
+}
 
-  .top-btn.hide-mobile{
-    display:none;
-  }
+::-webkit-scrollbar-track{
+  background:transparent;
+}
 
-  .quick-grid{
-    grid-template-columns:1fr;
-  }
+::-webkit-scrollbar-thumb{
+  background:#252525;
+  border-radius:20px;
+}
 
-  .tool-grid{
-    grid-template-columns:1fr;
-  }
-
-  .modebar{
-    padding-left:2px;
-  }
+::-webkit-scrollbar-thumb:hover{
+  background:#444;
 }
 </style>
 </head>
 
 <body>
 
+<div class="background">
+  <div class="grid"></div>
+  <div class="particle" style="left:8%;bottom:-10%;animation-duration:13s;animation-delay:1s"></div>
+  <div class="particle" style="left:18%;bottom:-10%;animation-duration:17s;animation-delay:4s"></div>
+  <div class="particle" style="left:31%;bottom:-10%;animation-duration:14s;animation-delay:2s"></div>
+  <div class="particle" style="left:47%;bottom:-10%;animation-duration:19s;animation-delay:6s"></div>
+  <div class="particle" style="left:61%;bottom:-10%;animation-duration:15s;animation-delay:3s"></div>
+  <div class="particle" style="left:74%;bottom:-10%;animation-duration:18s;animation-delay:7s"></div>
+  <div class="particle" style="left:88%;bottom:-10%;animation-duration:16s;animation-delay:5s"></div>
+</div>
+
 <div class="app">
 
-<!-- =========================
-     SIDEBAR
-========================= -->
+  <aside class="sidebar" id="sidebar">
 
-<aside class="sidebar" id="sidebar">
+    <div class="logo">
+      <div class="logoMark"></div>
+      <span>DeveshAI</span>
+    </div>
 
-  <div class="brand">
-    <div class="brand-mark">D</div>
-    <div class="brand-name">DeveshAI</div>
-  </div>
-
-  <button class="new-chat" onclick="newChat()">＋ New Chat</button>
-
-  <div class="sidebar-scroll">
-
-    <div class="section-label">Workspace</div>
-
-    <button class="nav-btn active" onclick="newChat()">
-      <span class="icon">＋</span> New Chat
+    <button class="newChat" onclick="newChat()">
+      ＋ New Chat
     </button>
 
-    <button class="nav-btn" onclick="openSearch()">
-      <span class="icon">⌕</span> Search
-    </button>
+    <div class="nav">
+      <button class="active">⌂ &nbsp; Chat</button>
+      <button onclick="openModal('Search')">⌕ &nbsp; Search</button>
+      <button onclick="openModal('Projects')">▦ &nbsp; Projects</button>
+      <button onclick="openModal('Memory')">◉ &nbsp; Memory</button>
+      <button onclick="openModal('Custom AI')">✦ &nbsp; Custom AI</button>
+      <button onclick="openModal('Apps')">⊞ &nbsp; Apps</button>
+    </div>
 
-    <button class="nav-btn" onclick="showProjects()">
-      <span class="icon">▦</span> Projects
-    </button>
+    <div class="historyTitle">Recent</div>
 
-    <button class="nav-btn" onclick="showMemory()">
-      <span class="icon">◈</span> Memory
-    </button>
+    <div class="history" id="history"></div>
 
-    <button class="nav-btn" onclick="showCustomAI()">
-      <span class="icon">✦</span> Custom AI
-    </button>
-
-    <button class="nav-btn" onclick="showApps()">
-      <span class="icon">⊞</span> Apps
-    </button>
-
-    <div class="section-label">Recent</div>
-
-    <div id="chatHistory"></div>
-
-  </div>
-
-  <div class="sidebar-bottom">
-
-    <div class="profile" onclick="openSettings('account')">
-
+    <div class="profile">
       <div class="avatar">D</div>
+      <div class="profileText">
+        Devesh
+        <small>DeveshAI</small>
+      </div>
+    </div>
 
-      <div class="profile-info">
-        <div class="profile-name">Devesh</div>
-        <div class="profile-sub">DeveshAI account</div>
+  </aside>
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div class="topLeft">
+        <button class="iconBtn mobileMenu" onclick="toggleSidebar()">☰</button>
+        <span class="chatTitle" id="chatTitle">New Chat</span>
       </div>
 
-      <span style="color:#666">⋯</span>
-
-    </div>
-
-  </div>
-
-</aside>
-
-
-<!-- =========================
-     MAIN
-========================= -->
-
-<main class="main">
-
-  <header class="topbar">
-
-    <div class="top-left">
-
-      <button
-        class="top-btn mobile-menu"
-        onclick="toggleSidebar()"
-      >☰</button>
-
-      <div class="chat-name" id="chatTitle">
-        New Chat
+      <div class="topRight">
+        <span class="model">DeveshAI · AI</span>
+        <button class="iconBtn" onclick="openModal('Share')">↗</button>
+        <button class="iconBtn" onclick="openModal('Settings')">⚙</button>
       </div>
 
-      <button
-        class="top-btn"
-        onclick="renameCurrentChat()"
-        title="Rename"
-      >✎</button>
+    </header>
 
-    </div>
+    <section class="chat" id="chat">
 
-    <select
-      class="model-select"
-      id="modelSelect"
-      onchange="changeModel()"
-    >
-      <option value="default">DeveshAI</option>
-      <option value="fast">Fast</option>
-      <option value="reasoning">Reasoning</option>
-      <option value="creative">Creative</option>
-    </select>
+      <div class="welcome" id="welcome">
 
-    <button
-      class="top-btn hide-mobile"
-      onclick="shareChat()"
-      title="Share"
-    >↗</button>
-
-    <button
-      class="top-btn"
-      onclick="openMore()"
-    >⋯</button>
-
-    <div
-      class="dropdown"
-      id="moreDropdown"
-    >
-
-      <button
-        class="drop-item"
-        onclick="renameCurrentChat()"
-      >
-        ✎ Rename chat
-      </button>
-
-      <button
-        class="drop-item"
-        onclick="pinCurrentChat()"
-      >
-        📌 Pin chat
-      </button>
-
-      <button
-        class="drop-item"
-        onclick="archiveCurrentChat()"
-      >
-        📁 Archive chat
-      </button>
-
-      <button
-        class="drop-item"
-        onclick="exportChat()"
-      >
-        ⇩ Export conversation
-      </button>
-
-      <button
-        class="drop-item"
-        onclick="shareChat()"
-      >
-        ↗ Share conversation
-      </button>
-
-      <div class="drop-sep"></div>
-
-      <button
-        class="drop-item"
-        onclick="openSettings()"
-      >
-        ⚙ Settings
-      </button>
-
-      <button
-        class="drop-item"
-        onclick="showHelp()"
-      >
-        ?
-      </button>
-
-      <div class="drop-sep"></div>
-
-      <button
-        class="drop-item"
-        style="color:#ff6666"
-        onclick="deleteCurrentChat()"
-      >
-        🗑 Delete chat
-      </button>
-
-    </div>
-
-  </header>
-
-
-  <!-- CHAT -->
-
-  <section
-    class="chat"
-    id="chat"
-  >
-
-    <div
-      class="chat-inner"
-      id="chatInner"
-    >
-
-      <div
-        class="welcome"
-        id="welcome"
-      >
-
-        <div class="welcome-logo">
-          D
+        <div class="heroLogo">
+          <span>D</span>
         </div>
 
-        <h1>
-          What can I help you with?
-        </h1>
+        <h1>DeveshAI</h1>
 
         <p>
-          DeveshAI — chat, think, study, code, create and analyze from one workspace.
+          Think. Create. Analyze. Build.
+          <br>
+          Your intelligent workspace.
         </p>
 
-        <div class="quick-grid">
+        <div class="quick">
 
-          <button
-            class="quick-card"
-            onclick="quickPrompt('Explain this topic to me in very simple language.')"
-          >
-            <b>▣ Explain</b>
-            <span>Learn something step-by-step</span>
+          <button onclick="quickPrompt('Explain quantum computing in very simple words')">
+            <strong>Explain</strong>
+            <span>Understand difficult topics</span>
           </button>
 
-          <button
-            class="quick-card"
-            onclick="quickPrompt('Help me solve this problem step by step.')"
-          >
-            <b>⌁ Solve</b>
-            <span>Work through a difficult problem</span>
+          <button onclick="quickPrompt('Help me write a professional project')">
+            <strong>Create</strong>
+            <span>Write something from scratch</span>
           </button>
 
-          <button
-            class="quick-card"
-            onclick="quickPrompt('Help me write clean and professional code.')"
-          >
-            <b>&lt;/&gt; Code</b>
-            <span>Build or debug software</span>
+          <button onclick="quickPrompt('Help me debug my code')">
+            <strong>Code</strong>
+            <span>Build and debug</span>
           </button>
 
-          <button
-            class="quick-card"
-            onclick="quickPrompt('Help me research this topic and organize the important information.')"
-          >
-            <b>⌕ Research</b>
-            <span>Explore a topic</span>
+          <button onclick="quickPrompt('Give me a smart study plan')">
+            <strong>Study</strong>
+            <span>Learn more efficiently</span>
           </button>
+
+        </div>
+
+      </div>
+
+      <div class="messages" id="messages"></div>
+
+    </section>
+
+    <div class="composerWrap">
+
+      <div class="composer">
+
+        <div class="inputRow">
+
+          <textarea
+            id="input"
+            placeholder="Message DeveshAI..."
+            rows="1"
+            oninput="autoResize(this)"
+            onkeydown="handleKey(event)"
+          ></textarea>
+
+          <button class="send" id="sendBtn" onclick="sendMessage()">↑</button>
+
+        </div>
+
+        <div class="tools">
+
+          <button class="tool" onclick="document.getElementById('fileInput').click()">＋ Attach</button>
+
+          <button class="tool" onclick="toggleWeb()">◌ Web</button>
+
+          <button class="tool" onclick="startVoice()">◉ Voice</button>
+
+          <button class="tool" onclick="openModal('Tools')">✦ Tools</button>
+
+          <span class="status" id="status">Ready</span>
 
         </div>
 
@@ -1410,4599 +965,625 @@ button{
 
     </div>
 
-  </section>
-
-
-  <!-- COMPOSER -->
-
-  <div class="composer-wrap">
-
-    <div class="modebar">
-
-      <button
-        class="mode active"
-        data-mode="Ask"
-        onclick="setMode(this)"
-      >
-        Ask
-      </button>
-
-      <button
-        class="mode"
-        data-mode="Think"
-        onclick="setMode(this)"
-      >
-        Think
-      </button>
-
-      <button
-        class="mode"
-        data-mode="Study"
-        onclick="setMode(this)"
-      >
-        Study
-      </button>
-
-      <button
-        class="mode"
-        data-mode="Code"
-        onclick="setMode(this)"
-      >
-        Code
-      </button>
-
-      <button
-        class="mode"
-        data-mode="Create"
-        onclick="setMode(this)"
-      >
-        Create
-      </button>
-
-      <button
-        class="mode"
-        data-mode="Analyze"
-        onclick="setMode(this)"
-      >
-        Analyze
-      </button>
-
-      <button
-        class="mode"
-        data-mode="Research"
-        onclick="setMode(this)"
-      >
-        Research
-      </button>
-
-    </div>
-
-
-    <div class="composer">
-
-      <div
-        class="attach-list"
-        id="attachList"
-      ></div>
-
-      <textarea
-        id="prompt"
-        placeholder="Message DeveshAI..."
-        rows="1"
-        onkeydown="handlePromptKey(event)"
-        oninput="autoResize(this)"
-      ></textarea>
-
-      <div class="composer-bottom">
-
-        <div class="composer-left">
-
-          <button
-            class="tool-btn"
-            onclick="openAttachMenu()"
-          >
-            ＋ <span class="label">Attach</span>
-          </button>
-
-          <button
-            class="tool-btn"
-            id="webBtn"
-            onclick="toggleWeb()"
-          >
-            ◉ <span class="label">Web</span>
-          </button>
-
-          <button
-            class="tool-btn"
-            onclick="startVoice()"
-          >
-            🎙 <span class="label">Voice</span>
-          </button>
-
-          <button
-            class="tool-btn"
-            onclick="openTools()"
-          >
-            ✦ <span class="label">Tools</span>
-          </button>
-
-          <button
-            class="tool-btn"
-            onclick="openImageCreator()"
-          >
-            ▧ <span class="label">Create</span>
-          </button>
-
-        </div>
-
-        <button
-          class="send-btn"
-          id="sendBtn"
-          onclick="sendMessage()"
-        >
-          ↑
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</main>
+  </main>
 
 </div>
 
+<input
+  type="file"
+  id="fileInput"
+  hidden
+  multiple
+  accept=".txt,.pdf,.doc,.docx,.csv,.xls,.xlsx,.ppt,.pptx,image/*"
+/>
 
-<!-- =========================
-     ATTACH MODAL
-========================= -->
+<div class="overlay" id="overlay" onclick="closeModal()"></div>
 
-<div
-  class="overlay"
-  id="attachModal"
->
-
-  <div class="modal small">
-
-    <div class="modal-head">
-
-      <h2>Attach</h2>
-
-      <button
-        class="close"
-        onclick="closeModal('attachModal')"
-      >
-        ×
-      </button>
-
-    </div>
-
-    <div class="modal-body">
-
-      <div class="tool-grid">
-
-        <button
-          class="big-tool"
-          onclick="pickFiles('image/*')"
-        >
-          <div class="big-tool-icon">▧</div>
-          <b>Images</b>
-          <span>Image upload UI</span>
-        </button>
-
-        <button
-          class="big-tool"
-          onclick="pickFiles('.pdf')"
-        >
-          <div class="big-tool-icon">▤</div>
-          <b>PDF</b>
-          <span>Analyze PDF files</span>
-        </button>
-
-        <button
-          class="big-tool"
-          onclick="pickFiles('.doc,.docx,.txt')"
-        >
-          <div class="big-tool-icon">▥</div>
-          <b>Documents</b>
-          <span>Analyze text documents</span>
-        </button>
-
-        <button
-          class="big-tool"
-          onclick="pickFiles('.csv,.xlsx,.xls')"
-        >
-          <div class="big-tool-icon">▦</div>
-          <b>Data</b>
-          <span>Analyze CSV and spreadsheets</span>
-        </button>
-
-        <button
-          class="big-tool"
-          onclick="pickFiles('.ppt,.pptx')"
-        >
-          <div class="big-tool-icon">▧</div>
-          <b>Slides</b>
-          <span>Upload UI available</span>
-        </button>
-
-        <button
-          class="big-tool"
-          onclick="startCamera()"
-        >
-          <div class="big-tool-icon">◉</div>
-          <b>Camera</b>
-          <span>Use your device camera</span>
-        </button>
-
-      </div>
-
-
-      <input
-        type="file"
-        id="fileInput"
-        multiple
-        hidden
-        onchange="handleFiles(this.files)"
-      >
-
-      <input
-        type="file"
-        id="cameraInput"
-        accept="image/*"
-        capture="environment"
-        hidden
-        onchange="handleFiles(this.files)"
-      >
-
-    </div>
-
-  </div>
-
+<div class="modal" id="modal">
+  <button class="modalClose" onclick="closeModal()">×</button>
+  <h2 id="modalTitle">DeveshAI</h2>
+  <div id="modalContent"></div>
 </div>
-
-
-<!-- =========================
-     TOOLS MODAL
-========================= -->
-
-<div
-  class="overlay"
-  id="toolsModal"
->
-
-  <div class="modal">
-
-    <div class="modal-head">
-
-      <h2>Tools</h2>
-
-      <button
-        class="close"
-        onclick="closeModal('toolsModal')"
-      >
-        ×
-      </button>
-
-    </div>
-
-    <div class="modal-body">
-
-      <div class="tool-grid">
-
-        <button
-          class="big-tool"
-          onclick="useTool('Think deeply about my question and give a careful answer.')"
-        >
-          <div class="big-tool-icon">🧠</div>
-          <b>Think</b>
-          <span>Use deeper reasoning</span>
-        </button>
-
-        <button
-          class="big-tool"
-          onclick="useTool('Study this topic with me step by step.')"
-        >
-          <div class="big-tool-icon">▣</div>
-          <b>Study</b>
-          <span>Learn step-by-step</span>
-        </button>
-
-        <button
-          class="big-tool"
-          onclick="useTool('Help me write, debug or improve this code.')"
-        >
-          <div class="big-tool-icon">&lt;/&gt;</div>
-          <b>Code</b>
-          <span>Build and debug code</span>
-        </button>
-
-        <button
-          class="big-tool"
-          onclick="openImageCreator()"
-        >
-          <div class="big-tool-icon">▧</div>
-          <b>Create Image</b>
-          <span>Open image creation</span>
-        </button>
-
-        <button
-          class="big-tool"
-          onclick="useTool('Analyze the attached file or information carefully.')"
-        >
-          <div class="big-tool-icon">⌁</div>
-          <b>Analyze</b>
-          <span>Analyze information</span>
-        </button>
-
-        <button
-          class="big-tool"
-          onclick="useTool('Research this topic thoroughly and organize the important information.')"
-        >
-          <div class="big-tool-icon">⌕</div>
-          <b>Research</b>
-          <span>Research mode</span>
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================
-     IMAGE CREATOR
-========================= -->
-
-<div
-  class="overlay"
-  id="imageModal"
->
-
-  <div class="modal small">
-
-    <div class="modal-head">
-
-      <h2>Create Image</h2>
-
-      <button
-        class="close"
-        onclick="closeModal('imageModal')"
-      >
-        ×
-      </button>
-
-    </div>
-
-    <div class="modal-body">
-
-      <textarea
-        id="imagePrompt"
-        style="width:100%;height:130px;background:#111;border:1px solid #292929;border-radius:10px;color:#fff;padding:12px;outline:0;resize:none"
-        placeholder="Describe the image you want..."
-      ></textarea>
-
-      <button
-        onclick="requestImage()"
-        style="margin-top:10px;width:100%;height:42px;border:0;border-radius:9px;background:#fff;color:#000;font-weight:800;cursor:pointer"
-      >
-        Generate
-      </button>
-
-      <div
-        id="imageResult"
-        style="margin-top:12px;color:#777;font-size:11px"
-      ></div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================
-     SETTINGS
-========================= -->
-
-<div
-  class="overlay"
-  id="settingsModal"
->
-
-  <div class="modal">
-
-    <div class="modal-head">
-
-      <h2>Settings</h2>
-
-      <button
-        class="close"
-        onclick="closeModal('settingsModal')"
-      >
-        ×
-      </button>
-
-    </div>
-
-    <div class="settings-layout">
-
-      <nav class="settings-nav">
-
-        <button
-          class="active"
-          onclick="settingsPage(this,'general')"
-        >
-          General
-        </button>
-
-        <button
-          onclick="settingsPage(this,'appearance')"
-        >
-          Appearance
-        </button>
-
-        <button
-          onclick="settingsPage(this,'voice')"
-        >
-          Voice
-        </button>
-
-        <button
-          onclick="settingsPage(this,'personalization')"
-        >
-          Personalization
-        </button>
-
-        <button
-          onclick="settingsPage(this,'memory')"
-        >
-          Memory
-        </button>
-
-        <button
-          onclick="settingsPage(this,'data')"
-        >
-          Data Controls
-        </button>
-
-        <button
-          onclick="settingsPage(this,'notifications')"
-        >
-          Notifications
-        </button>
-
-        <button
-          onclick="settingsPage(this,'apps')"
-        >
-          Connected Apps
-        </button>
-
-        <button
-          onclick="settingsPage(this,'account')"
-        >
-          Account
-        </button>
-
-        <button
-          onclick="settingsPage(this,'security')"
-        >
-          Security
-        </button>
-
-        <button
-          onclick="settingsPage(this,'help')"
-        >
-          Help
-        </button>
-
-      </nav>
-
-
-      <div class="settings-content">
-
-        <div
-          class="settings-page active"
-          id="settings-general"
-        >
-
-          <h3>General</h3>
-          <p>Basic DeveshAI preferences.</p>
-
-          <div class="setting-row">
-
-            <div>
-              <b>Language</b>
-              <span>Choose interface language</span>
-            </div>
-
-            <select
-              class="setting-select"
-              onchange="saveSetting('language',this.value)"
-            >
-              <option>English</option>
-              <option>Hindi</option>
-            </select>
-
-          </div>
-
-
-          <div class="setting-row">
-
-            <div>
-              <b>Enter to send</b>
-              <span>Press Enter to send messages</span>
-            </div>
-
-            <div
-              class="toggle on"
-              data-setting="enterSend"
-              onclick="toggleSetting(this)"
-            ></div>
-
-          </div>
-
-
-          <div class="setting-row">
-
-            <div>
-              <b>Compact interface</b>
-              <span>Reduce interface spacing</span>
-            </div>
-
-            <div
-              class="toggle"
-              data-setting="compact"
-              onclick="toggleSetting(this)"
-            ></div>
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="settings-page"
-          id="settings-appearance"
-        >
-
-          <h3>Appearance</h3>
-          <p>Customize how DeveshAI looks.</p>
-
-          <div class="setting-row">
-
-            <div>
-              <b>Theme</b>
-              <span>Current interface theme</span>
-            </div>
-
-            <select
-              class="setting-select"
-              onchange="setTheme(this.value)"
-            >
-              <option value="dark">Dark</option>
-              <option value="black">Black</option>
-            </select>
-
-          </div>
-
-
-          <div class="setting-row">
-
-            <div>
-              <b>Animations</b>
-              <span>Interface motion effects</span>
-            </div>
-
-            <div
-              class="toggle on"
-              data-setting="animations"
-              onclick="toggleSetting(this)"
-            ></div>
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="settings-page"
-          id="settings-voice"
-        >
-
-          <h3>Voice</h3>
-          <p>Browser voice controls.</p>
-
-          <div class="setting-row">
-
-            <div>
-              <b>Read responses aloud</b>
-              <span>Use your browser's speech engine</span>
-            </div>
-
-            <div
-              class="toggle"
-              data-setting="voice"
-              onclick="toggleSetting(this)"
-            ></div>
-
-          </div>
-
-          <div class="setting-row">
-
-            <div>
-              <b>Voice</b>
-              <span>Browser-supported voice</span>
-            </div>
-
-            <select
-              class="setting-select"
-              id="voiceSelect"
-            ></select>
-
-          </div>
-
-          <button
-            class="drop-item"
-            style="border:1px solid #292929;margin-top:15px"
-            onclick="testVoice()"
-          >
-            ▶ Test voice
-          </button>
-
-        </div>
-
-
-        <div
-          class="settings-page"
-          id="settings-personalization"
-        >
-
-          <h3>Personalization</h3>
-          <p>Tell DeveshAI how you prefer responses.</p>
-
-          <div class="setting-row">
-
-            <div>
-              <b>Friendly responses</b>
-              <span>Use a relaxed conversational style</span>
-            </div>
-
-            <div
-              class="toggle on"
-              data-setting="friendly"
-              onclick="toggleSetting(this)"
-            ></div>
-
-          </div>
-
-          <div style="margin-top:16px">
-
-            <textarea
-              id="customInstruction"
-              style="width:100%;height:120px;background:#111;border:1px solid #292929;border-radius:9px;color:#fff;padding:10px;resize:none;outline:0"
-              placeholder="How should DeveshAI respond to you?"
-            ></textarea>
-
-            <button
-              class="drop-item"
-              style="border:1px solid #292929;margin-top:7px"
-              onclick="saveInstructions()"
-            >
-              Save instructions
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="settings-page"
-          id="settings-memory"
-        >
-
-          <h3>Memory</h3>
-          <p>Manage information stored locally by this browser.</p>
-
-          <div class="setting-row">
-
-            <div>
-              <b>Memory</b>
-              <span>Use saved preferences in this browser</span>
-            </div>
-
-            <div
-              class="toggle on"
-              data-setting="memory"
-              onclick="toggleSetting(this)"
-            ></div>
-
-          </div>
-
-          <button
-            class="drop-item"
-            style="border:1px solid #292929;margin-top:15px"
-            onclick="clearMemory()"
-          >
-            Clear local memory
-          </button>
-
-        </div>
-
-
-        <div
-          class="settings-page"
-          id="settings-data"
-        >
-
-          <h3>Data Controls</h3>
-          <p>Control local conversation data.</p>
-
-          <button
-            class="drop-item"
-            style="border:1px solid #292929"
-            onclick="exportAllData()"
-          >
-            ⇩ Export local data
-          </button>
-
-          <button
-            class="drop-item"
-            style="border:1px solid #292929;margin-top:8px;color:#ff6666"
-            onclick="clearAllChats()"
-          >
-            Delete all local chats
-          </button>
-
-        </div>
-
-
-        <div
-          class="settings-page"
-          id="settings-notifications"
-        >
-
-          <h3>Notifications</h3>
-          <p>Browser notification preferences.</p>
-
-          <div class="setting-row">
-
-            <div>
-              <b>Notifications</b>
-              <span>Allow browser notifications</span>
-            </div>
-
-            <div
-              class="toggle"
-              onclick="requestNotifications(this)"
-            ></div>
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="settings-page"
-          id="settings-apps"
-        >
-
-          <h3>Connected Apps</h3>
-
-          <p>
-            External integrations can be connected through the backend later.
-          </p>
-
-          <div class="setting-row">
-
-            <div>
-              <b>GitHub</b>
-              <span>Repository and development workflows</span>
-            </div>
-
-            <button
-              class="drop-item"
-              style="width:auto;border:1px solid #292929"
-              onclick="toast('GitHub connection will be handled by the backend.')"
-            >
-              Connect
-            </button>
-
-          </div>
-
-
-          <div class="setting-row">
-
-            <div>
-              <b>Google Drive</b>
-              <span>Files and documents</span>
-            </div>
-
-            <button
-              class="drop-item"
-              style="width:auto;border:1px solid #292929"
-              onclick="toast('Drive connection will be handled by the backend.')"
-            >
-              Connect
-            </button>
-
-          </div>
-
-
-          <div class="setting-row">
-
-            <div>
-              <b>Calendar</b>
-              <span>Calendar workflows</span>
-            </div>
-
-            <button
-              class="drop-item"
-              style="width:auto;border:1px solid #292929"
-              onclick="toast('Calendar connection will be handled by the backend.')"
-            >
-              Connect
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="settings-page"
-          id="settings-account"
-        >
-
-          <h3>Account</h3>
-          <p>Your DeveshAI profile.</p>
-
-          <div class="setting-row">
-
-            <div>
-              <b>Name</b>
-              <span>Current local profile</span>
-            </div>
-
-            <b>Devesh</b>
-
-          </div>
-
-
-          <div class="setting-row">
-
-            <div>
-              <b>Plan</b>
-              <span>Current application plan</span>
-            </div>
-
-            <b>Free</b>
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="settings-page"
-          id="settings-security"
-        >
-
-          <h3>Security</h3>
-          <p>Browser-side security information.</p>
-
-          <div class="setting-row">
-
-            <div>
-              <b>API key</b>
-              <span>Never stored in this frontend</span>
-            </div>
-
-            <b style="color:#aaa">
-              Protected
-            </b>
-
-          </div>
-
-
-          <div class="setting-row">
-
-            <div>
-              <b>Server API</b>
-              <span>Requests go through /api/chat</span>
-            </div>
-
-            <b style="color:#aaa">
-              Enabled
-            </b>
-
-          </div>
-
-        </div>
-
-
-        <div
-          class="settings-page"
-          id="settings-help"
-        >
-
-          <h3>Help</h3>
-          <p>DeveshAI help and diagnostics.</p>
-
-          <button
-            class="drop-item"
-            style="border:1px solid #292929"
-            onclick="checkHealth()"
-          >
-            Check server status
-          </button>
-
-          <button
-            class="drop-item"
-            style="border:1px solid #292929;margin-top:8px"
-            onclick="showAbout()"
-          >
-            About DeveshAI
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================
-     SEARCH MODAL
-========================= -->
-
-<div
-  class="overlay"
-  id="searchModal"
->
-
-  <div class="modal small">
-
-    <div class="modal-head">
-
-      <h2>Search chats</h2>
-
-      <button
-        class="close"
-        onclick="closeModal('searchModal')"
-      >
-        ×
-      </button>
-
-    </div>
-
-    <div class="modal-body">
-
-      <div class="search-box">
-
-        <input
-          id="searchInput"
-          placeholder="Search your conversations..."
-          oninput="searchChats()"
-        >
-
-      </div>
-
-      <div
-        class="search-results"
-        id="searchResults"
-      ></div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================
-     GENERIC INFO
-========================= -->
-
-<div
-  class="overlay"
-  id="infoModal"
->
-
-  <div class="modal small">
-
-    <div class="modal-head">
-
-      <h2 id="infoTitle">
-        DeveshAI
-      </h2>
-
-      <button
-        class="close"
-        onclick="closeModal('infoModal')"
-      >
-        ×
-      </button>
-
-    </div>
-
-    <div
-      class="modal-body"
-      id="infoBody"
-    ></div>
-
-  </div>
-
-</div>
-
-
-<div
-  class="toast"
-  id="toast"
-></div>
-
 
 <script>
-/* =========================================================
-   DEVESHAI FRONTEND ENGINE
-========================================================= */
+/* ================= STATE ================= */
 
 const state = {
-
-  chats:
-    JSON.parse(
-      localStorage.getItem("deveshai_chats") || "[]"
-    ),
-
-  currentId:null,
-
-  mode:"Ask",
-
-  model:"default",
-
+  messages: [],
   web:false,
-
-  files:[],
-
+  busy:false,
   controller:null,
-
-  generating:false
-
+  chatId:Date.now()
 };
 
+const input = document.getElementById("input");
+const messagesEl = document.getElementById("messages");
+const welcome = document.getElementById("welcome");
+const statusEl = document.getElementById("status");
+const sendBtn = document.getElementById("sendBtn");
 
-/* =========================
-   HELPERS
-========================= */
+/* ================= START ================= */
 
-const $ = id =>
-  document.getElementById(id);
+loadHistory();
 
+/* ================= INPUT ================= */
 
-function uid(){
-
-  return (
-    Date.now().toString(36) +
-    Math.random().toString(36).slice(2,8)
-  );
-
+function autoResize(el){
+  el.style.height = "auto";
+  el.style.height = Math.min(el.scrollHeight,170) + "px";
 }
 
-
-function saveChats(){
-
-  localStorage.setItem(
-    "deveshai_chats",
-    JSON.stringify(state.chats)
-  );
-
-  renderHistory();
-
-}
-
-
-function currentChat(){
-
-  return state.chats.find(
-    c => c.id === state.currentId
-  );
-
-}
-
-
-function createChat(){
-
-  const chat = {
-
-    id:uid(),
-
-    title:"New Chat",
-
-    created:Date.now(),
-
-    pinned:false,
-
-    archived:false,
-
-    messages:[]
-
-  };
-
-  state.chats.unshift(chat);
-
-  state.currentId = chat.id;
-
-  saveChats();
-
-  return chat;
-
-}
-
-
-/* =========================
-   NEW CHAT
-========================= */
-
-function newChat(){
-
-  if(state.generating){
-    stopGeneration();
+function handleKey(e){
+  if(e.key === "Enter" && !e.shiftKey){
+    e.preventDefault();
+    sendMessage();
   }
-
-  state.files = [];
-
-  renderAttachments();
-
-  const chat = createChat();
-
-  $("chatTitle").textContent =
-    chat.title;
-
-  $("chatInner").innerHTML = `
-
-    <div class="welcome" id="welcome">
-
-      <div class="welcome-logo">D</div>
-
-      <h1>What can I help you with?</h1>
-
-      <p>
-        DeveshAI — chat, think, study, code, create and analyze from one workspace.
-      </p>
-
-      <div class="quick-grid">
-
-        <button
-          class="quick-card"
-          onclick="quickPrompt('Explain this topic to me in very simple language.')"
-        >
-          <b>▣ Explain</b>
-          <span>Learn something step-by-step</span>
-        </button>
-
-        <button
-          class="quick-card"
-          onclick="quickPrompt('Help me solve this problem step by step.')"
-        >
-          <b>⌁ Solve</b>
-          <span>Work through a difficult problem</span>
-        </button>
-
-        <button
-          class="quick-card"
-          onclick="quickPrompt('Help me write clean and professional code.')"
-        >
-          <b>&lt;/&gt; Code</b>
-          <span>Build or debug software</span>
-        </button>
-
-        <button
-          class="quick-card"
-          onclick="quickPrompt('Help me research this topic and organize the important information.')"
-        >
-          <b>⌕ Research</b>
-          <span>Explore a topic</span>
-        </button>
-
-      </div>
-
-    </div>
-
-  `;
-
-  closeAllDropdowns();
-
-  if(window.innerWidth <= 800){
-    $("sidebar").classList.remove("open");
-  }
-
 }
 
+/* ================= MESSAGE ================= */
 
-/* =========================
-   LOAD CHAT
-========================= */
+function addMessage(role,text){
 
-function loadChat(id){
+  welcome.style.display = "none";
 
-  const chat =
-    state.chats.find(
-      c => c.id === id
-    );
+  state.messages.push({
+    role,
+    content:text
+  });
 
-  if(!chat) return;
+  const wrapper = document.createElement("div");
+  wrapper.className = "message " + role;
 
-  state.currentId = id;
+  if(role === "assistant"){
 
-  $("chatTitle").textContent =
-    chat.title;
+    const avatar = document.createElement("div");
+    avatar.className = "aiAvatar";
+    avatar.textContent = "D";
 
-  const inner =
-    $("chatInner");
+    const bubble = document.createElement("div");
+    bubble.className = "messageBubble";
+    bubble.textContent = text;
 
-  inner.innerHTML = "";
-
-  if(chat.messages.length === 0){
-
-    newChatVisualOnly();
+    wrapper.appendChild(avatar);
+    wrapper.appendChild(bubble);
 
   }else{
 
-    chat.messages.forEach(
-      (m,i) =>
-        renderMessage(
-          m.role,
-          m.content,
-          i
-        )
-    );
+    const bubble = document.createElement("div");
+    bubble.className = "messageBubble";
+    bubble.textContent = text;
 
+    wrapper.appendChild(bubble);
   }
 
-  if(window.innerWidth <= 800){
-    $("sidebar").classList.remove("open");
-  }
+  messagesEl.appendChild(wrapper);
 
-}
-
-
-function newChatVisualOnly(){
-
-  $("chatInner").innerHTML = `
-
-    <div class="welcome">
-
-      <div class="welcome-logo">D</div>
-
-      <h1>What can I help you with?</h1>
-
-      <p>
-        Start a new conversation with DeveshAI.
-      </p>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================
-   HISTORY
-========================= */
-
-function renderHistory(){
-
-  const box =
-    $("chatHistory");
-
-  box.innerHTML = "";
-
-  const chats =
-    [...state.chats]
-      .filter(c => !c.archived)
-      .sort(
-        (a,b) =>
-          Number(b.pinned) -
-          Number(a.pinned) ||
-          b.created -
-          a.created
-      )
-      .slice(0,30);
-
-  chats.forEach(chat => {
-
-    const btn =
-      document.createElement("button");
-
-    btn.className =
-      "chat-item";
-
-    btn.innerHTML = `
-
-      <span class="icon">
-        ${chat.pinned ? "📌" : "💬"}
-      </span>
-
-      <span class="chat-title-small">
-        ${escapeHTML(chat.title)}
-      </span>
-
-    `;
-
-    btn.onclick =
-      () => loadChat(chat.id);
-
-    box.appendChild(btn);
-
+  requestAnimationFrame(()=>{
+    document.getElementById("chat").scrollTop =
+      document.getElementById("chat").scrollHeight;
   });
-
 }
 
+/* ================= TYPING ================= */
 
-function escapeHTML(str){
+function showTyping(){
 
-  return String(str)
+  const wrapper = document.createElement("div");
+  wrapper.className = "message ai";
+  wrapper.id = "typingMessage";
 
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
+  const avatar = document.createElement("div");
+  avatar.className = "aiAvatar";
+  avatar.textContent = "D";
 
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
+  const bubble = document.createElement("div");
+  bubble.className = "messageBubble";
 
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
+  const typing = document.createElement("div");
+  typing.className = "typing";
 
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
+  typing.innerHTML = "<i></i><i></i><i></i>";
 
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+  bubble.appendChild(typing);
+  wrapper.appendChild(avatar);
+  wrapper.appendChild(bubble);
 
+  messagesEl.appendChild(wrapper);
+
+  document.getElementById("chat").scrollTop =
+    document.getElementById("chat").scrollHeight;
 }
 
-
-/* =========================
-   MESSAGE RENDER
-========================= */
-
-function renderMessage(
-  role,
-  content,
-  index
-){
-
-  const welcome =
-    $("welcome");
-
-  if(welcome){
-    welcome.remove();
-  }
-
-  const wrap =
-    document.createElement("div");
-
-  wrap.className =
-    `message ${role}`;
-
-  const avatar =
-    role === "user"
-      ? "D"
-      : "AI";
-
-  wrap.innerHTML = `
-
-    <div class="msg-avatar">
-      ${avatar}
-    </div>
-
-    <div class="msg-content">
-
-      <div class="msg-text">
-        ${formatMessage(content)}
-      </div>
-
-      ${
-        role === "assistant"
-
-        ?
-
-        `<div class="msg-actions">
-
-          <button onclick="copyText(this)">
-            Copy
-          </button>
-
-          <button onclick="readText(this)">
-            Read aloud
-          </button>
-
-          <button onclick="regenerateMessage(${index})">
-            Regenerate
-          </button>
-
-          <button onclick="likeMessage(this)">
-            👍
-          </button>
-
-          <button onclick="dislikeMessage(this)">
-            👎
-          </button>
-
-          <button onclick="reportMessage(this)">
-            Report
-          </button>
-
-        </div>`
-
-        :
-
-        `<div class="msg-actions">
-
-          <button onclick="editUserMessage(${index})">
-            Edit
-          </button>
-
-          <button onclick="copyText(this)">
-            Copy
-          </button>
-
-        </div>`
-
-      }
-
-    </div>
-
-  `;
-
-  $("chatInner")
-    .appendChild(wrap);
-
-  $("chat").scrollTop =
-    $("chat").scrollHeight;
-
+function hideTyping(){
+  const el = document.getElementById("typingMessage");
+  if(el) el.remove();
 }
 
-
-/* =========================
-   FORMAT MESSAGE
-========================= */
-
-function formatMessage(text){
-
-  const escaped =
-    escapeHTML(text);
-
-  const parts =
-    escaped.split(/```/);
-
-  if(parts.length === 1){
-    return escaped;
-  }
-
-  let output = "";
-
-  parts.forEach(
-    (part,i) => {
-
-      if(i % 2 === 0){
-
-        output += part;
-
-      }else{
-
-        let code = part;
-
-        const firstNewLine =
-          code.indexOf("\n");
-
-        let language =
-          "code";
-
-        if(firstNewLine > -1){
-
-          const possible =
-            code
-              .slice(
-                0,
-                firstNewLine
-              )
-              .trim();
-
-          if(
-            /^[a-zA-Z0-9+#.-]{1,15}$/
-              .test(possible)
-          ){
-
-            language =
-              possible;
-
-            code =
-              code.slice(
-                firstNewLine + 1
-              );
-
-          }
-
-        }
-
-        output += `
-
-          <div class="code-block">
-
-            <div class="code-head">
-
-              <span>
-                ${escapeHTML(language)}
-              </span>
-
-              <button
-                class="code-copy"
-                onclick="copyCode(this)"
-              >
-                Copy
-              </button>
-
-            </div>
-
-            <pre>${code}</pre>
-
-          </div>
-
-        `;
-
-      }
-
-    }
-  );
-
-  return output;
-
-}
-
-
-/* =========================================================
-   SEND
-========================================================= */
+/* ================= CHAT ================= */
 
 async function sendMessage(){
 
-  if(state.generating){
+  if(state.busy) return;
 
-    stopGeneration();
+  const text = input.value.trim();
 
-    return;
+  if(!text) return;
 
-  }
+  addMessage("user",text);
 
-  const prompt =
-    $("prompt").value.trim();
+  input.value = "";
+  input.style.height = "auto";
 
-  if(
-    !prompt &&
-    state.files.length === 0
-  ){
-    return;
-  }
-
-  if(!state.currentId){
-    createChat();
-  }
-
-  const chat =
-    currentChat();
-
-  /*
-    Save file references before clearing
-    the attachment UI.
-  */
-
-  const filesToAnalyze =
-    [...state.files];
-
-  const supportedFiles =
-    filesToAnalyze.filter(
-      item =>
-        isSupportedAnalysisFile(
-          item.file
-        )
-    );
-
-  const unsupportedFiles =
-    filesToAnalyze.filter(
-      item =>
-        !isSupportedAnalysisFile(
-          item.file
-        )
-    );
-
-
-  let finalPrompt =
-    prompt;
-
-
-  if(filesToAnalyze.length){
-
-    finalPrompt +=
-      (
-        finalPrompt
-          ? "\n\n"
-          : ""
-      ) +
-      "Attached files:\n" +
-      filesToAnalyze
-        .map(
-          f => "- " + f.name
-        )
-        .join("\n");
-
-  }
-
-
-  if(state.mode !== "Ask"){
-
-    finalPrompt =
-      `[Mode: ${state.mode}]\n\n` +
-      finalPrompt;
-
-  }
-
-
-  if(state.web){
-
-    finalPrompt =
-      `[Web/Search requested]\n\n` +
-      finalPrompt;
-
-  }
-
-
-  const userMessage = {
-
-    role:"user",
-
-    content:
-      finalPrompt ||
-      "Analyze the attached files."
-
-  };
-
-
-  chat.messages.push(
-    userMessage
-  );
-
-
-  if(chat.messages.length === 1){
-
-    chat.title =
-      prompt.slice(0,45) ||
-      (
-        filesToAnalyze[0]
-          ? filesToAnalyze[0].name
-          : "New Chat"
-      );
-
-    $("chatTitle").textContent =
-      chat.title;
-
-  }
-
-
-  saveChats();
-
-
-  $("prompt").value = "";
-
-  autoResize(
-    $("prompt")
-  );
-
-
-  state.files = [];
-
-  renderAttachments();
-
-
-  renderMessage(
-    "user",
-    userMessage.content,
-    chat.messages.length - 1
-  );
-
-
-  setGenerating(true);
-
-
-  addTyping();
-
+  setBusy(true);
+  showTyping();
 
   try{
 
-    /*
-      Create a fresh controller BEFORE
-      any backend request.
-
-      This makes Stop work for both
-      normal AI chat and file analysis.
-    */
-
-    state.controller =
-      new AbortController();
-
-
-    /*
-      FILE ANALYSIS
-    */
-
-    if(filesToAnalyze.length){
-
-      if(supportedFiles.length === 0){
-
-        removeTyping();
-
-        const msg =
-          "The selected file type is not supported by the current file-analysis backend.\n\n" +
-          "Currently supported: PDF, DOCX, TXT, CSV, XLSX and XLS.";
-
-        chat.messages.push({
-          role:"assistant",
-          content:msg
-        });
-
-        saveChats();
-
-        renderMessage(
-          "assistant",
-          msg,
-          chat.messages.length - 1
-        );
-
-        return;
-
-      }
-
-
-      for(
-        const fileItem
-        of supportedFiles
-      ){
-
-        const formData =
-          new FormData();
-
-        formData.append(
-          "file",
-          fileItem.file
-        );
-
-        formData.append(
-          "question",
-          prompt ||
-          "Analyze this file and give me a clear summary of the important information."
-        );
-
-        formData.append(
-          "mode",
-          state.mode
-        );
-
-
-        /*
-          Replace typing message with
-          a file-specific status.
-        */
-
-        updateTyping(
-          `Analyzing ${fileItem.name}...`
-        );
-
-
-        const response =
-          await fetch(
-            "/api/files/analyze",
-            {
-              method:"POST",
-
-              body:formData,
-
-              signal:
-                state.controller.signal
-            }
-          );
-
-
-        const data =
-          await response.json();
-
-
-        if(!response.ok){
-
-          throw new Error(
-            data.error ||
-            `File analysis failed for ${fileItem.name}`
-          );
-
-        }
-
-
-        const reply =
-          data.reply ||
-          "The file was analyzed successfully, but no response was returned.";
-
-
-        chat.messages.push({
-
-          role:"assistant",
-
-          content:
-            `File: ${fileItem.name}\n\n${reply}`
-
-        });
-
-
-        saveChats();
-
-        removeTyping();
-
-        renderMessage(
-          "assistant",
-          `File: ${fileItem.name}\n\n${reply}`,
-          chat.messages.length - 1
-        );
-
-
-        /*
-          Add typing again if another file
-          is still waiting.
-        */
-
-        if(
-          supportedFiles.indexOf(fileItem) <
-          supportedFiles.length - 1
-        ){
-
-          addTyping();
-
-        }
-
-      }
-
-
-      /*
-        Tell the user if they selected
-        unsupported files together with
-        supported files.
-      */
-
-      if(unsupportedFiles.length){
-
-        const unsupportedNames =
-          unsupportedFiles
-            .map(
-              f => f.name
-            )
-            .join(", ");
-
-        const warning =
-          "These files were not analyzed because their current backend support is not enabled: " +
-          unsupportedNames;
-
-        chat.messages.push({
-          role:"assistant",
-          content:warning
-        });
-
-        saveChats();
-
-        renderMessage(
-          "assistant",
-          warning,
-          chat.messages.length - 1
-        );
-
-      }
-
-
-      return;
-
-    }
-
-
-    /*
-      NORMAL AI CHAT
-    */
-
-    updateTyping(
-      "Thinking..."
-    );
-
-
-    const response =
-      await fetch(
-        "/api/chat",
-        {
-          method:"POST",
-
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
-
-          signal:
-            state.controller.signal,
-
-          body:
-            JSON.stringify({
-
-              messages:
-                chat.messages.slice(-30),
-
-              mode:
-                state.mode,
-
-              model:
-                state.model
-
-            })
-
-        }
-      );
-
-
-    const data =
-      await response.json();
-
+    state.controller = new AbortController();
+
+    const response = await fetch("/api/chat",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        message:text,
+        messages:state.messages.slice(-20),
+        web:state.web
+      }),
+      signal:state.controller.signal
+    });
+
+    const data = await response.json();
+
+    hideTyping();
 
     if(!response.ok){
-
-      throw new Error(
-        data.error ||
-        "Server error"
-      );
-
+      throw new Error(data.error || "Request failed");
     }
-
-
-    removeTyping();
-
 
     const reply =
       data.reply ||
-      "Sorry, I couldn't generate a response.";
+      data.output ||
+      data.message ||
+      "I couldn't generate a response.";
 
+    addMessage("assistant",reply);
 
-    chat.messages.push({
-
-      role:"assistant",
-
-      content:reply
-
-    });
-
-
-    saveChats();
-
-
-    renderMessage(
-      "assistant",
-      reply,
-      chat.messages.length - 1
-    );
-
+    saveHistory(text);
 
   }catch(error){
 
-    removeTyping();
+    hideTyping();
 
-
-    if(
-      error &&
-      error.name === "AbortError"
-    ){
-
-      /*
-        Do not create another fake
-        AI answer when user presses Stop.
-      */
-
-      const stoppedMessage =
-        "Generation stopped.";
-
-      chat.messages.push({
-
-        role:"assistant",
-
-        content:
-          stoppedMessage
-
-      });
-
-      saveChats();
-
-      renderMessage(
-        "assistant",
-        stoppedMessage,
-        chat.messages.length - 1
-      );
-
+    if(error.name === "AbortError"){
+      addMessage("assistant","Generation stopped.");
     }else{
-
-      const msg =
-        "I couldn't connect to the AI server.\n\n" +
-        (
-          error?.message ||
-          "Unknown error"
-        );
-
-
-      chat.messages.push({
-
-        role:"assistant",
-
-        content:msg
-
-      });
-
-
-      saveChats();
-
-
-      renderMessage(
+      addMessage(
         "assistant",
-        msg,
-        chat.messages.length - 1
+        "Something went wrong. Please try again."
       );
-
+      console.error(error);
     }
 
   }finally{
 
-    state.controller =
-      null;
-
-    setGenerating(false);
+    state.controller = null;
+    setBusy(false);
 
   }
-
 }
 
-
-/* =========================
-   TYPING UI
-========================= */
-
-function addTyping(){
-
-  removeTyping();
-
-  const typing =
-    document.createElement("div");
-
-  typing.className =
-    "message assistant";
-
-  typing.id =
-    "typing";
-
-  typing.innerHTML = `
-
-    <div class="msg-avatar">
-      AI
-    </div>
-
-    <div class="msg-content">
-
-      <div class="typing">
-
-        <i></i>
-        <i></i>
-        <i></i>
-
-      </div>
-
-    </div>
-
-  `;
-
-  $("chatInner")
-    .appendChild(typing);
-
-  $("chat").scrollTop =
-    $("chat").scrollHeight;
-
-}
-
-
-function updateTyping(text){
-
-  const typing =
-    $("typing");
-
-  if(!typing){
-
-    addTyping();
-
-  }
-
-  const current =
-    $("typing");
-
-  if(current){
-
-    const content =
-      current.querySelector(
-        ".msg-content"
-      );
-
-    if(content){
-
-      content.innerHTML = `
-
-        <div
-          style="
-            color:#777;
-            font-size:11px;
-            padding:8px 0;
-          "
-        >
-          ${escapeHTML(text)}
-        </div>
-
-      `;
-
-    }
-
-  }
-
-}
-
-
-function removeTyping(){
-
-  $("typing")?.remove();
-
-}
-
-
-/* =========================
-   GENERATING STATE
-========================= */
-
-function setGenerating(value){
-
-  state.generating =
-    value;
-
-  const btn =
-    $("sendBtn");
-
-  if(value){
-
-    btn.classList.add("stop");
-
-    btn.textContent =
-      "■";
-
-  }else{
-
-    btn.classList.remove("stop");
-
-    btn.textContent =
-      "↑";
-
-  }
-
-}
-
+/* ================= STOP ================= */
 
 function stopGeneration(){
 
   if(state.controller){
-
     state.controller.abort();
+    state.controller = null;
+  }
+
+  hideTyping();
+  setBusy(false);
+}
+
+/* ================= BUSY ================= */
+
+function setBusy(value){
+
+  state.busy = value;
+
+  if(value){
+
+    sendBtn.textContent = "■";
+    sendBtn.onclick = stopGeneration;
+    statusEl.textContent = "Thinking...";
 
   }else{
 
-    setGenerating(false);
-
+    sendBtn.textContent = "↑";
+    sendBtn.onclick = sendMessage;
+    statusEl.textContent = "Ready";
   }
-
 }
 
-
-/* =========================================================
-   FILE ANALYSIS
-========================================================= */
-
-function isSupportedAnalysisFile(file){
-
-  if(!file){
-    return false;
-  }
-
-  const name =
-    file.name.toLowerCase();
-
-  const supported =
-    [
-      ".txt",
-      ".csv",
-      ".pdf",
-      ".docx",
-      ".xlsx",
-      ".xls"
-    ];
-
-  return supported.some(
-    extension =>
-      name.endsWith(extension)
-  );
-
-}
-
-
-/* =========================================================
-   PROMPT
-========================================================= */
-
-function handlePromptKey(e){
-
-  const enterSend =
-    localStorage.getItem(
-      "deveshai_enterSend"
-    ) !== "false";
-
-
-  if(
-    e.key === "Enter" &&
-    !e.shiftKey &&
-    enterSend
-  ){
-
-    e.preventDefault();
-
-    sendMessage();
-
-  }
-
-}
-
-
-function autoResize(el){
-
-  el.style.height =
-    "auto";
-
-  el.style.height =
-    Math.min(
-      el.scrollHeight,
-      190
-    ) + "px";
-
-}
-
+/* ================= QUICK ================= */
 
 function quickPrompt(text){
 
-  $("prompt").value =
-    text;
-
-  autoResize(
-    $("prompt")
-  );
-
-  $("prompt").focus();
-
+  input.value = text;
+  autoResize(input);
+  input.focus();
 }
 
+/* ================= NEW CHAT ================= */
 
-function useTool(text){
+function newChat(){
 
-  closeModal(
-    "toolsModal"
-  );
+  if(state.busy) stopGeneration();
 
-  $("prompt").value =
-    text;
+  state.messages = [];
+  messagesEl.innerHTML = "";
 
-  autoResize(
-    $("prompt")
-  );
+  welcome.style.display = "flex";
 
-  $("prompt").focus();
-
-}
-
-
-function setMode(btn){
-
-  document
-    .querySelectorAll(".mode")
-    .forEach(
-      x =>
-        x.classList.remove(
-          "active"
-        )
-    );
-
-  btn.classList.add(
-    "active"
-  );
-
-  state.mode =
-    btn.dataset.mode;
-
-  toast(
-    state.mode +
-    " mode selected"
-  );
-
-}
-
-
-/* =========================================================
-   ATTACHMENTS
-========================================================= */
-
-function openAttachMenu(){
-
-  openModal(
-    "attachModal"
-  );
-
-}
-
-
-function pickFiles(accept){
-
-  const input =
-    $("fileInput");
-
-  input.accept =
-    accept;
-
-  /*
-    Reset value so selecting the
-    same file again still triggers
-    onchange.
-  */
+  document.getElementById("chatTitle").textContent = "New Chat";
 
   input.value = "";
+  input.style.height = "auto";
 
-  input.click();
-
-  closeModal(
-    "attachModal"
-  );
-
+  state.chatId = Date.now();
 }
 
-
-function startCamera(){
-
-  closeModal(
-    "attachModal"
-  );
-
-  $("cameraInput").value =
-    "";
-
-  $("cameraInput").click();
-
-}
-
-
-function handleFiles(files){
-
-  const incoming =
-    Array.from(files || []);
-
-
-  /*
-    Keep the actual File object.
-
-    This is important because the
-    backend needs the file bytes,
-    not just its filename.
-  */
-
-  incoming.forEach(file => {
-
-    const exists =
-      state.files.some(
-        existing =>
-          existing.name === file.name &&
-          existing.size === file.size &&
-          existing.file?.lastModified ===
-            file.lastModified
-      );
-
-    if(!exists){
-
-      state.files.push({
-
-        name:file.name,
-
-        type:file.type,
-
-        size:file.size,
-
-        file:file
-
-      });
-
-    }
-
-  });
-
-
-  renderAttachments();
-
-
-  if(incoming.length){
-
-    toast(
-      incoming.length +
-      " file(s) attached"
-    );
-
-  }
-
-}
-
-
-function renderAttachments(){
-
-  const list =
-    $("attachList");
-
-  list.innerHTML =
-    "";
-
-
-  state.files.forEach(
-    (file,index) => {
-
-      const chip =
-        document.createElement(
-          "div"
-        );
-
-      chip.className =
-        "file-chip";
-
-      chip.innerHTML = `
-
-        <span>
-          📎 ${escapeHTML(file.name)}
-        </span>
-
-        <button
-          onclick="removeFile(${index})"
-          title="Remove"
-        >
-          ×
-        </button>
-
-      `;
-
-      list.appendChild(
-        chip
-      );
-
-    }
-  );
-
-}
-
-
-function removeFile(index){
-
-  state.files.splice(
-    index,
-    1
-  );
-
-  renderAttachments();
-
-}
-
-
-/* =========================================================
-   WEB
-========================================================= */
+/* ================= WEB ================= */
 
 function toggleWeb(){
 
-  state.web =
-    !state.web;
+  state.web = !state.web;
 
-  $("webBtn")
-    .classList.toggle(
-      "active",
-      state.web
-    );
-
-  toast(
-    state.web
-      ? "Web mode enabled"
-      : "Web mode disabled"
-  );
+  statusEl.textContent =
+    state.web ? "Web enabled" : "Ready";
 
 }
 
-
-/* =========================================================
-   CHAT ACTIONS
-========================================================= */
-
-function renameCurrentChat(){
-
-  closeAllDropdowns();
-
-  const chat =
-    currentChat();
-
-  if(!chat){
-
-    toast(
-      "No chat selected"
-    );
-
-    return;
-
-  }
-
-
-  const name =
-    prompt(
-      "New chat name:",
-      chat.title
-    );
-
-
-  if(
-    name &&
-    name.trim()
-  ){
-
-    chat.title =
-      name.trim();
-
-    $("chatTitle").textContent =
-      chat.title;
-
-    saveChats();
-
-  }
-
-}
-
-
-function deleteCurrentChat(){
-
-  const chat =
-    currentChat();
-
-  if(!chat){
-    return;
-  }
-
-
-  if(
-    !confirm(
-      "Delete this chat?"
-    )
-  ){
-
-    return;
-
-  }
-
-
-  state.chats =
-    state.chats.filter(
-      c =>
-        c.id !== chat.id
-    );
-
-
-  state.currentId =
-    null;
-
-
-  saveChats();
-
-  newChat();
-
-  toast(
-    "Chat deleted"
-  );
-
-}
-
-
-function archiveCurrentChat(){
-
-  const chat =
-    currentChat();
-
-  if(!chat){
-    return;
-  }
-
-
-  chat.archived =
-    true;
-
-  saveChats();
-
-  newChat();
-
-  toast(
-    "Chat archived"
-  );
-
-}
-
-
-function pinCurrentChat(){
-
-  const chat =
-    currentChat();
-
-  if(!chat){
-    return;
-  }
-
-
-  chat.pinned =
-    !chat.pinned;
-
-  saveChats();
-
-
-  toast(
-    chat.pinned
-      ? "Chat pinned"
-      : "Chat unpinned"
-  );
-
-}
-
-
-function exportChat(){
-
-  const chat =
-    currentChat();
-
-  if(!chat){
-    return;
-  }
-
-
-  const text =
-    `DeveshAI - ${chat.title}\n\n` +
-    chat.messages
-      .map(
-        m =>
-          `${m.role.toUpperCase()}:\n${m.content}`
-      )
-      .join("\n\n");
-
-
-  downloadFile(
-    `${safeFilename(chat.title)}.txt`,
-    text,
-    "text/plain"
-  );
-
-}
-
-
-function shareChat(){
-
-  const chat =
-    currentChat();
-
-  if(!chat){
-    return;
-  }
-
-
-  const text =
-    chat.messages
-      .map(
-        m =>
-          `${m.role}: ${m.content}`
-      )
-      .join("\n\n");
-
-
-  if(navigator.share){
-
-    navigator.share({
-
-      title:
-        chat.title,
-
-      text:
-        text
-
-    }).catch(
-      () => {}
-    );
-
-  }else{
-
-    if(
-      navigator.clipboard
-    ){
-
-      navigator.clipboard
-        .writeText(text)
-        .then(
-          () =>
-            toast(
-              "Conversation copied for sharing"
-            )
-        );
-
-    }else{
-
-      toast(
-        "Sharing is not supported"
-      );
-
-    }
-
-  }
-
-}
-
-
-function editUserMessage(index){
-
-  const chat =
-    currentChat();
-
-  if(!chat){
-    return;
-  }
-
-
-  const message =
-    chat.messages[index];
-
-
-  if(
-    !message ||
-    message.role !== "user"
-  ){
-
-    return;
-
-  }
-
-
-  const edited =
-    prompt(
-      "Edit your message:",
-      message.content
-    );
-
-
-  if(edited === null){
-    return;
-  }
-
-
-  message.content =
-    edited.trim();
-
-
-  chat.messages =
-    chat.messages.slice(
-      0,
-      index + 1
-    );
-
-
-  saveChats();
-
-  loadChat(
-    chat.id
-  );
-
-
-  toast(
-    "Message edited"
-  );
-
-
-  setTimeout(
-    () => {
-
-      /*
-        Send the edited message
-        directly instead of putting
-        another copy into the prompt.
-      */
-
-      $("prompt").value =
-        message.content;
-
-      sendMessage();
-
-    },
-    100
-  );
-
-}
-
-
-async function regenerateMessage(index){
-
-  const chat =
-    currentChat();
-
-  if(!chat){
-    return;
-  }
-
-
-  if(index < 1){
-    return;
-  }
-
-
-  if(
-    chat.messages[index].role !==
-    "assistant"
-  ){
-
-    return;
-
-  }
-
-
-  const lastUser =
-    [...chat.messages]
-      .slice(0,index)
-      .reverse()
-      .find(
-        m =>
-          m.role === "user"
-      );
-
-
-  if(!lastUser){
-    return;
-  }
-
-
-  /*
-    Remove the selected assistant
-    response and everything after it.
-  */
-
-  chat.messages =
-    chat.messages.slice(
-      0,
-      index
-    );
-
-
-  saveChats();
-
-  loadChat(
-    chat.id
-  );
-
-
-  /*
-    Restore the user text into the
-    composer and send a new request.
-  */
-
-  $("prompt").value =
-    lastUser.content;
-
-
-  autoResize(
-    $("prompt")
-  );
-
-
-  /*
-    Remove the old user message
-    temporarily because sendMessage()
-    will create the request again.
-  */
-
-  chat.messages.pop();
-
-  saveChats();
-
-  sendMessage();
-
-}
-
-
-function likeMessage(btn){
-
-  btn.textContent =
-    "✓ Liked";
-
-  toast(
-    "Feedback saved"
-  );
-
-}
-
-
-function dislikeMessage(btn){
-
-  btn.textContent =
-    "✓";
-
-  toast(
-    "Feedback saved"
-  );
-
-}
-
-
-function reportMessage(){
-
-  toast(
-    "Report option selected"
-  );
-
-}
-
-
-function copyText(btn){
-
-  const text =
-    btn
-      .closest(".msg-content")
-      .querySelector(".msg-text")
-      .innerText;
-
-
-  if(
-    navigator.clipboard
-  ){
-
-    navigator.clipboard
-      .writeText(text)
-      .then(
-        () =>
-          toast("Copied")
-      );
-
-  }
-
-}
-
-
-function copyCode(btn){
-
-  const code =
-    btn
-      .closest(".code-block")
-      .querySelector("pre")
-      .innerText;
-
-
-  if(
-    navigator.clipboard
-  ){
-
-    navigator.clipboard
-      .writeText(code)
-      .then(
-        () =>
-          toast("Code copied")
-      );
-
-  }
-
-}
-
-
-function readText(btn){
-
-  const text =
-    btn
-      .closest(".msg-content")
-      .querySelector(".msg-text")
-      .innerText;
-
-
-  if(
-    !("speechSynthesis" in window)
-  ){
-
-    toast(
-      "Speech is not supported in this browser"
-    );
-
-    return;
-
-  }
-
-
-  speechSynthesis.cancel();
-
-
-  const utterance =
-    new SpeechSynthesisUtterance(
-      text
-    );
-
-
-  const selected =
-    $("voiceSelect").value;
-
-
-  const voices =
-    speechSynthesis.getVoices();
-
-
-  const voice =
-    voices.find(
-      v =>
-        v.name === selected
-    );
-
-
-  if(voice){
-
-    utterance.voice =
-      voice;
-
-  }
-
-
-  speechSynthesis.speak(
-    utterance
-  );
-
-}
-
-
-/* =========================================================
-   VOICE INPUT
-========================================================= */
+/* ================= VOICE ================= */
 
 function startVoice(){
 
-  const Recognition =
+  const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
 
+  if(!SpeechRecognition){
 
-  if(!Recognition){
-
-    toast(
-      "Voice input is not supported in this browser"
-    );
-
+    alert("Voice input is not supported in this browser.");
     return;
-
   }
 
+  const recognition = new SpeechRecognition();
 
-  const recognition =
-    new Recognition();
+  recognition.lang = "en-IN";
+  recognition.interimResults = true;
 
-
-  recognition.lang =
-    "en-IN";
-
-  recognition.interimResults =
-    true;
-
-
-  recognition.onstart =
-    () =>
-      toast(
-        "Listening..."
-      );
-
-
-  recognition.onresult =
-    event => {
-
-      let text = "";
-
-      for(
-        let i = 0;
-        i < event.results.length;
-        i++
-      ){
-
-        text +=
-          event.results[i][0]
-            .transcript;
-
-      }
-
-
-      $("prompt").value =
-        text;
-
-
-      autoResize(
-        $("prompt")
-      );
-
-    };
-
-
-  recognition.onerror =
-    () =>
-      toast(
-        "Voice input stopped"
-      );
-
-
-  recognition.onend =
-    () =>
-      toast(
-        "Voice input finished"
-      );
-
-
-  recognition.start();
-
-}
-
-
-/* =========================================================
-   IMAGE
-========================================================= */
-
-function openImageCreator(){
-
-  closeModal(
-    "toolsModal"
-  );
-
-  openModal(
-    "imageModal"
-  );
-
-}
-
-
-async function requestImage(){
-
-  const promptText =
-    $("imagePrompt")
-      .value
-      .trim();
-
-
-  if(!promptText){
-
-    toast(
-      "Describe the image first"
-    );
-
-    return;
-
-  }
-
-
-  $("imageResult")
-    .textContent =
-      "Connecting to image generation...";
-
-
-  try{
-
-    const response =
-      await fetch(
-        "/api/image",
-        {
-          method:"POST",
-
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
-
-          body:
-            JSON.stringify({
-              prompt:
-                promptText
-            })
-
-        }
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if(!response.ok){
-
-      throw new Error(
-        data.error ||
-        "Image API error"
-      );
-
-    }
-
-
-    if(data.url){
-
-      $("imageResult")
-        .innerHTML = `
-
-          <img
-            src="${escapeHTML(data.url)}"
-            style="
-              width:100%;
-              border-radius:10px;
-              margin-top:8px
-            "
-          >
-
-        `;
-
-    }else{
-
-      $("imageResult")
-        .textContent =
-          "Image response received.";
-
-    }
-
-
-  }catch(error){
-
-    $("imageResult")
-      .textContent =
-        "Image generation is not connected yet: " +
-        (
-          error.message ||
-          "Unknown error"
-        );
-
-  }
-
-}
-
-
-/* =========================================================
-   SETTINGS
-========================================================= */
-
-function openSettings(page="general"){
-
-  closeAllDropdowns();
-
-  openModal(
-    "settingsModal"
-  );
-
-
-  const button =
-    [
-      ...document.querySelectorAll(
-        ".settings-nav button"
-      )
-    ]
-    .find(
-      b =>
-        b.textContent
-          .toLowerCase()
-          .replaceAll(" ","")
-          .includes(page)
-    );
-
-
-  if(button){
-
-    settingsPage(
-      button,
-      page
-    );
-
-  }
-
-}
-
-
-function settingsPage(
-  button,
-  page
-){
-
-  document
-    .querySelectorAll(
-      ".settings-nav button"
-    )
-    .forEach(
-      b =>
-        b.classList.remove(
-          "active"
-        )
-    );
-
-
-  button.classList.add(
-    "active"
-  );
-
-
-  document
-    .querySelectorAll(
-      ".settings-page"
-    )
-    .forEach(
-      p =>
-        p.classList.remove(
-          "active"
-        )
-    );
-
-
-  const pageEl =
-    $("settings-" + page);
-
-
-  if(pageEl){
-
-    pageEl.classList.add(
-      "active"
-    );
-
-  }
-
-}
-
-
-function toggleSetting(el){
-
-  el.classList.toggle(
-    "on"
-  );
-
-
-  const key =
-    el.dataset.setting;
-
-
-  localStorage.setItem(
-    "deveshai_" + key,
-    el.classList.contains("on")
-  );
-
-
-  if(key === "enterSend"){
-
-    localStorage.setItem(
-      "deveshai_enterSend",
-      el.classList.contains("on")
-    );
-
-  }
-
-}
-
-
-function saveSetting(
-  key,
-  value
-){
-
-  localStorage.setItem(
-    "deveshai_" + key,
-    value
-  );
-
-
-  toast(
-    "Setting saved"
-  );
-
-}
-
-
-function setTheme(theme){
-
-  if(theme === "black"){
-
-    document.documentElement
-      .style
-      .setProperty(
-        "--bg",
-        "#000"
-      );
-
-    document.documentElement
-      .style
-      .setProperty(
-        "--panel",
-        "#050505"
-      );
-
-  }else{
-
-    document.documentElement
-      .style
-      .setProperty(
-        "--bg",
-        "#050505"
-      );
-
-    document.documentElement
-      .style
-      .setProperty(
-        "--panel",
-        "#0b0b0b"
-      );
-
-  }
-
-
-  localStorage.setItem(
-    "deveshai_theme",
-    theme
-  );
-
-}
-
-
-function saveInstructions(){
-
-  localStorage.setItem(
-    "deveshai_instructions",
-    $("customInstruction").value
-  );
-
-
-  toast(
-    "Personalization saved"
-  );
-
-}
-
-
-function clearMemory(){
-
-  localStorage.removeItem(
-    "deveshai_instructions"
-  );
-
-
-  $("customInstruction").value =
-    "";
-
-
-  toast(
-    "Local memory cleared"
-  );
-
-}
-
-
-function clearAllChats(){
-
-  if(
-    !confirm(
-      "Delete all locally stored chats?"
-    )
-  ){
-
-    return;
-
-  }
-
-
-  state.chats = [];
-
-  state.currentId =
-    null;
-
-  saveChats();
-
-  newChat();
-
-  toast(
-    "All local chats deleted"
-  );
-
-}
-
-
-function exportAllData(){
-
-  const data = {
-
-    chats:
-      state.chats,
-
-    settings:
-      Object.fromEntries(
-        Object.entries(
-          localStorage
-        )
-      )
-
+  recognition.onstart = ()=>{
+    statusEl.textContent = "Listening...";
   };
 
+  recognition.onresult = event=>{
 
-  downloadFile(
-    "deveshai-data.json",
-    JSON.stringify(
-      data,
-      null,
-      2
-    ),
-    "application/json"
-  );
+    let result = "";
 
-}
-
-
-function requestNotifications(el){
-
-  if(
-    !("Notification" in window)
-  ){
-
-    toast(
-      "Notifications are not supported"
-    );
-
-    return;
-
-  }
-
-
-  Notification.requestPermission()
-    .then(
-      permission => {
-
-        if(
-          permission === "granted"
-        ){
-
-          el.classList.add(
-            "on"
-          );
-
-          toast(
-            "Notifications enabled"
-          );
-
-        }else{
-
-          toast(
-            "Notification permission denied"
-          );
-
-        }
-
-      }
-    );
-
-}
-
-
-/* =========================================================
-   VOICE SETTINGS
-========================================================= */
-
-function loadVoices(){
-
-  const select =
-    $("voiceSelect");
-
-
-  if(!select){
-    return;
-  }
-
-
-  select.innerHTML =
-    "";
-
-
-  if(
-    !("speechSynthesis" in window)
-  ){
-    return;
-  }
-
-
-  const voices =
-    speechSynthesis
-      .getVoices();
-
-
-  voices.forEach(
-    voice => {
-
-      const option =
-        document.createElement(
-          "option"
-        );
-
-
-      option.value =
-        voice.name;
-
-
-      option.textContent =
-        `${voice.name} (${voice.lang})`;
-
-
-      select.appendChild(
-        option
-      );
-
+    for(let i=0;i<event.results.length;i++){
+      result += event.results[i][0].transcript;
     }
-  );
 
+    input.value = result;
+    autoResize(input);
+  };
+
+  recognition.onend = ()=>{
+    statusEl.textContent = "Ready";
+  };
+
+  recognition.onerror = ()=>{
+    statusEl.textContent = "Voice error";
+  };
+
+  recognition.start();
 }
 
+/* ================= TEXT TO SPEECH ================= */
 
-function testVoice(){
+function speak(text){
 
-  if(
-    !("speechSynthesis" in window)
-  ){
-
-    toast(
-      "Speech is not supported"
-    );
-
-    return;
-
-  }
-
+  if(!("speechSynthesis" in window)) return;
 
   speechSynthesis.cancel();
 
+  const utterance =
+    new SpeechSynthesisUtterance(text);
 
-  const u =
-    new SpeechSynthesisUtterance(
-      "Hello, this is DeveshAI."
+  utterance.rate = .95;
+  utterance.pitch = 1;
+
+  speechSynthesis.speak(utterance);
+}
+
+/* ================= FILE ================= */
+
+document.getElementById("fileInput")
+.addEventListener("change",async function(){
+
+  const files = [...this.files];
+
+  if(!files.length) return;
+
+  for(const file of files){
+
+    addMessage(
+      "user",
+      "Analyze this file: " + file.name
     );
 
+    setBusy(true);
+    showTyping();
 
-  const selected =
-    $("voiceSelect").value;
+    try{
 
+      state.controller = new AbortController();
 
-  const voice =
-    speechSynthesis
-      .getVoices()
-      .find(
-        v =>
-          v.name === selected
+      const formData = new FormData();
+
+      formData.append("file",file);
+
+      formData.append(
+        "question",
+        "Analyze this file and explain the important information clearly."
       );
 
-
-  if(voice){
-
-    u.voice =
-      voice;
-
-  }
-
-
-  speechSynthesis.speak(
-    u
-  );
-
-}
-
-
-if(
-  "speechSynthesis" in window
-){
-
-  speechSynthesis.onvoiceschanged =
-    loadVoices;
-
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-function openSearch(){
-
-  openModal(
-    "searchModal"
-  );
-
-
-  $("searchInput").value =
-    "";
-
-
-  searchChats();
-
-
-  setTimeout(
-    () =>
-      $("searchInput")
-        .focus(),
-    100
-  );
-
-}
-
-
-function searchChats(){
-
-  const q =
-    $("searchInput")
-      .value
-      .toLowerCase()
-      .trim();
-
-
-  const results =
-    $("searchResults");
-
-
-  results.innerHTML =
-    "";
-
-
-  const matches =
-    [];
-
-
-  state.chats.forEach(
-    chat => {
-
-      const titleMatch =
-        chat.title
-          .toLowerCase()
-          .includes(q);
-
-
-      const messageMatch =
-        chat.messages.some(
-          m =>
-            m.content
-              .toLowerCase()
-              .includes(q)
-        );
-
-
-      if(
-        !q ||
-        titleMatch ||
-        messageMatch
-      ){
-
-        matches.push(
-          chat
-        );
-
-      }
-
-    }
-  );
-
-
-  matches
-    .slice(0,50)
-    .forEach(
-      chat => {
-
-        const item =
-          document.createElement(
-            "div"
-          );
-
-
-        item.className =
-          "search-result";
-
-
-        item.innerHTML = `
-
-          <b>
-            ${escapeHTML(chat.title)}
-          </b>
-
-          <span>
-            ${chat.messages.length}
-            messages
-          </span>
-
-        `;
-
-
-        item.onclick =
-          () => {
-
-            closeModal(
-              "searchModal"
-            );
-
-            loadChat(
-              chat.id
-            );
-
-          };
-
-
-        results.appendChild(
-          item
-        );
-
-      }
-    );
-
-
-  if(!matches.length){
-
-    results.innerHTML =
-      `
-        <div
-          style="
-            color:#666;
-            padding:15px;
-            font-size:11px
-          "
-        >
-          No chats found.
-        </div>
-      `;
-
-  }
-
-}
-
-
-/* =========================================================
-   PROJECTS / MEMORY / CUSTOM AI / APPS
-========================================================= */
-
-function showProjects(){
-
-  openInfo(
-
-    "Projects",
-
-    `
-
-      <p
-        style="
-          color:#777;
-          line-height:1.7
-        "
-      >
-        Projects workspace is ready for backend integration.
-      </p>
-
-      <button
-        class="drop-item"
-        style="
-          border:1px solid #292929;
-          margin-top:15px
-        "
-        onclick="
-          toast(
-            'Project creation will be connected in server.js.'
-          )
-        "
-      >
-        ＋ Create Project
-      </button>
-
-    `
-
-  );
-
-}
-
-
-function showMemory(){
-
-  openInfo(
-
-    "Memory",
-
-    `
-
-      <p
-        style="
-          color:#777;
-          line-height:1.7
-        "
-      >
-        DeveshAI can store local preferences in this browser.
-      </p>
-
-      <button
-        class="drop-item"
-        style="
-          border:1px solid #292929;
-          margin-top:15px
-        "
-        onclick="
-          openSettings('memory');
-          closeModal('infoModal')
-        "
-      >
-        Open Memory Settings
-      </button>
-
-    `
-
-  );
-
-}
-
-
-function showCustomAI(){
-
-  openInfo(
-
-    "Custom AI",
-
-    `
-
-      <p
-        style="
-          color:#777;
-          line-height:1.7
-        "
-      >
-        Create specialized AI personalities and instructions.
-        Backend persistence will be connected later.
-      </p>
-
-      <button
-        class="drop-item"
-        style="
-          border:1px solid #292929;
-          margin-top:15px
-        "
-        onclick="
-          openSettings('personalization');
-          closeModal('infoModal')
-        "
-      >
-        Configure AI Instructions
-      </button>
-
-    `
-
-  );
-
-}
-
-
-function showApps(){
-
-  openInfo(
-
-    "Apps",
-
-    `
-
-      <p
-        style="
-          color:#777;
-          line-height:1.7
-        "
-      >
-        Connect external services through secure backend integrations.
-      </p>
-
-      <button
-        class="drop-item"
-        style="
-          border:1px solid #292929;
-          margin-top:15px
-        "
-        onclick="
-          openSettings('apps');
-          closeModal('infoModal')
-        "
-      >
-        Connected Apps
-      </button>
-
-    `
-
-  );
-
-}
-
-
-/* =========================================================
-   MODEL
-========================================================= */
-
-function changeModel(){
-
-  state.model =
-    $("modelSelect")
-      .value;
-
-
-  toast(
-    "Model mode changed"
-  );
-
-}
-
-
-/* =========================================================
-   DROPDOWN
-========================================================= */
-
-function openMore(){
-
-  $("moreDropdown")
-    .classList.toggle(
-      "show"
-    );
-
-}
-
-
-function closeAllDropdowns(){
-
-  $("moreDropdown")
-    .classList.remove(
-      "show"
-    );
-
-}
-
-
-document.addEventListener(
-  "click",
-  event => {
-
-    if(
-      !event.target.closest(
-        ".topbar"
-      ) &&
-      !event.target.closest(
-        ".dropdown"
-      )
-    ){
-
-      closeAllDropdowns();
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   MODALS
-========================================================= */
-
-function openModal(id){
-
-  $(id)
-    .classList.add(
-      "show"
-    );
-
-}
-
-
-function closeModal(id){
-
-  $(id)
-    .classList.remove(
-      "show"
-    );
-
-}
-
-
-function closeAllModals(){
-
-  document
-    .querySelectorAll(
-      ".overlay"
-    )
-    .forEach(
-      x =>
-        x.classList.remove(
-          "show"
-        )
-    );
-
-}
-
-
-document
-  .querySelectorAll(
-    ".overlay"
-  )
-  .forEach(
-    overlay => {
-
-      overlay.addEventListener(
-        "click",
-        event => {
-
-          if(
-            event.target ===
-            overlay
-          ){
-
-            overlay.classList.remove(
-              "show"
-            );
-
-          }
-
+      const response = await fetch(
+        "/api/files/analyze",
+        {
+          method:"POST",
+          body:formData,
+          signal:state.controller.signal
         }
       );
 
-    }
-  );
+      const data = await response.json();
 
+      hideTyping();
 
-/* =========================================================
-   INFO
-========================================================= */
+      if(!response.ok){
+        throw new Error(
+          data.error || "File analysis failed"
+        );
+      }
 
-function openInfo(
-  title,
-  body
-){
-
-  $("infoTitle")
-    .textContent =
-      title;
-
-
-  $("infoBody")
-    .innerHTML =
-      body;
-
-
-  openModal(
-    "infoModal"
-  );
-
-}
-
-
-function showHelp(){
-
-  openInfo(
-
-    "DeveshAI Help",
-
-    `
-
-      <p
-        style="
-          color:#777;
-          line-height:1.8
-        "
-      >
-        Use New Chat to start a conversation.
-        Attach files with the Attach button.
-        PDF, DOCX, TXT, CSV, XLSX and XLS files
-        can be analyzed through the connected backend.
-        Choose a mode such as Study, Code or Think.
-        Voice input uses your browser's speech recognition.
-        Settings contains local personalization and data controls.
-      </p>
-
-    `
-
-  );
-
-}
-
-
-function showAbout(){
-
-  openInfo(
-
-    "About DeveshAI",
-
-    `
-
-      <p
-        style="
-          color:#777;
-          line-height:1.8
-        "
-      >
-        DeveshAI is an AI workspace designed for chat,
-        learning, coding, research and creation.
-      </p>
-
-      <p
-        style="
-          color:#555;
-          margin-top:10px;
-          font-size:11px
-        "
-      >
-        Frontend version 2.0
-      </p>
-
-    `
-
-  );
-
-}
-
-
-/* =========================================================
-   SERVER HEALTH
-========================================================= */
-
-async function checkHealth(){
-
-  try{
-
-    const response =
-      await fetch(
-        "/health"
+      addMessage(
+        "assistant",
+        data.reply || "File analyzed successfully."
       );
 
+    }catch(error){
 
-    const data =
-      await response.json();
+      hideTyping();
 
+      if(error.name === "AbortError"){
 
-    openInfo(
+        addMessage(
+          "assistant",
+          "File analysis stopped."
+        );
 
-      "Server Status",
+      }else{
 
-      `
+        addMessage(
+          "assistant",
+          "I couldn't analyze this file."
+        );
 
-        <p
-          style="
-            color:#aaa
-          "
-        >
-          ✓
-          ${escapeHTML(
-            data.status ||
-            "Server is running"
-          )}
-        </p>
+        console.error(error);
+      }
 
-        <p
-          style="
-            color:#666;
-            margin-top:8px;
-            font-size:11px
-          "
-        >
-          AI:
-          ${data.ai ? "Configured" : "Not configured"}
-        </p>
+    }finally{
 
-        <p
-          style="
-            color:#666;
-            margin-top:5px;
-            font-size:11px
-          "
-        >
-          Model:
-          ${escapeHTML(
-            data.model ||
-            "Unknown"
-          )}
-        </p>
+      state.controller = null;
+      setBusy(false);
 
-      `
-
-    );
-
-
-  }catch(error){
-
-    openInfo(
-
-      "Server Status",
-
-      `
-
-        <p
-          style="
-            color:#ff6666
-          "
-        >
-          ✕ Server could not be reached.
-        </p>
-
-      `
-
-    );
-
+    }
   }
 
-}
+  this.value = "";
+});
 
-
-/* =========================================================
-   DOWNLOAD
-========================================================= */
-
-function downloadFile(
-  name,
-  content,
-  type
-){
-
-  const blob =
-    new Blob(
-      [content],
-      {type}
-    );
-
-
-  const url =
-    URL.createObjectURL(
-      blob
-    );
-
-
-  const a =
-    document.createElement(
-      "a"
-    );
-
-
-  a.href =
-    url;
-
-  a.download =
-    name;
-
-
-  document.body.appendChild(
-    a
-  );
-
-
-  a.click();
-
-  a.remove();
-
-
-  URL.revokeObjectURL(
-    url
-  );
-
-}
-
-
-function safeFilename(name){
-
-  return name
-
-    .replace(
-      /[^a-z0-9-_ ]/gi,
-      ""
-    )
-
-    .trim()
-
-    .replaceAll(
-      " ",
-      "-"
-    )
-
-    .slice(
-      0,
-      60
-    )
-
-    ||
-    "deveshai-chat";
-
-}
-
-
-/* =========================================================
-   SIDEBAR
-========================================================= */
+/* ================= SIDEBAR ================= */
 
 function toggleSidebar(){
 
-  $("sidebar")
-    .classList.toggle(
-      "open"
-    );
-
+  document
+    .getElementById("sidebar")
+    .classList.toggle("open");
 }
 
+/* ================= MODALS ================= */
 
-/* =========================================================
-   TOAST
-========================================================= */
+function openModal(title){
 
-let toastTimer;
+  const modal = document.getElementById("modal");
+  const overlay = document.getElementById("overlay");
+  const content = document.getElementById("modalContent");
 
+  document.getElementById("modalTitle").textContent = title;
 
-function toast(message){
+  const items = {
 
-  const el =
-    $("toast");
+    Search:[
+      "Search your conversations",
+      "Search files",
+      "Search projects"
+    ],
 
+    Projects:[
+      "Create a new project",
+      "Open project workspace",
+      "Organize chats"
+    ],
 
-  el.textContent =
-    message;
+    Memory:[
+      "Personalization",
+      "Saved preferences",
+      "Memory controls"
+    ],
 
+    "Custom AI":[
+      "Create custom AI",
+      "Set instructions",
+      "Add knowledge"
+    ],
 
-  el.classList.add(
-    "show"
-  );
+    Apps:[
+      "Connected apps",
+      "External services",
+      "App actions"
+    ],
 
+    Tools:[
+      "Think",
+      "Study",
+      "Code",
+      "Analyze",
+      "Research",
+      "Create"
+    ],
 
-  clearTimeout(
-    toastTimer
-  );
+    Share:[
+      "Share this conversation",
+      "Copy conversation link",
+      "Export conversation"
+    ],
 
+    Settings:[
+      "General",
+      "Appearance",
+      "Voice",
+      "Personalization",
+      "Memory",
+      "Data Controls",
+      "Notifications",
+      "Connected Apps",
+      "Account",
+      "Security",
+      "Help"
+    ]
+  };
 
-  toastTimer =
-    setTimeout(
-      () =>
-        el.classList.remove(
-          "show"
-        ),
-      2200
-    );
+  content.innerHTML =
+    (items[title] || ["Coming soon"])
+    .map(item =>
+      `<div class="modalItem">${item}</div>`
+    )
+    .join("");
 
+  overlay.classList.add("show");
+  modal.classList.add("show");
 }
 
+function closeModal(){
 
-/* =========================================================
-   INITIALIZATION
-========================================================= */
+  document
+    .getElementById("overlay")
+    .classList.remove("show");
 
-function initialize(){
+  document
+    .getElementById("modal")
+    .classList.remove("show");
+}
 
-  if(
-    state.chats.length === 0
-  ){
+/* ================= HISTORY ================= */
 
-    createChat();
+function saveHistory(text){
 
-  }else{
+  let history =
+    JSON.parse(
+      localStorage.getItem("deveshai-history") || "[]"
+    );
 
-    state.currentId =
-      state.chats[0].id;
+  history.unshift({
+    text,
+    time:Date.now()
+  });
 
-    $("chatTitle")
-      .textContent =
-        state.chats[0].title;
+  history = history.slice(0,20);
 
-  }
-
+  localStorage.setItem(
+    "deveshai-history",
+    JSON.stringify(history)
+  );
 
   renderHistory();
-
-  loadVoices();
-
-
-  const theme =
-    localStorage.getItem(
-      "deveshai_theme"
-    );
-
-
-  if(theme){
-
-    setTheme(
-      theme
-    );
-
-  }
-
-
-  const instructions =
-    localStorage.getItem(
-      "deveshai_instructions"
-    );
-
-
-  if(instructions){
-
-    $("customInstruction")
-      .value =
-        instructions;
-
-  }
-
-
-  /*
-    Restore Web button state.
-  */
-
-  $("webBtn")
-    .classList.toggle(
-      "active",
-      state.web
-    );
-
-
-  /*
-    Make Enter-to-send setting
-    match saved browser state.
-  */
-
-  const enterSend =
-    localStorage.getItem(
-      "deveshai_enterSend"
-    );
-
-
-  if(
-    enterSend === "false"
-  ){
-
-    const toggle =
-      document.querySelector(
-        '[data-setting="enterSend"]'
-      );
-
-    if(toggle){
-
-      toggle.classList.remove(
-        "on"
-      );
-
-    }
-
-  }
-
 }
 
+function loadHistory(){
+  renderHistory();
+}
 
-initialize();
+function renderHistory(){
 
+  const container =
+    document.getElementById("history");
+
+  let history =
+    JSON.parse(
+      localStorage.getItem("deveshai-history") || "[]"
+    );
+
+  container.innerHTML = "";
+
+  history.forEach(item=>{
+
+    const el =
+      document.createElement("div");
+
+    el.className = "historyItem";
+    el.textContent = item.text;
+
+    el.onclick = ()=>{
+
+      input.value = item.text;
+      autoResize(input);
+      input.focus();
+
+    };
+
+    container.appendChild(el);
+  });
+}
+
+/* ================= KEYBOARD ================= */
+
+document.addEventListener("keydown",e=>{
+
+  if(e.key === "Escape"){
+    closeModal();
+  }
+
+});
+
+/* ================= INITIAL ANIMATION ================= */
+
+window.addEventListener("load",()=>{
+
+  document.querySelector(".heroLogo").style.animationPlayState =
+    "running";
+
+  setTimeout(()=>{
+    document.querySelector(".welcome h1").style.opacity = "1";
+  },200);
+
+});
 </script>
 
 </body>
 </html>
-````
+```
