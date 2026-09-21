@@ -97,7 +97,6 @@ app.post("/api/chat", async (req, res) => {
       modeInstructions[mode] ||
       modeInstructions.Ask;
 
-  ```js
 const systemPrompt = `
 You are DeveshAI.
 
